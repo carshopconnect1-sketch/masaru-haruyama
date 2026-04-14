@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>降臨装置</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;500;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --gold: #c9a84c;
+    --gold-dim: rgba(201, 168, 76, 0.3);
+    --void: #0a0a0f;
+    --deep: #12121a;
+    --text: #e8e0d0;
+    --text-dim: rgba(232, 224, 208, 0.5);
+  }
+
+  body {
+    background: var(--void);
+    color: var(--text);
+    font-family: 'Noto Serif JP', serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* ===== SACRED GEOMETRY BACKGROUND ===== */
+  .sacred-bg {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .sacred-bg canvas {
+    width: 100%;
+    height: 100%;
+    opacity: 0.08;
+  }
+
+  /* ===== NAVIGATION ===== */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    padding: 1.5rem;
+    background: linear-gradient(to bottom, var(--void) 60%, transparent);
+  }
+
+  nav button {
+    background: none;
+    border: 1px solid var(--gold-dim);
+    color: var(--gold);
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.85rem;
+    padding: 0.5rem 1.5rem;
+    cursor: pointer;
+    letter-spacing: 0.15em;
+    transition: all 0.5s ease;
+  }
+
+  nav button:hover,
+  nav button.active {
+    background: rgba(201, 168, 76, 0.1);
+    border-color: var(--gold);
+    box-shadow: 0 0 20px rgba(201, 168, 76, 0.15);
+  }
+
+  /* ===== SECTIONS ===== */
+  .section {
+    display: none;
+    min-height: 100vh;
+    padding: 6rem 2rem 4rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .section.active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: fadeIn 1s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== 自己投影 (ETHERIC DOUBLE) ===== */
+  .etheric-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+    max-width: 800px;
+    width: 100%;
+  }
+
+  .etheric-title {
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: var(--gold);
+    letter-spacing: 0.3em;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .etheric-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    letter-spacing: 0.2em;
+    text-align: center;
+    line-height: 2;
+  }
+
+  /* Silhouette / Etheric Body */
+  .etheric-body {
+    position: relative;
+    width: 280px;
+    height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .etheric-body svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 30px rgba(201, 168, 76, 0.2));
+  }
+
+  .etheric-body .aura {
+    position: absolute;
+    top: -20px; left: -20px;
+    right: -20px; bottom: -20px;
+    border-radius: 50% 50% 40% 40%;
+    background: radial-gradient(ellipse, rgba(201, 168, 76, 0.06) 0%, transparent 70%);
+    animation: auraPulse 4s ease-in-out infinite;
+  }
+
+  @keyframes auraPulse {
+    0%, 100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.08); opacity: 1; }
+  }
+
+  /* Chakra points */
+  .chakra {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .chakra::before {
+    content: '';
+    position: absolute;
+    top: -4px; left: -4px;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    border: 1px solid currentColor;
+    opacity: 0.4;
+    animation: chakraSpin 8s linear infinite;
+  }
+
+  @keyframes chakraSpin {
+    to { transform: rotate(360deg); }
+  }
+
+  .chakra:hover {
+    transform: scale(1.8);
+    box-shadow: 0 0 20px currentColor;
+  }
+
+  .chakra-crown   { top: 5%;  left: 50%; transform: translateX(-50%); background: #e0d0ff; color: #e0d0ff; }
+  .chakra-third   { top: 14%; left: 50%; transform: translateX(-50%); background: #8080ff; color: #8080ff; }
+  .chakra-throat  { top: 23%; left: 50%; transform: translateX(-50%); background: #60c0e0; color: #60c0e0; }
+  .chakra-heart   { top: 35%; left: 50%; transform: translateX(-50%); background: #40d080; color: #40d080; }
+  .chakra-solar   { top: 45%; left: 50%; transform: translateX(-50%); background: #e0c040; color: #e0c040; }
+  .chakra-sacral  { top: 55%; left: 50%; transform: translateX(-50%); background: #e08040; color: #e08040; }
+  .chakra-root    { top: 65%; left: 50%; transform: translateX(-50%); background: #e04040; color: #e04040; }
+
+  /* Attribute panel */
+  .attributes {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .attr-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(201, 168, 76, 0.1);
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.4s ease;
+  }
+
+  .attr-card:hover {
+    border-color: var(--gold-dim);
+    background: rgba(201, 168, 76, 0.03);
+  }
+
+  .attr-label {
+    font-size: 0.7rem;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    margin-bottom: 0.5rem;
+  }
+
+  .attr-value {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--text);
+    min-height: 1.5em;
+  }
+
+  .attr-value[contenteditable]:focus {
+    outline: none;
+    border-bottom: 1px solid var(--gold-dim);
+  }
+
+  /* ===== 神殿 (TEMPLE) ===== */
+  .temple-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+    max-width: 900px;
+    width: 100%;
+  }
+
+  .temple-view {
+    width: 100%;
+    aspect-ratio: 16/9;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(201, 168, 76, 0.15);
+  }
+
+  .temple-view canvas {
+    width: 100%;
+    height: 100%;
+  }
+
+  .temple-description {
+    width: 100%;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(201, 168, 76, 0.1);
+    padding: 2rem;
+  }
+
+  .temple-description h3 {
+    font-size: 0.75rem;
+    color: var(--gold);
+    letter-spacing: 0.25em;
+    margin-bottom: 1rem;
+  }
+
+  .temple-text {
+    font-size: 0.95rem;
+    line-height: 2.2;
+    color: var(--text);
+    min-height: 4em;
+  }
+
+  .temple-text[contenteditable]:focus {
+    outline: none;
+  }
+
+  .temple-rooms {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .room-card {
+    aspect-ratio: 1;
+    border: 1px solid rgba(201, 168, 76, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    cursor: pointer;
+    transition: all 0.5s ease;
+    background: rgba(255,255,255,0.01);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .room-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at center, rgba(201, 168, 76, 0.05) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+
+  .room-card:hover::before {
+    opacity: 1;
+  }
+
+  .room-card:hover {
+    border-color: var(--gold-dim);
+    transform: translateY(-2px);
+  }
+
+  .room-icon {
+    font-size: 1.8rem;
+    opacity: 0.7;
+  }
+
+  .room-name {
+    font-size: 0.75rem;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+  }
+
+  .room-desc {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    text-align: center;
+    padding: 0 0.5rem;
+  }
+
+  /* ===== 記録 (ARCHIVE) ===== */
+  .archive-container {
+    max-width: 700px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .archive-entry {
+    border-left: 1px solid var(--gold-dim);
+    padding: 1.5rem 2rem;
+    transition: all 0.3s ease;
+  }
+
+  .archive-entry:hover {
+    border-left-color: var(--gold);
+    background: rgba(201, 168, 76, 0.02);
+  }
+
+  .archive-date {
+    font-size: 0.7rem;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    margin-bottom: 0.5rem;
+  }
+
+  .archive-text {
+    font-size: 0.9rem;
+    line-height: 2;
+    color: var(--text);
+  }
+
+  .archive-empty {
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    padding: 4rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* ===== INPUT AREA ===== */
+  .input-area {
+    position: fixed;
+    bottom: 0;
+    left: 0; right: 0;
+    z-index: 100;
+    padding: 1rem 2rem 1.5rem;
+    background: linear-gradient(to top, var(--void) 70%, transparent);
+  }
+
+  .input-row {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .input-row textarea {
+    flex: 1;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(201, 168, 76, 0.15);
+    color: var(--text);
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.9rem;
+    padding: 0.8rem 1rem;
+    resize: none;
+    height: 44px;
+    line-height: 1.6;
+    transition: border-color 0.3s;
+  }
+
+  .input-row textarea:focus {
+    outline: none;
+    border-color: var(--gold-dim);
+  }
+
+  .input-row textarea::placeholder {
+    color: var(--text-dim);
+  }
+
+  .input-row button {
+    background: none;
+    border: 1px solid rgba(201, 168, 76, 0.15);
+    color: var(--gold);
+    font-size: 1rem;
+    width: 44px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .input-row button:hover {
+    background: rgba(201, 168, 76, 0.1);
+    border-color: var(--gold);
+  }
+
+  /* ===== MODAL ===== */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  .modal-overlay.open {
+    display: flex;
+  }
+
+  .modal-content {
+    background: var(--deep);
+    border: 1px solid rgba(201, 168, 76, 0.2);
+    max-width: 500px;
+    width: 100%;
+    padding: 2.5rem;
+    position: relative;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
+
+  .modal-title {
+    font-size: 0.75rem;
+    color: var(--gold);
+    letter-spacing: 0.25em;
+    margin-bottom: 1.5rem;
+  }
+
+  .modal-body {
+    font-size: 0.9rem;
+    line-height: 2;
+    color: var(--text);
+  }
+
+  .modal-body [contenteditable] {
+    min-height: 3em;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(201, 168, 76, 0.1);
+  }
+
+  .modal-body [contenteditable]:focus {
+    outline: none;
+    border-bottom-color: var(--gold-dim);
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 600px) {
+    nav { gap: 0.8rem; padding: 1rem; }
+    nav button { font-size: 0.75rem; padding: 0.4rem 0.8rem; }
+    .attributes { grid-template-columns: 1fr; }
+    .temple-rooms { grid-template-columns: 1fr 1fr; }
+    .etheric-title { font-size: 1.3rem; }
+    .etheric-body { width: 200px; height: 300px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sacred-bg"><canvas id="sacredCanvas"></canvas></div>
+
+<nav>
+  <button class="active" onclick="switchSection('projection')">自己投影</button>
+  <button onclick="switchSection('temple')">神殿</button>
+  <button onclick="switchSection('archive')">記録</button>
+</nav>
+
+<!-- ===== 自己投影 ===== -->
+<div id="projection" class="section active">
+  <div class="etheric-container">
+    <div>
+      <h1 class="etheric-title">自己投影</h1>
+      <p class="etheric-subtitle">エーテルダブルの構築<br>自分自身を精密に観察し、ここに降ろす</p>
+    </div>
+
+    <div class="etheric-body">
+      <div class="aura"></div>
+      <svg viewBox="0 0 200 350" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Human silhouette -->
+        <ellipse cx="100" cy="35" rx="28" ry="32" fill="none" stroke="rgba(201,168,76,0.3)" stroke-width="0.8"/>
+        <path d="M100 67 C60 70 40 110 42 160 L42 220 C42 240 55 250 70 250 L70 330 C70 340 80 345 88 345 L88 250 L112 250 L112 345 C120 345 130 340 130 330 L130 250 C145 250 158 240 158 220 L158 160 C160 110 140 70 100 67Z" 
+              fill="none" stroke="rgba(201,168,76,0.25)" stroke-width="0.8"/>
+        <!-- Arms -->
+        <path d="M42 120 C20 130 10 170 15 200" fill="none" stroke="rgba(201,168,76,0.2)" stroke-width="0.8"/>
+        <path d="M158 120 C180 130 190 170 185 200" fill="none" stroke="rgba(201,168,76,0.2)" stroke-width="0.8"/>
+        <!-- Center line (sushumna) -->
+        <line x1="100" y1="15" x2="100" y2="250" stroke="rgba(201,168,76,0.08)" stroke-width="0.5" stroke-dasharray="2 4"/>
+      </svg>
+
+      <div class="chakra chakra-crown" title="サハスラーラ" data-chakra="crown"></div>
+      <div class="chakra chakra-third" title="アジュナ" data-chakra="third-eye"></div>
+      <div class="chakra chakra-throat" title="ヴィシュッダ" data-chakra="throat"></div>
+      <div class="chakra chakra-heart" title="アナハタ" data-chakra="heart"></div>
+      <div class="chakra chakra-solar" title="マニプラ" data-chakra="solar"></div>
+      <div class="chakra chakra-sacral" title="スヴァディスターナ" data-chakra="sacral"></div>
+      <div class="chakra chakra-root" title="ムーラダーラ" data-chakra="root"></div>
+    </div>
+
+    <div class="attributes">
+      <div class="attr-card" data-key="physical">
+        <div class="attr-label">肉体 — 物質界</div>
+        <div class="attr-value" contenteditable="true" data-placeholder="身体の状態、感覚、今の体の在り方を記す"></div>
+      </div>
+      <div class="attr-card" data-key="etheric">
+        <div class="attr-label">エーテル体 — 生命力</div>
+        <div class="attr-value" contenteditable="true" data-placeholder="エネルギーの流れ、活力、気の状態"></div>
+      </div>
+      <div class="attr-card" data-key="psychic">
+        <div class="attr-label">サイキック体 — 感情</div>
+        <div class="attr-value" contenteditable="true" data-placeholder="感情の質、心の動き、欲求"></div>
+      </div>
+      <div class="attr-card" data-key="noetic">
+        <div class="attr-label">ノエティック体 — 思考</div>
+        <div class="attr-value" contenteditable="true" data-placeholder="思考の方向、認識、意図"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 神殿 ===== -->
+<div id="temple" class="section">
+  <div class="temple-container">
+    <div>
+      <h1 class="etheric-title">内なる神殿</h1>
+      <p class="etheric-subtitle">ここは汝の聖なる空間<br>精密に構築し、そこに入る</p>
+    </div>
+
+    <div class="temple-view">
+      <canvas id="templeCanvas"></canvas>
+    </div>
+
+    <div class="temple-description">
+      <h3>神殿の記述</h3>
+      <div class="temple-text" contenteditable="true" data-key="temple-main" data-placeholder="神殿の姿を言葉で記す。入口の形、光の色、床の質感、空気の温度。精密であるほど、それは実在に近づく。"></div>
+    </div>
+
+    <div class="temple-rooms">
+      <div class="room-card" data-room="sanctuary">
+        <div class="room-icon">◇</div>
+        <div class="room-name">聖所</div>
+        <div class="room-desc">瞑想と祈りの場</div>
+      </div>
+      <div class="room-card" data-room="library">
+        <div class="room-icon">☰</div>
+        <div class="room-name">書庫</div>
+        <div class="room-desc">知識と記憶の保管</div>
+      </div>
+      <div class="room-card" data-room="mirror">
+        <div class="room-icon">◎</div>
+        <div class="room-name">鏡の間</div>
+        <div class="room-desc">自己観察と投影</div>
+      </div>
+      <div class="room-card" data-room="forge">
+        <div class="room-icon">△</div>
+        <div class="room-name">炉</div>
+        <div class="room-desc">意志の錬成</div>
+      </div>
+      <div class="room-card" data-room="garden">
+        <div class="room-icon">❋</div>
+        <div class="room-name">庭園</div>
+        <div class="room-desc">生命と成長</div>
+      </div>
+      <div class="room-card" data-room="threshold">
+        <div class="room-icon">⬡</div>
+        <div class="room-name">門</div>
+        <div class="room-desc">内と外の境界</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 記録 ===== -->
+<div id="archive" class="section">
+  <div class="archive-container">
+    <div>
+      <h1 class="etheric-title">記録</h1>
+      <p class="etheric-subtitle">降ろしたものの軌跡</p>
+    </div>
+    <div id="archiveList">
+      <div class="archive-empty">まだ記録はない。<br>書き込みを始めることで、ここに蓄積される。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL ===== -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title" id="modalTitle"></div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- ===== INPUT ===== -->
+<div class="input-area">
+  <div class="input-row">
+    <textarea id="mainInput" placeholder="意識を言葉にする..." rows="1"></textarea>
+    <button onclick="commitInput()" title="降ろす">↓</button>
+  </div>
+</div>
+
+<script>
+// ===== STATE =====
+const state = {
+  projection: {
+    physical: '', etheric: '', psychic: '', noetic: '',
+    chakras: {}
+  },
+  temple: {
+    main: '',
+    rooms: {}
+  },
+  archive: []
+};
+
+// Load from localStorage
+function loadState() {
+  const saved = localStorage.getItem('korin-state');
+  if (saved) {
+    const parsed = JSON.parse(saved);
+    Object.assign(state, parsed);
+    // Restore editable fields
+    document.querySelectorAll('.attr-value[data-placeholder]').forEach(el => {
+      const key = el.closest('.attr-card').dataset.key;
+      if (state.projection[key]) el.textContent = state.projection[key];
+    });
+    const templeText = document.querySelector('.temple-text[data-key="temple-main"]');
+    if (state.temple.main) templeText.textContent = state.temple.main;
+    renderArchive();
+  }
+}
+
+function saveState() {
+  // Collect editable fields
+  document.querySelectorAll('.attr-value[data-placeholder]').forEach(el => {
+    const key = el.closest('.attr-card').dataset.key;
+    state.projection[key] = el.textContent.trim();
+  });
+  const templeText = document.querySelector('.temple-text[data-key="temple-main"]');
+  state.temple.main = templeText.textContent.trim();
+  localStorage.setItem('korin-state', JSON.stringify(state));
+}
+
+// Auto-save
+setInterval(saveState, 3000);
+
+// ===== NAVIGATION =====
+function switchSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+  saveState();
+}
+
+// ===== ARCHIVE =====
+function renderArchive() {
+  const list = document.getElementById('archiveList');
+  if (state.archive.length === 0) {
+    list.innerHTML = '<div class="archive-empty">まだ記録はない。<br>書き込みを始めることで、ここに蓄積される。</div>';
+    return;
+  }
+  list.innerHTML = state.archive.map((entry, i) => `
+    <div class="archive-entry">
+      <div class="archive-date">${entry.date} — ${entry.section}</div>
+      <div class="archive-text">${entry.text}</div>
+    </div>
+  `).reverse().join('');
+}
+
+// ===== INPUT =====
+function commitInput() {
+  const input = document.getElementById('mainInput');
+  const text = input.value.trim();
+  if (!text) return;
+
+  const activeSection = document.querySelector('.section.active').id;
+  const now = new Date();
+  const dateStr = `${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+
+  state.archive.push({
+    date: dateStr,
+    section: activeSection === 'projection' ? '自己投影' : activeSection === 'temple' ? '神殿' : '記録',
+    text: text
+  });
+
+  renderArchive();
+  saveState();
+  input.value = '';
+  input.style.height = '44px';
+
+  // Visual feedback
+  input.placeholder = '記録した';
+  setTimeout(() => { input.placeholder = '意識を言葉にする...'; }, 1500);
+}
+
+document.getElementById('mainInput').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    commitInput();
+  }
+});
+
+// Auto-resize textarea
+document.getElementById('mainInput').addEventListener('input', function() {
+  this.style.height = '44px';
+  this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+});
+
+// ===== CHAKRA INTERACTION =====
+document.querySelectorAll('.chakra').forEach(ch => {
+  ch.addEventListener('click', () => {
+    const name = ch.dataset.chakra;
+    const names = {
+      'crown': 'サハスラーラ — 冠',
+      'third-eye': 'アジュナ — 第三の眼',
+      'throat': 'ヴィシュッダ — 喉',
+      'heart': 'アナハタ — 心臓',
+      'solar': 'マニプラ — 太陽神経叢',
+      'sacral': 'スヴァディスターナ — 仙骨',
+      'root': 'ムーラダーラ — 根'
+    };
+    openModal(names[name] || name, `<div contenteditable="true" data-chakra="${name}">${state.projection.chakras[name] || ''}</div>`, name);
+  });
+});
+
+// ===== ROOM INTERACTION =====
+document.querySelectorAll('.room-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const room = card.dataset.room;
+    const names = {
+      'sanctuary': '聖所', 'library': '書庫', 'mirror': '鏡の間',
+      'forge': '炉', 'garden': '庭園', 'threshold': '門'
+    };
+    openModal(names[room], `<div contenteditable="true" data-room="${room}" style="min-height:6em">${state.temple.rooms[room] || ''}</div><p style="margin-top:1rem;font-size:0.75rem;color:var(--text-dim)">この部屋の姿を記述する。壁の色、光源、置かれているもの、空気の質。</p>`, room);
+  });
+});
+
+// ===== MODAL =====
+function openModal(title, bodyHTML, key) {
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalBody').innerHTML = bodyHTML;
+  document.getElementById('modal').classList.add('open');
+  document.getElementById('modal').dataset.key = key;
+  // Focus editable
+  const editable = document.querySelector('#modalBody [contenteditable]');
+  if (editable) setTimeout(() => editable.focus(), 100);
+}
+
+function closeModal() {
+  const modal = document.getElementById('modal');
+  // Save modal content
+  const chakraEl = modal.querySelector('[data-chakra]');
+  if (chakraEl) state.projection.chakras[chakraEl.dataset.chakra] = chakraEl.textContent.trim();
+  const roomEl = modal.querySelector('[data-room]');
+  if (roomEl) state.temple.rooms[roomEl.dataset.room] = roomEl.textContent.trim();
+  saveState();
+  modal.classList.remove('open');
+}
+
+document.getElementById('modal').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('modal')) closeModal();
+});
+
+// ===== SACRED GEOMETRY (Background) =====
+function initSacredGeometry() {
+  const canvas = document.getElementById('sacredCanvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  function drawFlowerOfLife(cx, cy, r, depth) {
+    if (depth <= 0) return;
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.stroke();
+    if (depth > 1) {
+      for (let i = 0; i < 6; i++) {
+        const angle = (Math.PI / 3) * i;
+        drawFlowerOfLife(cx + r * Math.cos(angle), cy + r * Math.sin(angle), r, depth - 1);
+      }
+    }
+  }
+
+  ctx.strokeStyle = 'rgba(201, 168, 76, 0.5)';
+  ctx.lineWidth = 0.5;
+  drawFlowerOfLife(canvas.width / 2, canvas.height / 2, 60, 3);
+}
+
+// ===== TEMPLE CANVAS =====
+function initTempleCanvas() {
+  const canvas = document.getElementById('templeCanvas');
+  const ctx = canvas.getContext('2d');
+  
+  function resize() {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+    draw();
+  }
+
+  function draw() {
+    const w = canvas.width, h = canvas.height;
+    ctx.clearRect(0, 0, w, h);
+    
+    // Dark gradient floor
+    const grd = ctx.createLinearGradient(0, 0, 0, h);
+    grd.addColorStop(0, '#0f0f18');
+    grd.addColorStop(1, '#0a0a12');
+    ctx.fillStyle = grd;
+    ctx.fillRect(0, 0, w, h);
+
+    // Perspective lines (temple corridor)
+    const vanishX = w / 2, vanishY = h * 0.35;
+    ctx.strokeStyle = 'rgba(201, 168, 76, 0.08)';
+    ctx.lineWidth = 1;
+
+    // Floor grid
+    for (let i = 0; i <= 10; i++) {
+      const y = vanishY + (h - vanishY) * (i / 10);
+      const spread = (y - vanishY) / (h - vanishY);
+      const lx = vanishX - spread * w * 0.5;
+      const rx = vanishX + spread * w * 0.5;
+      ctx.beginPath();
+      ctx.moveTo(lx, y);
+      ctx.lineTo(rx, y);
+      ctx.stroke();
+    }
+
+    // Columns
+    for (let i = -3; i <= 3; i++) {
+      if (i === 0) continue;
+      const x = vanishX + i * 40;
+      ctx.beginPath();
+      ctx.moveTo(vanishX + i * 8, vanishY);
+      ctx.lineTo(x, h);
+      ctx.strokeStyle = 'rgba(201, 168, 76, 0.06)';
+      ctx.stroke();
+    }
+
+    // Central light
+    const lightGrd = ctx.createRadialGradient(vanishX, vanishY, 0, vanishX, vanishY, 120);
+    lightGrd.addColorStop(0, 'rgba(201, 168, 76, 0.12)');
+    lightGrd.addColorStop(1, 'transparent');
+    ctx.fillStyle = lightGrd;
+    ctx.fillRect(0, 0, w, h);
+
+    // Arch
+    ctx.beginPath();
+    ctx.ellipse(vanishX, vanishY + 20, 80, 60, 0, Math.PI, 0);
+    ctx.strokeStyle = 'rgba(201, 168, 76, 0.12)';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+}
+
+// ===== INIT =====
+window.addEventListener('DOMContentLoaded', () => {
+  initSacredGeometry();
+  initTempleCanvas();
+  loadState();
+});
+
+window.addEventListener('resize', () => {
+  initSacredGeometry();
+});
+
+// Placeholder behavior
+document.querySelectorAll('[contenteditable][data-placeholder]').forEach(el => {
+  if (!el.textContent.trim()) {
+    el.textContent = el.dataset.placeholder;
+    el.style.color = 'var(--text-dim)';
+  }
+  el.addEventListener('focus', () => {
+    if (el.textContent === el.dataset.placeholder) {
+      el.textContent = '';
+      el.style.color = 'var(--text)';
+    }
+  });
+  el.addEventListener('blur', () => {
+    if (!el.textContent.trim()) {
+      el.textContent = el.dataset.placeholder;
+      el.style.color = 'var(--text-dim)';
+    } else {
+      el.style.color = 'var(--text)';
+    }
+  });
+});
+</script>
+
+</body>
+</html>
