@@ -794,6 +794,157 @@
     margin-bottom: 0.5rem;
   }
 
+  /* ===== 修練 (PRACTICE) ===== */
+  .practice-container {
+    max-width: 800px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .practice-nav {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .practice-nav button {
+    background: none;
+    border: 1px solid rgba(224, 64, 64, 0.15);
+    color: #e06050;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.7rem;
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+    letter-spacing: 0.1em;
+    transition: all 0.3s;
+  }
+
+  .practice-nav button:hover,
+  .practice-nav button.p-active {
+    background: rgba(224, 64, 64, 0.08);
+    border-color: #e06050;
+  }
+
+  .practice-panel {
+    display: none;
+  }
+
+  .practice-panel.p-visible {
+    display: block;
+    animation: fadeIn 0.5s ease;
+  }
+
+  .practice-block {
+    border: 1px solid rgba(224, 64, 64, 0.1);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .practice-block h3 {
+    font-size: 0.75rem;
+    color: #e06050;
+    letter-spacing: 0.2em;
+    margin-bottom: 1rem;
+  }
+
+  .practice-block h4 {
+    font-size: 0.7rem;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .practice-block p, .practice-block li {
+    font-size: 0.85rem;
+    line-height: 2.2;
+    color: var(--text);
+  }
+
+  .practice-block ul, .practice-block ol {
+    padding-left: 1.5rem;
+  }
+
+  .practice-block ol li {
+    margin-bottom: 0.3rem;
+  }
+
+  .practice-block .note {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    border-left: 2px solid rgba(224, 64, 64, 0.15);
+    padding-left: 1rem;
+    margin-top: 1rem;
+  }
+
+  .practice-block .highlight {
+    color: #e06050;
+    font-weight: 500;
+  }
+
+  .practice-block .breath-pattern {
+    display: inline-block;
+    background: rgba(224, 64, 64, 0.06);
+    border: 1px solid rgba(224, 64, 64, 0.1);
+    padding: 0.3rem 0.8rem;
+    margin: 0.3rem 0;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+  }
+
+  .schedule-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.5rem 1.5rem;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+  }
+
+  .schedule-time {
+    color: #e06050;
+    font-weight: 500;
+  }
+
+  .science-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(201, 168, 76, 0.1);
+    padding: 1.5rem;
+    margin-top: 1rem;
+  }
+
+  .science-card h5 {
+    font-size: 0.65rem;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    margin-bottom: 0.8rem;
+  }
+
+  .substance-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .substance {
+    display: flex;
+    gap: 0.8rem;
+    font-size: 0.8rem;
+    align-items: baseline;
+  }
+
+  .substance-name {
+    color: #e06050;
+    min-width: 120px;
+    font-weight: 500;
+  }
+
+  .substance-effect {
+    color: var(--text-dim);
+  }
+
   /* ===== 夢 (DREAMS) ===== */
   .dreams-container {
     max-width: 750px;
@@ -974,6 +1125,7 @@
   <button onclick="switchSection('higherself')">高次の自己</button>
   <button onclick="switchSection('tree')">生命の樹</button>
   <button onclick="switchSection('temple')">神殿</button>
+  <button onclick="switchSection('practice')">修練</button>
   <button onclick="switchSection('dreams')">夢</button>
   <button onclick="switchSection('archive')">記録</button>
 </nav>
@@ -1216,6 +1368,425 @@
   </div>
 </div>
 
+<!-- ===== 修練 ===== -->
+<div id="practice" class="section">
+  <div class="practice-container">
+    <div>
+      <h1 class="section-title">修練</h1>
+      <p class="section-subtitle">レッドドラゴンボディ — クンルンネイゴン<br>身体を器として開く</p>
+    </div>
+
+    <div class="practice-nav">
+      <button class="p-active" onclick="switchPractice('overview')">概要</button>
+      <button onclick="switchPractice('reddragon')">レッドドラゴン</button>
+      <button onclick="switchPractice('breath')">呼吸法</button>
+      <button onclick="switchPractice('elements')">元素ワーク</button>
+      <button onclick="switchPractice('sleep')">スリープヨガ</button>
+      <button onclick="switchPractice('schedule')">日課</button>
+      <button onclick="switchPractice('science')">サイエンス</button>
+    </div>
+
+    <!-- 概要 -->
+    <div class="practice-panel p-visible" id="pp-overview">
+      <div class="practice-block">
+        <h3>ドラゴンボディ体系</h3>
+        <p>三つの段階を通じて意識体を構築する：</p>
+        <ul>
+          <li><span class="highlight">レッドドラゴンボディ</span> — 基盤。肉体とエネルギー体の浄化・開通。マグネティックエネルギーの覚醒</li>
+          <li><span class="highlight">ゴールドドラゴンボディ</span> — 道教の伝統。9日間で達成可能。至福のエネルギーの結晶化</li>
+          <li><span class="highlight">レインボードラゴンボディ</span> — チベット・ニンマ派の伝統。虹の体</li>
+        </ul>
+
+        <h4>系譜</h4>
+        <p>グルリンポチェ（パドマサンバヴァ）→ チベット・ニンマ派創始者<br>
+        ブータン女王との関連<br>
+        マオシャン（茅山）道教の伝統</p>
+
+        <h4>核心原理</h4>
+        <ul>
+          <li><strong>重力はマインドである</strong> — これを理解すると速い</li>
+          <li>丹田にバキュームがあり、マインドがくっついている</li>
+          <li>プラクティスでバキュームからエネルギーを取る</li>
+          <li>ダオイストはバキュームを作り出す</li>
+          <li>クンルンで高めているのは<span class="highlight">マグネティック</span>エネルギー</li>
+          <li>身体は<span class="highlight">エレクトロニック</span>エネルギー（生命活動＝電気）</li>
+          <li>クンルンの至福には時間が無い — 至福を使うと一瞬で覚醒できる</li>
+        </ul>
+
+        <div class="note">
+          <strong>KAN</strong> — 消える。自己が消えて宇宙と一体化する瞬間。
+        </div>
+      </div>
+    </div>
+
+    <!-- レッドドラゴンボディ -->
+    <div class="practice-panel" id="pp-reddragon">
+      <div class="practice-block">
+        <h3>レッドドラゴンボディ — 基本の型</h3>
+
+        <h4>準備</h4>
+        <ol>
+          <li>鼻から3回呼吸して口から吐く</li>
+          <li><span class="highlight">瞬きしない</span>（目の浄化 — マグネティックエネルギーが見えるようになる）</li>
+          <li>身体が重たく感じてくる</li>
+          <li>だんだん息が少なくなる</li>
+        </ol>
+
+        <h4>マグネティック・ワーク</h4>
+        <ol>
+          <li>手を反対にして中指を向き合わせる</li>
+          <li>労宮（手のひらの中心）からマグネティック</li>
+          <li>ピリピリしてきたらハートに繋げる</li>
+          <li>3本指くらい開ける</li>
+          <li><span class="breath-pattern">20分 or 108呼吸</span></li>
+          <li>上に上げて降ろす</li>
+        </ol>
+
+        <h4>ガンマ波呼吸</h4>
+        <ol>
+          <li>左手・右手の親指を付けて</li>
+          <li><span class="breath-pattern">4-7-8-4：吸う・止める・吐く・止める</span></li>
+          <li><span class="breath-pattern">20分 or 108呼吸</span></li>
+        </ol>
+
+        <h4>ブッダパーム</h4>
+        <ol>
+          <li>身体をスカイ（空）に</li>
+          <li>燃えてる炭の色をイメージ</li>
+          <li>脊髄より至福を感じるポイントに意識を置く</li>
+          <li>瞬きOK・目を閉じてもよい</li>
+          <li>脊髄に至福の感覚を、右回りで脊髄が熱くなる</li>
+        </ol>
+
+        <h4>白いパール</h4>
+        <ol>
+          <li>白いパール（500円玉大）をイメージ</li>
+          <li>外側から3回上げて降ろす</li>
+        </ol>
+
+        <h4>マイクロコズミックフロー</h4>
+        <ol>
+          <li>腹から頭、背中に回してチューブ道（赤い道）</li>
+          <li>腹→頭→背中→仙骨→尾骨→生殖器</li>
+          <li>1回か3回でチューブを戻す</li>
+          <li><span class="highlight">上丹田に残さない</span></li>
+          <li>吸う時輝いて、吐く時消える</li>
+          <li>風の伝統だから逆に回す</li>
+          <li>下丹田に閉まっておく</li>
+        </ol>
+
+        <div class="note">
+          呼吸を止めている時マグネティックエネルギーが高くなる。<br>
+          身体が冷えてきた人は36回フーッと吐く。<br>
+          最後は必ず戻す。
+        </div>
+      </div>
+    </div>
+
+    <!-- 呼吸法 -->
+    <div class="practice-panel" id="pp-breath">
+      <div class="practice-block">
+        <h3>比率呼吸（レッドドラゴンの型）</h3>
+        <p>手を逆さまにして地面に水平に。目は開く。</p>
+        <p>3分の2を鼻から吸って口から：</p>
+        <ol>
+          <li><span class="breath-pattern">50%吐く → つばのみ → 鼻イン鼻アウト</span></li>
+          <li><span class="breath-pattern">90%吐く → つばのみ → 鼻イン鼻アウト</span></li>
+          <li><span class="breath-pattern">50%吐く → つばのみ → 鼻イン鼻アウト</span></li>
+          <li><span class="breath-pattern">10%吐く → つばのみ → 鼻イン鼻アウト</span></li>
+          <li><span class="breath-pattern">30%吐く → つばのみ → 鼻イン鼻アウト</span></li>
+          <li><span class="breath-pattern">10%吐く → つばのみ → 鼻イン鼻アウト</span></li>
+        </ol>
+        <p>→ ゆっくり呼吸</p>
+      </div>
+
+      <div class="practice-block">
+        <h3>ブッダパール呼吸（20分）</h3>
+        <ol>
+          <li>エネルギーは42分で結晶化される</li>
+          <li>目を瞑る</li>
+          <li>中丹田の至福の場所を探す</li>
+          <li>臍の下にドラゴンボールを降ろす（下丹田）</li>
+          <li>赤い球、身体の中は青く</li>
+          <li>腹の後ろ3cmから頭・背中に回してチューブ道（赤）</li>
+        </ol>
+      </div>
+
+      <div class="practice-block">
+        <h3>36回の呼吸</h3>
+        <ol>
+          <li>36回シュッと吹く — 中丹田</li>
+          <li>全部吐いて止めて、もう無理ってなったら身体が球に入っていく</li>
+          <li>ゆっくり呼吸</li>
+          <li>36回シュッと吹く — 下丹田</li>
+          <li>全部吐いて止めて、身体が球に入っていく</li>
+          <li>ゆっくり呼吸</li>
+        </ol>
+      </div>
+
+      <div class="practice-block">
+        <h3>洞窟呼吸（Cave Breathing / タートルブレス）</h3>
+        <p>NUURの呼吸：<span class="highlight">ン・ウ・ア・イ</span></p>
+        <ul>
+          <li>ンは舌を上に付ける（アンナ）</li>
+          <li>身体が光ってくる</li>
+          <li>あくび・脱力</li>
+        </ul>
+        <p>蝋燭を吹くように吐き、<span class="highlight">9秒止める</span>。人差し指。</p>
+        <p>火と至福のエネルギーと共に。</p>
+
+        <h4>光の知覚</h4>
+        <p>鼻を小指で摘んで、目を中指で頭の方に押す → 光が見える。耳を閉じる。</p>
+      </div>
+
+      <div class="practice-block">
+        <h3>呼吸パターン一覧</h3>
+        <div style="display:flex;flex-direction:column;gap:0.8rem;margin-top:0.5rem">
+          <div><span class="breath-pattern">4-7-8-4</span> ガンマ波・覚醒状態（プラクティス中）</div>
+          <div><span class="breath-pattern">4-4-4-4</span> プラクティスを閉じる・エネルギー定着（夜）</div>
+          <div><span class="breath-pattern">5-5-5-5</span> 身体・頭・ボディ・マインド・スピリット安定（朝昼晩ハート）</div>
+        </div>
+        <div class="note">エネルギーは使わないといけない。4-4-4-4で定着。水が必要（力強い水）。全てのプラクティスで脳をガンマ波にする（4-7-8-4）。</div>
+      </div>
+
+      <div class="practice-block">
+        <h3>至福のエネルギーストロー</h3>
+        <ol>
+          <li>オーブが貫通</li>
+          <li>吸った息を臍から肩甲骨の間へ</li>
+          <li>目で追う、息は繋ぐ</li>
+          <li>吐く — 肩甲骨から臍</li>
+          <li>腹→頭→背中→至福のエネルギーを回していく</li>
+          <li>回収して消える</li>
+          <li><span class="breath-pattern">5-5-5-5</span>でエネルギーを安定させる × 9回（3回目は口で吐く）</li>
+          <li>青空消える</li>
+          <li>吸って、止めて、吐いて、止めて、安定</li>
+          <li>最後はゆっくり3回、手を外側から中に降ろす</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- 元素ワーク -->
+    <div class="practice-panel" id="pp-elements">
+      <div class="practice-block">
+        <h3>水のワーク（ウォーターパーム）</h3>
+        <ol>
+          <li>至福の感覚を胸で高める</li>
+          <li>大きめのボールの水を用意</li>
+          <li>30cm離す</li>
+          <li>手を腰に置く</li>
+          <li>水面まで近づけて — <span class="highlight">つけない</span></li>
+          <li>小指にひっぱられて左手、左回り</li>
+          <li>息を吸いながら</li>
+          <li>吐くとき重力で手のひらを水に落として</li>
+          <li><span class="highlight">HENG（ヒン）</span>と言う</li>
+          <li>50回ずつ左右</li>
+          <li>水が動くようになる</li>
+        </ol>
+        <div class="note">「初めて教えた」と言われた技法</div>
+      </div>
+
+      <div class="practice-block">
+        <h3>木のワーク</h3>
+        <ol>
+          <li>木を探して</li>
+          <li>水と同じように小指から回して</li>
+          <li>膝を下げて吸いながら、膝を上げて</li>
+          <li>水のエレメントを引っ張って胸まで上げて</li>
+          <li><span class="highlight">HENG（ヒン）</span> — 手をシェイクしながら膝を落としながら</li>
+        </ol>
+        <div class="note">木が壊れて燃える</div>
+      </div>
+
+      <div class="practice-block">
+        <h3>風のワーク（ウインドパーム）</h3>
+        <p>風の伝統。マイクロコズミックフローを逆に回す。</p>
+      </div>
+
+      <div class="practice-block">
+        <h3>グラウンディング</h3>
+        <ol>
+          <li>3回呼吸 — 鼻から吸って重くする</li>
+          <li>人差し指でグラウンディング</li>
+          <li>身体が空洞、青空、スキンバッグ</li>
+          <li>セーフティ</li>
+          <li>仙骨で右回り → 至福</li>
+          <li>透明から出来てくる</li>
+        </ol>
+        <div class="note">
+          しっかりグラウンディングしてエネルギーを落ち着かせないとプラクティスができない。<br>
+          手を肘から上げてゆっくり3回で締める。
+        </div>
+      </div>
+
+      <div class="practice-block">
+        <h3>マオシャン・インストラクター・ハンズ</h3>
+        <ol>
+          <li>左手🫸🫲、右手は逆</li>
+          <li>両手🙌を合わせて</li>
+          <li>左手で人差し指・中指を立たせて</li>
+          <li>右手はぐー</li>
+          <li>下に降ろして前に出す</li>
+          <li>人差し指で膝の上</li>
+          <li>3回呼吸</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- スリープヨガ -->
+    <div class="practice-panel" id="pp-sleep">
+      <div class="practice-block">
+        <h3>スリープヨガ / スプリットトラベル</h3>
+        <h4>寝るバージョン（毎晩）</h4>
+        <ol>
+          <li>仰向け</li>
+          <li>左手は上</li>
+          <li>お腹に右手</li>
+          <li>半分目（半眼）</li>
+        </ol>
+        <div class="note">毎晩行う。変性意識状態へのゲートウェイ。</div>
+      </div>
+
+      <div class="practice-block">
+        <h3>ゴールデンタートル</h3>
+        <p>洞窟呼吸を用いた深い瞑想状態。鼻→口→9秒止める。</p>
+      </div>
+    </div>
+
+    <!-- 日課 -->
+    <div class="practice-panel" id="pp-schedule">
+      <div class="practice-block">
+        <h3>デイリースケジュール — 90日間</h3>
+
+        <div class="schedule-grid">
+          <span class="schedule-time">日の出</span>
+          <span>レッドドラゴンの型 + 比率呼吸 + ブッダパール</span>
+
+          <span class="schedule-time">朝・昼・晩</span>
+          <span><span class="breath-pattern">5-5-5-5</span> — ハート中心</span>
+
+          <span class="schedule-time">日の入り</span>
+          <span>レッドドラゴンの型（2回目）</span>
+
+          <span class="schedule-time">夕方〜</span>
+          <span><span class="breath-pattern">4-4-4-4</span> — エネルギー定着</span>
+
+          <span class="schedule-time">夜中 1:00</span>
+          <span>ガンマ波セッション（最も強い時間帯）</span>
+
+          <span class="schedule-time">就寝</span>
+          <span>スリープヨガ — 半眼・仰向け</span>
+
+          <span class="schedule-time">入浴時</span>
+          <span><span class="breath-pattern">5-5-5-5</span></span>
+        </div>
+
+        <div class="note" style="margin-top:1.5rem">
+          <strong>サンライズ・サンセット・夜中1時</strong> — この3つの時間帯が最も重要。90日間継続。<br>
+          プラクティス前に水を飲む。力強い水。<br>
+          頭を9個、陰陽を意識。ヘビーハイドロジェン。
+        </div>
+      </div>
+
+      <div class="practice-block">
+        <h3>浄化の呼吸（プラクティス前の準備）</h3>
+        <ol>
+          <li>亀の呼吸（洞窟の呼吸 / タートルブレス / Cave Breathing）</li>
+          <li>蝋燭を吹くように吐き、9秒止める</li>
+          <li>人差し指</li>
+          <li>火と至福のエネルギーと共に</li>
+          <li>手を肘から上げてゆっくり3回で締める</li>
+          <li>しっかりグラウンディングしてエネルギーを落ち着かせる</li>
+        </ol>
+      </div>
+
+      <div class="practice-block">
+        <h3>閉じ方</h3>
+        <ol>
+          <li><span class="breath-pattern">5-5-5-5</span> × 9回（3回目は口で吐く）</li>
+          <li>青空が消える</li>
+          <li>吸って → 止めて → 吐いて → 止めて → 安定</li>
+          <li>最後はゆっくり3回、手を外側から中に降ろす</li>
+          <li><span class="breath-pattern">4-4-4-4</span> で完全に閉じる</li>
+        </ol>
+      </div>
+
+      <div class="practice-block">
+        <h3>洞窟リトリート</h3>
+        <p>全ての修練の集大成。洞窟内で集中的にプラクティスを行う。</p>
+        <ul>
+          <li>アース → スピリット → ヘブン</li>
+          <li>親指で立つ（親指を使う/使わない）</li>
+          <li>膝を曲げる</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- サイエンス -->
+    <div class="practice-panel" id="pp-science">
+      <div class="practice-block">
+        <h3>グラウンディングの神経科学</h3>
+        <p>意識が頭にあるとき → 交感神経（緊張）優位。肩・首が固まり、呼吸は浅く、未来の選択が不安寄りに。</p>
+        <p>意識が足に落ちてグラウンディングが深くなると → 副交感神経（回復モード）→ さらに深まると<span class="highlight">迷走神経がON</span></p>
+
+        <div class="science-card">
+          <h5>迷走神経ONで分泌される物質</h5>
+          <div class="substance-list">
+            <div class="substance"><span class="substance-name">アセチルコリン</span><span class="substance-effect">落ち着き（迷走神経の末端から）</span></div>
+            <div class="substance"><span class="substance-name">オキシトシン</span><span class="substance-effect">安心・ブリス・胸の温かさ（視床下部・下垂体から）</span></div>
+            <div class="substance"><span class="substance-name">GABA</span><span class="substance-effect">頭の静寂・雑念消失（脳全体から）</span></div>
+          </div>
+        </div>
+
+        <div class="science-card">
+          <h5>同時に働くと起こること</h5>
+          <div class="substance-list">
+            <div class="substance"><span class="substance-name">頭</span><span class="substance-effect">静か</span></div>
+            <div class="substance"><span class="substance-name">胸</span><span class="substance-effect">温かい</span></div>
+            <div class="substance"><span class="substance-name">仙骨</span><span class="substance-effect">自由</span></div>
+            <div class="substance"><span class="substance-name">背骨</span><span class="substance-effect">流体</span></div>
+            <div class="substance"><span class="substance-name">全身</span><span class="substance-effect">ブリス発生</span></div>
+          </div>
+        </div>
+
+        <div class="science-card">
+          <h5>体内の至福物質ランキング</h5>
+          <div class="substance-list">
+            <div class="substance"><span class="substance-name">🏆 β-エンドルフィン</span><span class="substance-effect">鎮痛 × 恍惚 × 身体の自由化（最強の内因性オピオイド）</span></div>
+            <div class="substance"><span class="substance-name">🌸 オキシトシン</span><span class="substance-effect">胸の温かさ × 愛 × 安心（ブリスの中心）</span></div>
+            <div class="substance"><span class="substance-name">🧘 GABA</span><span class="substance-effect">思考停止 × 無念無想（静寂と透明さ）</span></div>
+            <div class="substance"><span class="substance-name">✨ アナンダミド</span><span class="substance-effect">全身の一体感（"恍惚の分子"）</span></div>
+          </div>
+        </div>
+
+        <div class="note" style="margin-top:1.5rem">
+          <strong>迷走神経ON ＝ ブリスが自動発生する神経状態</strong><br><br>
+          頭に意識があると不安の未来を選ぶ。<br>
+          足に意識が落ちてグラウンディングするほど、安心とブリスの未来を選ぶ身体になる。<br><br>
+          グラウンディングは：<br>
+          ① 緊張をOFF（交感神経OFF）<br>
+          ② 身体を整え（副交感神経ON）<br>
+          ③ 至福を生むスイッチ（迷走神経ON）<br>
+          人間にとって最も本質的で強力な身体メカニズム。
+        </div>
+      </div>
+
+      <div class="practice-block">
+        <h3>エネルギーの原理</h3>
+        <ul>
+          <li>クンルンで高めているのは<span class="highlight">マグネティック</span>エネルギー</li>
+          <li>身体は<span class="highlight">エレクトロニック</span>エネルギー（生命活動＝電気）</li>
+          <li>呼吸を止めている時、マグネティックエネルギーが最も高くなる</li>
+          <li>丹田のバキュームからエネルギーを取る</li>
+          <li>エネルギーは使わないといけない — 4-4-4-4で定着</li>
+          <li>20分のプラクティスのエネルギーは42分で結晶化される</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <!-- ===== 夢 ===== -->
 <div id="dreams" class="section">
   <div class="dreams-container">
@@ -1377,7 +1948,7 @@ function commitInput() {
   if (!text) return;
 
   const sectionNames = {
-    projection: '自己投影', higherself: '高次の自己', tree: '生命の樹', temple: '神殿', dreams: '夢', archive: '記録'
+    projection: '自己投影', higherself: '高次の自己', tree: '生命の樹', temple: '神殿', practice: '修練', dreams: '夢', archive: '記録'
   };
   const activeId = document.querySelector('.section.active').id;
   const now = new Date();
@@ -1400,6 +1971,14 @@ document.getElementById('mainInput').addEventListener('input', function() {
   this.style.height = '44px';
   this.style.height = Math.min(this.scrollHeight, 120) + 'px';
 });
+
+// ===== PRACTICE PANELS =====
+function switchPractice(id) {
+  document.querySelectorAll('.practice-panel').forEach(p => p.classList.remove('p-visible'));
+  document.querySelectorAll('.practice-nav button').forEach(b => b.classList.remove('p-active'));
+  document.getElementById('pp-' + id).classList.add('p-visible');
+  event.target.classList.add('p-active');
+}
 
 // ===== DREAMS =====
 const defaultDreams = [
