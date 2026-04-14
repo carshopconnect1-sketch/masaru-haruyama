@@ -186,6 +186,120 @@
   .chakra-sacral  { top: 55%; left: 50%; transform: translateX(-50%); background: #e08040; color: #e08040; }
   .chakra-root    { top: 65%; left: 50%; transform: translateX(-50%); background: #e04040; color: #e04040; }
 
+  /* ===== PATHWAY MAP ===== */
+  .pathway-section {
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .pathway-title {
+    font-size: 0.7rem;
+    color: var(--gold);
+    letter-spacing: 0.25em;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .pathway-map {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+  }
+
+  .pathway-node {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.8rem 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+  }
+
+  .pathway-node:hover {
+    background: rgba(201, 168, 76, 0.03);
+  }
+
+  .pathway-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 1.5px solid;
+    flex-shrink: 0;
+    position: relative;
+    transition: all 0.3s;
+  }
+
+  .pathway-dot.open {
+    border-color: var(--gold);
+    background: rgba(201, 168, 76, 0.3);
+    box-shadow: 0 0 8px rgba(201, 168, 76, 0.3);
+  }
+
+  .pathway-dot.current {
+    border-color: #60d080;
+    background: rgba(96, 208, 128, 0.3);
+    box-shadow: 0 0 12px rgba(96, 208, 128, 0.4);
+    animation: currentPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes currentPulse {
+    0%, 100% { box-shadow: 0 0 8px rgba(96, 208, 128, 0.3); }
+    50% { box-shadow: 0 0 16px rgba(96, 208, 128, 0.6); }
+  }
+
+  .pathway-dot.blocked {
+    border-color: rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.03);
+  }
+
+  .pathway-line {
+    width: 1.5px;
+    height: 20px;
+    margin-left: 1rem;
+    position: relative;
+    left: 5.5px;
+  }
+
+  .pathway-line.open {
+    background: linear-gradient(to bottom, rgba(201, 168, 76, 0.4), rgba(201, 168, 76, 0.4));
+  }
+
+  .pathway-line.blocked {
+    background: linear-gradient(to bottom, rgba(255,255,255,0.08), rgba(255,255,255,0.08));
+    background-size: 1.5px 4px;
+  }
+
+  .pathway-label {
+    font-size: 0.8rem;
+    color: var(--text);
+  }
+
+  .pathway-label.blocked-label {
+    color: var(--text-dim);
+  }
+
+  .pathway-status {
+    font-size: 0.6rem;
+    margin-left: auto;
+    letter-spacing: 0.1em;
+    padding: 0.2rem 0.5rem;
+    border-radius: 2px;
+  }
+
+  .pathway-status.open { color: var(--gold); background: rgba(201, 168, 76, 0.1); }
+  .pathway-status.current { color: #60d080; background: rgba(96, 208, 128, 0.1); }
+  .pathway-status.blocked { color: var(--text-dim); background: rgba(255,255,255,0.03); }
+
+  .pathway-note {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    margin-left: 2rem;
+    padding: 0.3rem 0;
+    line-height: 1.6;
+  }
+
   .attributes {
     width: 100%;
     display: grid;
@@ -751,6 +865,12 @@
         <div class="attr-value" contenteditable="true" data-placeholder="思考の方向、認識、意図"></div>
       </div>
     </div>
+
+    <!-- Pathway Map -->
+    <div class="pathway-section">
+      <div class="pathway-title">経路マップ — 仙骨への道</div>
+      <div class="pathway-map" id="pathwayMap"></div>
+    </div>
   </div>
 </div>
 
@@ -782,9 +902,9 @@
         <div contenteditable="true" data-hs="message" data-placeholder="今、高次の自己から受け取っているもの。"></div>
       </div>
 
-      <div class="hs-image-area" id="hsImageArea" title="クリックして画像を設定">
-        <img id="hsImage" alt="Higher Self">
-        <div class="hs-image-placeholder" id="hsImagePlaceholder">
+      <div class="hs-image-area" id="hsImageArea" title="クリックして画像を変更">
+        <img id="hsImage" alt="Higher Self" src="higher-self.jpg" style="display:block">
+        <div class="hs-image-placeholder" id="hsImagePlaceholder" style="display:none">
           ここにハイヤーセルフのビジュアルを<br>
           画像URLを入力、またはクリックして設定
         </div>
@@ -990,6 +1110,7 @@ function loadState() {
     if (parsed.temple) Object.assign(state.temple, parsed.temple);
     if (parsed.tree) Object.assign(state.tree, parsed.tree);
     if (parsed.archive) state.archive = parsed.archive;
+    if (parsed.pathway) state.pathway = parsed.pathway;
 
     // Restore projection fields
     document.querySelectorAll('.attr-value[data-placeholder]').forEach(el => {
@@ -1016,8 +1137,6 @@ function loadState() {
     // Restore higher self image
     if (state.higherSelf.imageUrl) {
       document.getElementById('hsImage').src = state.higherSelf.imageUrl;
-      document.getElementById('hsImage').style.display = 'block';
-      document.getElementById('hsImagePlaceholder').style.display = 'none';
     }
     renderArchive();
   }
@@ -1097,6 +1216,73 @@ document.getElementById('mainInput').addEventListener('input', function() {
   this.style.height = '44px';
   this.style.height = Math.min(this.scrollHeight, 120) + 'px';
 });
+
+// ===== PATHWAY MAP =====
+const pathwayData = [
+  { id: 'crown', label: '頭頂', status: 'open', note: '' },
+  { id: 'forehead', label: '額・眉間', status: 'open', note: '' },
+  { id: 'jaw', label: '顎・首', status: 'open', note: '' },
+  { id: 'shoulder', label: '肩', status: 'current', note: '2026.04.14 — 詰まり解放' },
+  { id: 'clavicle', label: '鎖骨', status: 'current', note: '2026.04.14 — ここまで到達' },
+  { id: 'chest', label: '胸・心臓', status: 'blocked', note: '' },
+  { id: 'diaphragm', label: '横隔膜', status: 'blocked', note: '' },
+  { id: 'abdomen', label: '腹部', status: 'blocked', note: '' },
+  { id: 'pelvis', label: '骨盤底', status: 'blocked', note: '' },
+  { id: 'sacrum', label: '仙骨 ◎', status: 'blocked', note: '目標' },
+];
+
+function initPathwayMap() {
+  // Load saved pathway state
+  const savedPathway = state.pathway || null;
+  if (savedPathway) {
+    savedPathway.forEach((saved, i) => {
+      if (pathwayData[i]) {
+        pathwayData[i].status = saved.status;
+        pathwayData[i].note = saved.note;
+      }
+    });
+  }
+  renderPathwayMap();
+}
+
+function renderPathwayMap() {
+  const container = document.getElementById('pathwayMap');
+  if (!container) return;
+  let html = '';
+  pathwayData.forEach((node, i) => {
+    const statusLabel = node.status === 'open' ? '開通' : node.status === 'current' ? '進行中' : '未開通';
+    const labelClass = node.status === 'blocked' ? 'blocked-label' : '';
+    html += `
+      <div class="pathway-node" data-pathway-idx="${i}" onclick="togglePathwayStatus(${i})">
+        <div class="pathway-dot ${node.status}"></div>
+        <span class="pathway-label ${labelClass}">${node.label}</span>
+        <span class="pathway-status ${node.status}">${statusLabel}</span>
+      </div>`;
+    if (node.note) {
+      html += `<div class="pathway-note">${node.note}</div>`;
+    }
+    if (i < pathwayData.length - 1) {
+      const lineStatus = node.status === 'blocked' ? 'blocked' : 'open';
+      html += `<div class="pathway-line ${lineStatus}"></div>`;
+    }
+  });
+  container.innerHTML = html;
+}
+
+function togglePathwayStatus(idx) {
+  const node = pathwayData[idx];
+  const cycle = ['blocked', 'current', 'open'];
+  const nextIdx = (cycle.indexOf(node.status) + 1) % cycle.length;
+  node.status = cycle[nextIdx];
+  if (node.status === 'current' || node.status === 'open') {
+    const now = new Date();
+    const dateStr = `${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')}`;
+    if (!node.note) node.note = dateStr;
+  }
+  state.pathway = pathwayData.map(n => ({ status: n.status, note: n.note }));
+  saveState();
+  renderPathwayMap();
+}
 
 // ===== CHAKRA INTERACTION =====
 document.querySelectorAll('.chakra').forEach(ch => {
@@ -1429,6 +1615,7 @@ window.addEventListener('DOMContentLoaded', () => {
   initSacredGeometry();
   initTempleCanvas();
   loadState();
+  initPathwayMap();
   // Tree paths drawn when section becomes visible
 });
 
