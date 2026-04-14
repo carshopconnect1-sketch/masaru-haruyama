@@ -1,0 +1,2520 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>降臨装置</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;500;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --gold: #c9a84c;
+    --gold-dim: rgba(201, 168, 76, 0.3);
+    --void: #0a0a0f;
+    --deep: #12121a;
+    --text: #e8e0d0;
+    --text-dim: rgba(232, 224, 208, 0.5);
+  }
+
+  body {
+    background: var(--void);
+    color: var(--text);
+    font-family: 'Noto Serif JP', serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* ===== SACRED GEOMETRY BACKGROUND ===== */
+  .sacred-bg {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .sacred-bg canvas {
+    width: 100%;
+    height: 100%;
+    opacity: 0.08;
+  }
+
+  /* ===== NAVIGATION ===== */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    gap: 1.2rem;
+    padding: 1.2rem;
+    background: linear-gradient(to bottom, var(--void) 60%, transparent);
+    flex-wrap: wrap;
+  }
+
+  nav button {
+    background: none;
+    border: 1px solid var(--gold-dim);
+    color: var(--gold);
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.8rem;
+    padding: 0.45rem 1.2rem;
+    cursor: pointer;
+    letter-spacing: 0.12em;
+    transition: all 0.5s ease;
+  }
+
+  nav button:hover,
+  nav button.active {
+    background: rgba(201, 168, 76, 0.1);
+    border-color: var(--gold);
+    box-shadow: 0 0 20px rgba(201, 168, 76, 0.15);
+  }
+
+  /* ===== SECTIONS ===== */
+  .section {
+    display: none;
+    min-height: 100vh;
+    padding: 5.5rem 2rem 5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .section.active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: fadeIn 1s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: var(--gold);
+    letter-spacing: 0.3em;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .section-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    letter-spacing: 0.2em;
+    text-align: center;
+    line-height: 2;
+    margin-bottom: 2rem;
+  }
+
+  /* ===== 自己投影 (ETHERIC DOUBLE) ===== */
+  .etheric-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+    max-width: 800px;
+    width: 100%;
+  }
+
+  .etheric-body {
+    position: relative;
+    width: 280px;
+    height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .etheric-body svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 30px rgba(201, 168, 76, 0.2));
+  }
+
+  .etheric-body .aura {
+    position: absolute;
+    top: -20px; left: -20px;
+    right: -20px; bottom: -20px;
+    border-radius: 50% 50% 40% 40%;
+    background: radial-gradient(ellipse, rgba(201, 168, 76, 0.06) 0%, transparent 70%);
+    animation: auraPulse 4s ease-in-out infinite;
+  }
+
+  @keyframes auraPulse {
+    0%, 100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.08); opacity: 1; }
+  }
+
+  .chakra {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .chakra::before {
+    content: '';
+    position: absolute;
+    top: -4px; left: -4px;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    border: 1px solid currentColor;
+    opacity: 0.4;
+    animation: chakraSpin 8s linear infinite;
+  }
+
+  @keyframes chakraSpin { to { transform: rotate(360deg); } }
+
+  .chakra:hover {
+    transform: scale(1.8);
+    box-shadow: 0 0 20px currentColor;
+  }
+
+  .chakra-crown   { top: 5%;  left: 50%; transform: translateX(-50%); background: #e0d0ff; color: #e0d0ff; }
+  .chakra-third   { top: 14%; left: 50%; transform: translateX(-50%); background: #8080ff; color: #8080ff; }
+  .chakra-throat  { top: 23%; left: 50%; transform: translateX(-50%); background: #60c0e0; color: #60c0e0; }
+  .chakra-heart   { top: 35%; left: 50%; transform: translateX(-50%); background: #40d080; color: #40d080; }
+  .chakra-solar   { top: 45%; left: 50%; transform: translateX(-50%); background: #e0c040; color: #e0c040; }
+  .chakra-sacral  { top: 55%; left: 50%; transform: translateX(-50%); background: #e08040; color: #e08040; }
+  .chakra-root    { top: 65%; left: 50%; transform: translateX(-50%); background: #e04040; color: #e04040; }
+
+  /* ===== PATHWAY MAP ===== */
+  .pathway-section {
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .pathway-title {
+    font-size: 0.7rem;
+    color: var(--gold);
+    letter-spacing: 0.25em;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .pathway-map {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+  }
+
+  .pathway-node {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.8rem 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+  }
+
+  .pathway-node:hover {
+    background: rgba(201, 168, 76, 0.03);
+  }
+
+  .pathway-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 1.5px solid;
+    flex-shrink: 0;
+    position: relative;
+    transition: all 0.3s;
+  }
+
+  .pathway-dot.open {
+    border-color: var(--gold);
+    background: rgba(201, 168, 76, 0.3);
+    box-shadow: 0 0 8px rgba(201, 168, 76, 0.3);
+  }
+
+  .pathway-dot.current {
+    border-color: #60d080;
+    background: rgba(96, 208, 128, 0.3);
+    box-shadow: 0 0 12px rgba(96, 208, 128, 0.4);
+    animation: currentPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes currentPulse {
+    0%, 100% { box-shadow: 0 0 8px rgba(96, 208, 128, 0.3); }
+    50% { box-shadow: 0 0 16px rgba(96, 208, 128, 0.6); }
+  }
+
+  .pathway-dot.blocked {
+    border-color: rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.03);
+  }
+
+  .pathway-line {
+    width: 1.5px;
+    height: 20px;
+    margin-left: 1rem;
+    position: relative;
+    left: 5.5px;
+  }
+
+  .pathway-line.open {
+    background: linear-gradient(to bottom, rgba(201, 168, 76, 0.4), rgba(201, 168, 76, 0.4));
+  }
+
+  .pathway-line.blocked {
+    background: linear-gradient(to bottom, rgba(255,255,255,0.08), rgba(255,255,255,0.08));
+    background-size: 1.5px 4px;
+  }
+
+  .pathway-label {
+    font-size: 0.8rem;
+    color: var(--text);
+  }
+
+  .pathway-label.blocked-label {
+    color: var(--text-dim);
+  }
+
+  .pathway-status {
+    font-size: 0.6rem;
+    margin-left: auto;
+    letter-spacing: 0.1em;
+    padding: 0.2rem 0.5rem;
+    border-radius: 2px;
+  }
+
+  .pathway-status.open { color: var(--gold); background: rgba(201, 168, 76, 0.1); }
+  .pathway-status.current { color: #60d080; background: rgba(96, 208, 128, 0.1); }
+  .pathway-status.blocked { color: var(--text-dim); background: rgba(255,255,255,0.03); }
+
+  .pathway-note {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    margin-left: 2rem;
+    padding: 0.3rem 0;
+    line-height: 1.6;
+  }
+
+  .attributes {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .attr-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(201, 168, 76, 0.1);
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.4s ease;
+  }
+
+  .attr-card:hover {
+    border-color: var(--gold-dim);
+    background: rgba(201, 168, 76, 0.03);
+  }
+
+  .attr-label {
+    font-size: 0.7rem;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    margin-bottom: 0.5rem;
+  }
+
+  .attr-value {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--text);
+    min-height: 1.5em;
+  }
+
+  .attr-value[contenteditable]:focus {
+    outline: none;
+    border-bottom: 1px solid var(--gold-dim);
+  }
+
+  /* ===== ハイヤーセルフ ===== */
+  .higher-self-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+    max-width: 800px;
+    width: 100%;
+  }
+
+  .higher-self-visual {
+    position: relative;
+    width: 320px;
+    height: 400px;
+  }
+
+  .higher-self-visual canvas {
+    width: 100%;
+    height: 100%;
+  }
+
+  .hs-description-area {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .hs-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(201, 168, 76, 0.1);
+    padding: 2rem;
+    transition: all 0.4s ease;
+  }
+
+  .hs-card:hover {
+    border-color: var(--gold-dim);
+  }
+
+  .hs-card h3 {
+    font-size: 0.7rem;
+    color: var(--gold);
+    letter-spacing: 0.25em;
+    margin-bottom: 1rem;
+  }
+
+  .hs-card [contenteditable] {
+    font-size: 0.95rem;
+    line-height: 2.2;
+    min-height: 3em;
+  }
+
+  .hs-card [contenteditable]:focus {
+    outline: none;
+  }
+
+  .hs-image-area {
+    width: 100%;
+    aspect-ratio: 4/3;
+    border: 1px dashed rgba(201, 168, 76, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.3s;
+  }
+
+  .hs-image-area:hover {
+    border-color: var(--gold-dim);
+  }
+
+  .hs-image-area img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+  }
+
+  .hs-image-placeholder {
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-align: center;
+    line-height: 2;
+  }
+
+  /* ===== 生命の樹 (TREE OF LIFE) ===== */
+  .tree-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+    max-width: 900px;
+    width: 100%;
+  }
+
+  .tree-view {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    aspect-ratio: 3/5;
+  }
+
+  .tree-view canvas {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0; left: 0;
+  }
+
+  .sephira {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    border: 1px solid;
+    background: rgba(10, 10, 15, 0.8);
+    transform: translate(-50%, -50%);
+    z-index: 2;
+  }
+
+  .sephira:hover {
+    transform: translate(-50%, -50%) scale(1.15);
+    z-index: 3;
+  }
+
+  .sephira-num {
+    font-size: 0.6rem;
+    opacity: 0.5;
+    letter-spacing: 0.1em;
+  }
+
+  .sephira-name {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+  }
+
+  .sephira-hebrew {
+    font-size: 0.55rem;
+    opacity: 0.6;
+  }
+
+  /* Individual Sephiroth colors */
+  .seph-keter    { border-color: #ffffff; color: #ffffff; box-shadow: 0 0 20px rgba(255,255,255,0.15); }
+  .seph-chokmah  { border-color: #b0b0b0; color: #b0b0b0; box-shadow: 0 0 15px rgba(176,176,176,0.1); }
+  .seph-binah    { border-color: #404040; color: #c0c0c0; box-shadow: 0 0 15px rgba(64,64,64,0.2); }
+  .seph-chesed   { border-color: #4060ff; color: #6080ff; box-shadow: 0 0 15px rgba(64,96,255,0.15); }
+  .seph-gevurah  { border-color: #e03030; color: #e05050; box-shadow: 0 0 15px rgba(224,48,48,0.15); }
+  .seph-tiferet  { border-color: #c9a84c; color: #c9a84c; box-shadow: 0 0 20px rgba(201,168,76,0.2); }
+  .seph-netzach  { border-color: #40b060; color: #60d080; box-shadow: 0 0 15px rgba(64,176,96,0.15); }
+  .seph-hod      { border-color: #e09030; color: #e0a050; box-shadow: 0 0 15px rgba(224,144,48,0.15); }
+  .seph-yesod    { border-color: #9060c0; color: #b080e0; box-shadow: 0 0 15px rgba(144,96,192,0.15); }
+  .seph-malkuth  { border-color: #806040; color: #a08060; box-shadow: 0 0 15px rgba(128,96,64,0.15); }
+  /* Da'at (hidden) */
+  .seph-daat     { border-style: dashed; border-color: rgba(255,255,255,0.3); color: rgba(255,255,255,0.5); }
+
+  .tree-pillars {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .pillar-label {
+    font-size: 0.7rem;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    padding: 0.8rem;
+    border: 1px solid rgba(201, 168, 76, 0.08);
+  }
+
+  .pillar-sublabel {
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    margin-top: 0.3rem;
+  }
+
+  .tree-worlds {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .world-bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.8rem 1.2rem;
+    border: 1px solid rgba(201, 168, 76, 0.06);
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .world-bar:hover {
+    border-color: var(--gold-dim);
+    background: rgba(201, 168, 76, 0.02);
+  }
+
+  .world-name {
+    font-size: 0.75rem;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    min-width: 80px;
+  }
+
+  .world-desc {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+
+  /* ===== 神殿 (TEMPLE) ===== */
+  .temple-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+    max-width: 900px;
+    width: 100%;
+  }
+
+  .temple-view {
+    width: 100%;
+    aspect-ratio: 16/9;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(201, 168, 76, 0.15);
+  }
+
+  .temple-view canvas {
+    width: 100%;
+    height: 100%;
+  }
+
+  .temple-description {
+    width: 100%;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(201, 168, 76, 0.1);
+    padding: 2rem;
+  }
+
+  .temple-description h3 {
+    font-size: 0.75rem;
+    color: var(--gold);
+    letter-spacing: 0.25em;
+    margin-bottom: 1rem;
+  }
+
+  .temple-text {
+    font-size: 0.95rem;
+    line-height: 2.2;
+    color: var(--text);
+    min-height: 4em;
+  }
+
+  .temple-text[contenteditable]:focus { outline: none; }
+
+  .temple-rooms {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .room-card {
+    aspect-ratio: 1;
+    border: 1px solid rgba(201, 168, 76, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    cursor: pointer;
+    transition: all 0.5s ease;
+    background: rgba(255,255,255,0.01);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .room-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at center, rgba(201, 168, 76, 0.05) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+
+  .room-card:hover::before { opacity: 1; }
+
+  .room-card:hover {
+    border-color: var(--gold-dim);
+    transform: translateY(-2px);
+  }
+
+  .room-icon { font-size: 1.8rem; opacity: 0.7; }
+  .room-name { font-size: 0.75rem; color: var(--gold); letter-spacing: 0.2em; }
+  .room-desc { font-size: 0.7rem; color: var(--text-dim); text-align: center; padding: 0 0.5rem; }
+
+  /* ===== 記録 (ARCHIVE) ===== */
+  .archive-container {
+    max-width: 700px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .archive-entry {
+    border-left: 1px solid var(--gold-dim);
+    padding: 1.5rem 2rem;
+    transition: all 0.3s ease;
+  }
+
+  .archive-entry:hover {
+    border-left-color: var(--gold);
+    background: rgba(201, 168, 76, 0.02);
+  }
+
+  .archive-date { font-size: 0.7rem; color: var(--gold); letter-spacing: 0.15em; margin-bottom: 0.5rem; }
+  .archive-text { font-size: 0.9rem; line-height: 2; color: var(--text); }
+
+  .archive-empty {
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    padding: 4rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* ===== INPUT AREA ===== */
+  .input-area {
+    position: fixed;
+    bottom: 0;
+    left: 0; right: 0;
+    z-index: 100;
+    padding: 1rem 2rem 1.5rem;
+    background: linear-gradient(to top, var(--void) 70%, transparent);
+  }
+
+  .input-row {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .input-row textarea {
+    flex: 1;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(201, 168, 76, 0.15);
+    color: var(--text);
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.9rem;
+    padding: 0.8rem 1rem;
+    resize: none;
+    height: 44px;
+    line-height: 1.6;
+    transition: border-color 0.3s;
+  }
+
+  .input-row textarea:focus { outline: none; border-color: var(--gold-dim); }
+  .input-row textarea::placeholder { color: var(--text-dim); }
+
+  .input-row button {
+    background: none;
+    border: 1px solid rgba(201, 168, 76, 0.15);
+    color: var(--gold);
+    font-size: 1rem;
+    width: 44px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .input-row button:hover {
+    background: rgba(201, 168, 76, 0.1);
+    border-color: var(--gold);
+  }
+
+  /* ===== MODAL ===== */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal-content {
+    background: var(--deep);
+    border: 1px solid rgba(201, 168, 76, 0.2);
+    max-width: 550px;
+    width: 100%;
+    padding: 2.5rem;
+    position: relative;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
+
+  .modal-title {
+    font-size: 0.75rem;
+    color: var(--gold);
+    letter-spacing: 0.25em;
+    margin-bottom: 1.5rem;
+  }
+
+  .modal-body {
+    font-size: 0.9rem;
+    line-height: 2;
+    color: var(--text);
+  }
+
+  .modal-body [contenteditable] {
+    min-height: 3em;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(201, 168, 76, 0.1);
+  }
+
+  .modal-body [contenteditable]:focus {
+    outline: none;
+    border-bottom-color: var(--gold-dim);
+  }
+
+  .modal-section-label {
+    font-size: 0.65rem;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* ===== 修練 (PRACTICE) ===== */
+  .practice-container {
+    max-width: 800px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .practice-nav {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .practice-nav button {
+    background: none;
+    border: 1px solid rgba(224, 64, 64, 0.15);
+    color: #e06050;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.7rem;
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+    letter-spacing: 0.1em;
+    transition: all 0.3s;
+  }
+
+  .practice-nav button:hover,
+  .practice-nav button.p-active {
+    background: rgba(224, 64, 64, 0.08);
+    border-color: #e06050;
+  }
+
+  .practice-panel {
+    display: none;
+  }
+
+  .practice-panel.p-visible {
+    display: block;
+    animation: fadeIn 0.5s ease;
+  }
+
+  .practice-block {
+    border: 1px solid rgba(224, 64, 64, 0.1);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .practice-block h3 {
+    font-size: 0.75rem;
+    color: #e06050;
+    letter-spacing: 0.2em;
+    margin-bottom: 1rem;
+  }
+
+  .practice-block h4 {
+    font-size: 0.7rem;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .practice-block p, .practice-block li {
+    font-size: 0.85rem;
+    line-height: 2.2;
+    color: var(--text);
+  }
+
+  .practice-block ul, .practice-block ol {
+    padding-left: 1.5rem;
+  }
+
+  .practice-block ol li {
+    margin-bottom: 0.3rem;
+  }
+
+  .practice-block .note {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    border-left: 2px solid rgba(224, 64, 64, 0.15);
+    padding-left: 1rem;
+    margin-top: 1rem;
+  }
+
+  .practice-block .highlight {
+    color: #e06050;
+    font-weight: 500;
+  }
+
+  .practice-block .breath-pattern {
+    display: inline-block;
+    background: rgba(224, 64, 64, 0.06);
+    border: 1px solid rgba(224, 64, 64, 0.1);
+    padding: 0.3rem 0.8rem;
+    margin: 0.3rem 0;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+  }
+
+  .schedule-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.5rem 1.5rem;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+  }
+
+  .schedule-time {
+    color: #e06050;
+    font-weight: 500;
+  }
+
+  .science-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(201, 168, 76, 0.1);
+    padding: 1.5rem;
+    margin-top: 1rem;
+  }
+
+  .science-card h5 {
+    font-size: 0.65rem;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    margin-bottom: 0.8rem;
+  }
+
+  .substance-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .substance {
+    display: flex;
+    gap: 0.8rem;
+    font-size: 0.8rem;
+    align-items: baseline;
+  }
+
+  .substance-name {
+    color: #e06050;
+    min-width: 120px;
+    font-weight: 500;
+  }
+
+  .substance-effect {
+    color: var(--text-dim);
+  }
+
+  /* ===== 夢 (DREAMS) ===== */
+  .dreams-container {
+    max-width: 750px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .dream-entry {
+    border: 1px solid rgba(144, 96, 192, 0.15);
+    padding: 2rem;
+    transition: all 0.3s;
+    position: relative;
+  }
+
+  .dream-entry:hover {
+    border-color: rgba(144, 96, 192, 0.3);
+    background: rgba(144, 96, 192, 0.02);
+  }
+
+  .dream-date {
+    font-size: 0.7rem;
+    color: #b080e0;
+    letter-spacing: 0.15em;
+    margin-bottom: 0.8rem;
+  }
+
+  .dream-body {
+    font-size: 0.9rem;
+    line-height: 2.2;
+    color: var(--text);
+    white-space: pre-line;
+  }
+
+  .dream-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .dream-tag {
+    font-size: 0.6rem;
+    color: #b080e0;
+    border: 1px solid rgba(144, 96, 192, 0.2);
+    padding: 0.2rem 0.6rem;
+    letter-spacing: 0.1em;
+  }
+
+  .dream-interpretation {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(144, 96, 192, 0.1);
+  }
+
+  .dream-interpretation h4 {
+    font-size: 0.65rem;
+    color: #b080e0;
+    letter-spacing: 0.2em;
+    margin-bottom: 0.5rem;
+  }
+
+  .dream-interpretation [contenteditable] {
+    font-size: 0.85rem;
+    line-height: 2;
+    color: var(--text-dim);
+    min-height: 2em;
+  }
+
+  .dream-interpretation [contenteditable]:focus {
+    outline: none;
+    color: var(--text);
+  }
+
+  .dream-add-btn {
+    background: none;
+    border: 1px dashed rgba(144, 96, 192, 0.2);
+    color: #b080e0;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.8rem;
+    padding: 1.5rem;
+    cursor: pointer;
+    letter-spacing: 0.15em;
+    transition: all 0.3s;
+    width: 100%;
+  }
+
+  .dream-add-btn:hover {
+    border-color: rgba(144, 96, 192, 0.4);
+    background: rgba(144, 96, 192, 0.03);
+  }
+
+  .dream-form {
+    display: none;
+    border: 1px solid rgba(144, 96, 192, 0.2);
+    padding: 2rem;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .dream-form.open { display: flex; }
+
+  .dream-form label {
+    font-size: 0.7rem;
+    color: #b080e0;
+    letter-spacing: 0.2em;
+  }
+
+  .dream-form textarea {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(144, 96, 192, 0.15);
+    color: var(--text);
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.9rem;
+    padding: 1rem;
+    resize: vertical;
+    min-height: 120px;
+    line-height: 2;
+  }
+
+  .dream-form textarea:focus {
+    outline: none;
+    border-color: rgba(144, 96, 192, 0.3);
+  }
+
+  .dream-form input[type="date"] {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(144, 96, 192, 0.15);
+    color: var(--text);
+    font-family: 'Noto Serif JP', serif;
+    padding: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .dream-form-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+  }
+
+  .dream-form-actions button {
+    background: none;
+    border: 1px solid rgba(144, 96, 192, 0.2);
+    color: #b080e0;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.75rem;
+    padding: 0.5rem 1.2rem;
+    cursor: pointer;
+    letter-spacing: 0.1em;
+    transition: all 0.3s;
+  }
+
+  .dream-form-actions button:hover {
+    background: rgba(144, 96, 192, 0.1);
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 600px) {
+    nav { gap: 0.5rem; padding: 0.8rem; }
+    nav button { font-size: 0.65rem; padding: 0.35rem 0.6rem; letter-spacing: 0.05em; }
+    .attributes { grid-template-columns: 1fr; }
+    .temple-rooms { grid-template-columns: 1fr 1fr; }
+    .section-title { font-size: 1.3rem; }
+    .etheric-body { width: 200px; height: 300px; }
+    .sephira { width: 45px; height: 45px; }
+    .sephira-name { font-size: 0.6rem; }
+    .tree-pillars { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sacred-bg"><canvas id="sacredCanvas"></canvas></div>
+
+<nav>
+  <button class="active" onclick="switchSection('projection')">自己投影</button>
+  <button onclick="switchSection('higherself')">高次の自己</button>
+  <button onclick="switchSection('tree')">生命の樹</button>
+  <button onclick="switchSection('temple')">神殿</button>
+  <button onclick="switchSection('practice')">修練</button>
+  <button onclick="switchSection('dreams')">夢</button>
+  <button onclick="switchSection('archive')">記録</button>
+</nav>
+
+<!-- ===== 自己投影 ===== -->
+<div id="projection" class="section active">
+  <div class="etheric-container">
+    <div>
+      <h1 class="section-title">自己投影</h1>
+      <p class="section-subtitle">エーテルダブルの構築<br>自分自身を精密に観察し、ここに降ろす</p>
+    </div>
+
+    <div class="etheric-body">
+      <div class="aura"></div>
+      <svg viewBox="0 0 200 350" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="100" cy="35" rx="28" ry="32" fill="none" stroke="rgba(201,168,76,0.3)" stroke-width="0.8"/>
+        <path d="M100 67 C60 70 40 110 42 160 L42 220 C42 240 55 250 70 250 L70 330 C70 340 80 345 88 345 L88 250 L112 250 L112 345 C120 345 130 340 130 330 L130 250 C145 250 158 240 158 220 L158 160 C160 110 140 70 100 67Z" fill="none" stroke="rgba(201,168,76,0.25)" stroke-width="0.8"/>
+        <path d="M42 120 C20 130 10 170 15 200" fill="none" stroke="rgba(201,168,76,0.2)" stroke-width="0.8"/>
+        <path d="M158 120 C180 130 190 170 185 200" fill="none" stroke="rgba(201,168,76,0.2)" stroke-width="0.8"/>
+        <line x1="100" y1="15" x2="100" y2="250" stroke="rgba(201,168,76,0.08)" stroke-width="0.5" stroke-dasharray="2 4"/>
+      </svg>
+
+      <div class="chakra chakra-crown" title="サハスラーラ" data-chakra="crown"></div>
+      <div class="chakra chakra-third" title="アジュナ" data-chakra="third-eye"></div>
+      <div class="chakra chakra-throat" title="ヴィシュッダ" data-chakra="throat"></div>
+      <div class="chakra chakra-heart" title="アナハタ" data-chakra="heart"></div>
+      <div class="chakra chakra-solar" title="マニプラ" data-chakra="solar"></div>
+      <div class="chakra chakra-sacral" title="スヴァディスターナ" data-chakra="sacral"></div>
+      <div class="chakra chakra-root" title="ムーラダーラ" data-chakra="root"></div>
+    </div>
+
+    <div class="attributes">
+      <div class="attr-card" data-key="physical">
+        <div class="attr-label">肉体 — 物質界</div>
+        <div class="attr-value" contenteditable="true" data-placeholder="身体の状態、感覚、今の体の在り方を記す"></div>
+      </div>
+      <div class="attr-card" data-key="etheric">
+        <div class="attr-label">エーテル体 — 生命力</div>
+        <div class="attr-value" contenteditable="true" data-placeholder="エネルギーの流れ、活力、気の状態"></div>
+      </div>
+      <div class="attr-card" data-key="psychic">
+        <div class="attr-label">サイキック体 — 感情</div>
+        <div class="attr-value" contenteditable="true" data-placeholder="感情の質、心の動き、欲求"></div>
+      </div>
+      <div class="attr-card" data-key="noetic">
+        <div class="attr-label">ノエティック体 — 思考</div>
+        <div class="attr-value" contenteditable="true" data-placeholder="思考の方向、認識、意図"></div>
+      </div>
+    </div>
+
+    <!-- Pathway Map -->
+    <div class="pathway-section">
+      <div class="pathway-title">経路マップ — 仙骨への道</div>
+      <div class="pathway-map" id="pathwayMap"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 高次の自己 (HIGHER SELF) ===== -->
+<div id="higherself" class="section">
+  <div class="higher-self-container">
+    <div>
+      <h1 class="section-title">高次の自己</h1>
+      <p class="section-subtitle">永遠の自己存在<br>この人格の背後にある、変わらないもの</p>
+    </div>
+
+    <div class="higher-self-visual">
+      <canvas id="higherSelfCanvas"></canvas>
+    </div>
+
+    <div class="hs-description-area">
+      <div class="hs-card">
+        <h3>姿 — FORM</h3>
+        <div contenteditable="true" data-hs="form" data-placeholder="ハイヤーセルフの姿を記す。光の質、色、形状、大きさ、温度。見えるもの全てを精密に。"></div>
+      </div>
+
+      <div class="hs-card">
+        <h3>声 — VOICE</h3>
+        <div contenteditable="true" data-hs="voice" data-placeholder="どんな声で語りかけてくるか。言葉なのか、知覚なのか、感覚なのか。"></div>
+      </div>
+
+      <div class="hs-card">
+        <h3>メッセージ — MESSAGE</h3>
+        <div contenteditable="true" data-hs="message" data-placeholder="今、高次の自己から受け取っているもの。"></div>
+      </div>
+
+      <div class="hs-image-area" id="hsImageArea" style="cursor:default; border-style:solid;">
+        <video autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;display:block">
+          <source src="higher-self-video.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 生命の樹 (TREE OF LIFE) ===== -->
+<div id="tree" class="section">
+  <div class="tree-container">
+    <div>
+      <h1 class="section-title">生命の樹</h1>
+      <p class="section-subtitle">エツ・ハ・チャイム<br>万物の構造を映す鏡</p>
+    </div>
+
+    <div class="tree-view" id="treeView">
+      <canvas id="treeCanvas"></canvas>
+
+      <!-- 10 Sephiroth + Da'at -->
+      <div class="sephira seph-keter" data-seph="keter" style="top:5%;left:50%">
+        <span class="sephira-num">1</span>
+        <span class="sephira-name">ケテル</span>
+        <span class="sephira-hebrew">כתר</span>
+      </div>
+      <div class="sephira seph-chokmah" data-seph="chokmah" style="top:15%;left:25%">
+        <span class="sephira-num">2</span>
+        <span class="sephira-name">コクマー</span>
+        <span class="sephira-hebrew">חכמה</span>
+      </div>
+      <div class="sephira seph-binah" data-seph="binah" style="top:15%;left:75%">
+        <span class="sephira-num">3</span>
+        <span class="sephira-name">ビナー</span>
+        <span class="sephira-hebrew">בינה</span>
+      </div>
+      <div class="sephira seph-daat" data-seph="daat" style="top:25%;left:50%">
+        <span class="sephira-name">ダアト</span>
+        <span class="sephira-hebrew">דעת</span>
+      </div>
+      <div class="sephira seph-chesed" data-seph="chesed" style="top:35%;left:25%">
+        <span class="sephira-num">4</span>
+        <span class="sephira-name">ケセド</span>
+        <span class="sephira-hebrew">חסד</span>
+      </div>
+      <div class="sephira seph-gevurah" data-seph="gevurah" style="top:35%;left:75%">
+        <span class="sephira-num">5</span>
+        <span class="sephira-name">ゲブラー</span>
+        <span class="sephira-hebrew">גבורה</span>
+      </div>
+      <div class="sephira seph-tiferet" data-seph="tiferet" style="top:48%;left:50%">
+        <span class="sephira-num">6</span>
+        <span class="sephira-name">ティファレト</span>
+        <span class="sephira-hebrew">תפארת</span>
+      </div>
+      <div class="sephira seph-netzach" data-seph="netzach" style="top:62%;left:25%">
+        <span class="sephira-num">7</span>
+        <span class="sephira-name">ネツァク</span>
+        <span class="sephira-hebrew">נצח</span>
+      </div>
+      <div class="sephira seph-hod" data-seph="hod" style="top:62%;left:75%">
+        <span class="sephira-num">8</span>
+        <span class="sephira-name">ホド</span>
+        <span class="sephira-hebrew">הוד</span>
+      </div>
+      <div class="sephira seph-yesod" data-seph="yesod" style="top:78%;left:50%">
+        <span class="sephira-num">9</span>
+        <span class="sephira-name">イェソド</span>
+        <span class="sephira-hebrew">יסוד</span>
+      </div>
+      <div class="sephira seph-malkuth" data-seph="malkuth" style="top:95%;left:50%">
+        <span class="sephira-num">10</span>
+        <span class="sephira-name">マルクト</span>
+        <span class="sephira-hebrew">מלכות</span>
+      </div>
+    </div>
+
+    <div class="tree-pillars">
+      <div class="pillar-label">慈悲の柱<div class="pillar-sublabel">能動・拡張</div></div>
+      <div class="pillar-label">均衡の柱<div class="pillar-sublabel">中道・調和</div></div>
+      <div class="pillar-label">峻厳の柱<div class="pillar-sublabel">受動・制限</div></div>
+    </div>
+
+    <div class="tree-worlds">
+      <div class="world-bar" data-world="atziluth">
+        <span class="world-name">アツィルト</span>
+        <span class="world-desc">流出界 — 神性・原型の世界（ケテル〜コクマー〜ビナー）</span>
+      </div>
+      <div class="world-bar" data-world="briah">
+        <span class="world-name">ブリアー</span>
+        <span class="world-desc">創造界 — 大天使・創造的知性（ケセド〜ゲブラー〜ティファレト）</span>
+      </div>
+      <div class="world-bar" data-world="yetzirah">
+        <span class="world-name">イェツィラー</span>
+        <span class="world-desc">形成界 — 天使・形態の世界（ネツァク〜ホド〜イェソド）</span>
+      </div>
+      <div class="world-bar" data-world="assiah">
+        <span class="world-name">アッシャー</span>
+        <span class="world-desc">活動界 — 物質・行動の世界（マルクト）</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 神殿 ===== -->
+<div id="temple" class="section">
+  <div class="temple-container">
+    <div>
+      <h1 class="section-title">内なる神殿</h1>
+      <p class="section-subtitle">ここは汝の聖なる空間<br>精密に構築し、そこに入る</p>
+    </div>
+
+    <div class="temple-view">
+      <canvas id="templeCanvas"></canvas>
+    </div>
+
+    <div class="temple-description">
+      <h3>神殿の記述</h3>
+      <div class="temple-text" contenteditable="true" data-key="temple-main" data-placeholder="神殿の姿を言葉で記す。入口の形、光の色、床の質感、空気の温度。精密であるほど、それは実在に近づく。"></div>
+    </div>
+
+    <div class="temple-rooms">
+      <div class="room-card" data-room="sanctuary">
+        <div class="room-icon">◇</div>
+        <div class="room-name">聖所</div>
+        <div class="room-desc">瞑想と祈りの場</div>
+      </div>
+      <div class="room-card" data-room="library">
+        <div class="room-icon">☰</div>
+        <div class="room-name">書庫</div>
+        <div class="room-desc">知識と記憶の保管</div>
+      </div>
+      <div class="room-card" data-room="mirror">
+        <div class="room-icon">◎</div>
+        <div class="room-name">鏡の間</div>
+        <div class="room-desc">自己観察と投影</div>
+      </div>
+      <div class="room-card" data-room="forge">
+        <div class="room-icon">△</div>
+        <div class="room-name">炉</div>
+        <div class="room-desc">意志の錬成</div>
+      </div>
+      <div class="room-card" data-room="garden">
+        <div class="room-icon">❋</div>
+        <div class="room-name">庭園</div>
+        <div class="room-desc">生命と成長</div>
+      </div>
+      <div class="room-card" data-room="threshold">
+        <div class="room-icon">⬡</div>
+        <div class="room-name">門</div>
+        <div class="room-desc">内と外の境界</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 修練 ===== -->
+<div id="practice" class="section">
+  <div class="practice-container">
+    <div>
+      <h1 class="section-title">修練</h1>
+      <p class="section-subtitle">レッドドラゴンボディ — クンルンネイゴン<br>身体を器として開く</p>
+    </div>
+
+    <div class="practice-nav">
+      <button class="p-active" onclick="switchPractice('overview')">概要</button>
+      <button onclick="switchPractice('reddragon')">レッドドラゴン</button>
+      <button onclick="switchPractice('breath')">呼吸法</button>
+      <button onclick="switchPractice('elements')">元素ワーク</button>
+      <button onclick="switchPractice('sleep')">スリープヨガ</button>
+      <button onclick="switchPractice('schedule')">日課</button>
+      <button onclick="switchPractice('science')">サイエンス</button>
+    </div>
+
+    <!-- 概要 -->
+    <div class="practice-panel p-visible" id="pp-overview">
+      <div class="practice-block">
+        <h3>ドラゴンボディ体系</h3>
+        <p>三つの段階を通じて意識体を構築する：</p>
+        <ul>
+          <li><span class="highlight">レッドドラゴンボディ</span> — 基盤。肉体とエネルギー体の浄化・開通。マグネティックエネルギーの覚醒</li>
+          <li><span class="highlight">ゴールドドラゴンボディ</span> — 道教の伝統。9日間で達成可能。至福のエネルギーの結晶化</li>
+          <li><span class="highlight">レインボードラゴンボディ</span> — チベット・ニンマ派の伝統。虹の体</li>
+        </ul>
+
+        <h4>系譜</h4>
+        <p>グルリンポチェ（パドマサンバヴァ）→ チベット・ニンマ派創始者<br>
+        ブータン女王との関連<br>
+        マオシャン（茅山）道教の伝統</p>
+
+        <h4>核心原理</h4>
+        <ul>
+          <li><strong>重力はマインドである</strong> — これを理解すると速い</li>
+          <li>丹田にバキュームがあり、マインドがくっついている</li>
+          <li>プラクティスでバキュームからエネルギーを取る</li>
+          <li>ダオイストはバキュームを作り出す</li>
+          <li>クンルンで高めているのは<span class="highlight">マグネティック</span>エネルギー</li>
+          <li>身体は<span class="highlight">エレクトロニック</span>エネルギー（生命活動＝電気）</li>
+          <li>クンルンの至福には時間が無い — 至福を使うと一瞬で覚醒できる</li>
+        </ul>
+
+        <div class="note">
+          <strong>KAN</strong> — 消える。自己が消えて宇宙と一体化する瞬間。
+        </div>
+      </div>
+    </div>
+
+    <!-- レッドドラゴンボディ -->
+    <div class="practice-panel" id="pp-reddragon">
+      <div class="practice-block">
+        <h3>レッドドラゴンボディ — 基本の型</h3>
+
+        <h4>準備</h4>
+        <ol>
+          <li>鼻から3回呼吸して口から吐く</li>
+          <li><span class="highlight">瞬きしない</span>（目の浄化 — マグネティックエネルギーが見えるようになる）</li>
+          <li>身体が重たく感じてくる</li>
+          <li>だんだん息が少なくなる</li>
+        </ol>
+
+        <h4>マグネティック・ワーク</h4>
+        <ol>
+          <li>手を反対にして中指を向き合わせる</li>
+          <li>労宮（手のひらの中心）からマグネティック</li>
+          <li>ピリピリしてきたらハートに繋げる</li>
+          <li>3本指くらい開ける</li>
+          <li><span class="breath-pattern">20分 or 108呼吸</span></li>
+          <li>上に上げて降ろす</li>
+        </ol>
+
+        <h4>ガンマ波呼吸</h4>
+        <ol>
+          <li>左手・右手の親指を付けて</li>
+          <li><span class="breath-pattern">4-7-8-4：吸う・止める・吐く・止める</span></li>
+          <li><span class="breath-pattern">20分 or 108呼吸</span></li>
+        </ol>
+
+        <h4>ブッダパーム</h4>
+        <ol>
+          <li>身体をスカイ（空）に</li>
+          <li>燃えてる炭の色をイメージ</li>
+          <li>脊髄より至福を感じるポイントに意識を置く</li>
+          <li>瞬きOK・目を閉じてもよい</li>
+          <li>脊髄に至福の感覚を、右回りで脊髄が熱くなる</li>
+        </ol>
+
+        <h4>白いパール</h4>
+        <ol>
+          <li>白いパール（500円玉大）をイメージ</li>
+          <li>外側から3回上げて降ろす</li>
+        </ol>
+
+        <h4>マイクロコズミックフロー</h4>
+        <ol>
+          <li>腹から頭、背中に回してチューブ道（赤い道）</li>
+          <li>腹→頭→背中→仙骨→尾骨→生殖器</li>
+          <li>1回か3回でチューブを戻す</li>
+          <li><span class="highlight">上丹田に残さない</span></li>
+          <li>吸う時輝いて、吐く時消える</li>
+          <li>風の伝統だから逆に回す</li>
+          <li>下丹田に閉まっておく</li>
+        </ol>
+
+        <div class="note">
+          呼吸を止めている時マグネティックエネルギーが高くなる。<br>
+          身体が冷えてきた人は36回フーッと吐く。<br>
+          最後は必ず戻す。
+        </div>
+      </div>
+    </div>
+
+    <!-- 呼吸法 -->
+    <div class="practice-panel" id="pp-breath">
+      <div class="practice-block">
+        <h3>比率呼吸（レッドドラゴンの型）</h3>
+        <p>手を逆さまにして地面に水平に。目は開く。</p>
+        <p>3分の2を鼻から吸って口から：</p>
+        <ol>
+          <li><span class="breath-pattern">50%吐く → つばのみ → 鼻イン鼻アウト</span></li>
+          <li><span class="breath-pattern">90%吐く → つばのみ → 鼻イン鼻アウト</span></li>
+          <li><span class="breath-pattern">50%吐く → つばのみ → 鼻イン鼻アウト</span></li>
+          <li><span class="breath-pattern">10%吐く → つばのみ → 鼻イン鼻アウト</span></li>
+          <li><span class="breath-pattern">30%吐く → つばのみ → 鼻イン鼻アウト</span></li>
+          <li><span class="breath-pattern">10%吐く → つばのみ → 鼻イン鼻アウト</span></li>
+        </ol>
+        <p>→ ゆっくり呼吸</p>
+      </div>
+
+      <div class="practice-block">
+        <h3>ブッダパール呼吸（20分）</h3>
+        <ol>
+          <li>エネルギーは42分で結晶化される</li>
+          <li>目を瞑る</li>
+          <li>中丹田の至福の場所を探す</li>
+          <li>臍の下にドラゴンボールを降ろす（下丹田）</li>
+          <li>赤い球、身体の中は青く</li>
+          <li>腹の後ろ3cmから頭・背中に回してチューブ道（赤）</li>
+        </ol>
+      </div>
+
+      <div class="practice-block">
+        <h3>36回の呼吸</h3>
+        <ol>
+          <li>36回シュッと吹く — 中丹田</li>
+          <li>全部吐いて止めて、もう無理ってなったら身体が球に入っていく</li>
+          <li>ゆっくり呼吸</li>
+          <li>36回シュッと吹く — 下丹田</li>
+          <li>全部吐いて止めて、身体が球に入っていく</li>
+          <li>ゆっくり呼吸</li>
+        </ol>
+      </div>
+
+      <div class="practice-block">
+        <h3>洞窟呼吸（Cave Breathing / タートルブレス）</h3>
+        <p>NUURの呼吸：<span class="highlight">ン・ウ・ア・イ</span></p>
+        <ul>
+          <li>ンは舌を上に付ける（アンナ）</li>
+          <li>身体が光ってくる</li>
+          <li>あくび・脱力</li>
+        </ul>
+        <p>蝋燭を吹くように吐き、<span class="highlight">9秒止める</span>。人差し指。</p>
+        <p>火と至福のエネルギーと共に。</p>
+
+        <h4>光の知覚</h4>
+        <p>鼻を小指で摘んで、目を中指で頭の方に押す → 光が見える。耳を閉じる。</p>
+      </div>
+
+      <div class="practice-block">
+        <h3>呼吸パターン一覧</h3>
+        <div style="display:flex;flex-direction:column;gap:0.8rem;margin-top:0.5rem">
+          <div><span class="breath-pattern">4-7-8-4</span> ガンマ波・覚醒状態（プラクティス中）</div>
+          <div><span class="breath-pattern">4-4-4-4</span> プラクティスを閉じる・エネルギー定着（夜）</div>
+          <div><span class="breath-pattern">5-5-5-5</span> 身体・頭・ボディ・マインド・スピリット安定（朝昼晩ハート）</div>
+        </div>
+        <div class="note">エネルギーは使わないといけない。4-4-4-4で定着。水が必要（力強い水）。全てのプラクティスで脳をガンマ波にする（4-7-8-4）。</div>
+      </div>
+
+      <div class="practice-block">
+        <h3>至福のエネルギーストロー</h3>
+        <ol>
+          <li>オーブが貫通</li>
+          <li>吸った息を臍から肩甲骨の間へ</li>
+          <li>目で追う、息は繋ぐ</li>
+          <li>吐く — 肩甲骨から臍</li>
+          <li>腹→頭→背中→至福のエネルギーを回していく</li>
+          <li>回収して消える</li>
+          <li><span class="breath-pattern">5-5-5-5</span>でエネルギーを安定させる × 9回（3回目は口で吐く）</li>
+          <li>青空消える</li>
+          <li>吸って、止めて、吐いて、止めて、安定</li>
+          <li>最後はゆっくり3回、手を外側から中に降ろす</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- 元素ワーク -->
+    <div class="practice-panel" id="pp-elements">
+      <div class="practice-block">
+        <h3>水のワーク（ウォーターパーム）</h3>
+        <ol>
+          <li>至福の感覚を胸で高める</li>
+          <li>大きめのボールの水を用意</li>
+          <li>30cm離す</li>
+          <li>手を腰に置く</li>
+          <li>水面まで近づけて — <span class="highlight">つけない</span></li>
+          <li>小指にひっぱられて左手、左回り</li>
+          <li>息を吸いながら</li>
+          <li>吐くとき重力で手のひらを水に落として</li>
+          <li><span class="highlight">HENG（ヒン）</span>と言う</li>
+          <li>50回ずつ左右</li>
+          <li>水が動くようになる</li>
+        </ol>
+        <div class="note">「初めて教えた」と言われた技法</div>
+      </div>
+
+      <div class="practice-block">
+        <h3>木のワーク</h3>
+        <ol>
+          <li>木を探して</li>
+          <li>水と同じように小指から回して</li>
+          <li>膝を下げて吸いながら、膝を上げて</li>
+          <li>水のエレメントを引っ張って胸まで上げて</li>
+          <li><span class="highlight">HENG（ヒン）</span> — 手をシェイクしながら膝を落としながら</li>
+        </ol>
+        <div class="note">木が壊れて燃える</div>
+      </div>
+
+      <div class="practice-block">
+        <h3>風のワーク（ウインドパーム）</h3>
+        <p>風の伝統。マイクロコズミックフローを逆に回す。</p>
+      </div>
+
+      <div class="practice-block">
+        <h3>グラウンディング</h3>
+        <ol>
+          <li>3回呼吸 — 鼻から吸って重くする</li>
+          <li>人差し指でグラウンディング</li>
+          <li>身体が空洞、青空、スキンバッグ</li>
+          <li>セーフティ</li>
+          <li>仙骨で右回り → 至福</li>
+          <li>透明から出来てくる</li>
+        </ol>
+        <div class="note">
+          しっかりグラウンディングしてエネルギーを落ち着かせないとプラクティスができない。<br>
+          手を肘から上げてゆっくり3回で締める。
+        </div>
+      </div>
+
+      <div class="practice-block">
+        <h3>マオシャン・インストラクター・ハンズ</h3>
+        <ol>
+          <li>左手🫸🫲、右手は逆</li>
+          <li>両手🙌を合わせて</li>
+          <li>左手で人差し指・中指を立たせて</li>
+          <li>右手はぐー</li>
+          <li>下に降ろして前に出す</li>
+          <li>人差し指で膝の上</li>
+          <li>3回呼吸</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- スリープヨガ -->
+    <div class="practice-panel" id="pp-sleep">
+      <div class="practice-block">
+        <h3>スリープヨガ / スプリットトラベル</h3>
+        <h4>寝るバージョン（毎晩）</h4>
+        <ol>
+          <li>仰向け</li>
+          <li>左手は上</li>
+          <li>お腹に右手</li>
+          <li>半分目（半眼）</li>
+        </ol>
+        <div class="note">毎晩行う。変性意識状態へのゲートウェイ。</div>
+      </div>
+
+      <div class="practice-block">
+        <h3>ゴールデンタートル</h3>
+        <p>洞窟呼吸を用いた深い瞑想状態。鼻→口→9秒止める。</p>
+      </div>
+    </div>
+
+    <!-- 日課 -->
+    <div class="practice-panel" id="pp-schedule">
+      <div class="practice-block">
+        <h3>デイリースケジュール — 90日間</h3>
+
+        <div class="schedule-grid">
+          <span class="schedule-time">日の出</span>
+          <span>レッドドラゴンの型 + 比率呼吸 + ブッダパール</span>
+
+          <span class="schedule-time">朝・昼・晩</span>
+          <span><span class="breath-pattern">5-5-5-5</span> — ハート中心</span>
+
+          <span class="schedule-time">日の入り</span>
+          <span>レッドドラゴンの型（2回目）</span>
+
+          <span class="schedule-time">夕方〜</span>
+          <span><span class="breath-pattern">4-4-4-4</span> — エネルギー定着</span>
+
+          <span class="schedule-time">夜中 1:00</span>
+          <span>ガンマ波セッション（最も強い時間帯）</span>
+
+          <span class="schedule-time">就寝</span>
+          <span>スリープヨガ — 半眼・仰向け</span>
+
+          <span class="schedule-time">入浴時</span>
+          <span><span class="breath-pattern">5-5-5-5</span></span>
+        </div>
+
+        <div class="note" style="margin-top:1.5rem">
+          <strong>サンライズ・サンセット・夜中1時</strong> — この3つの時間帯が最も重要。90日間継続。<br>
+          プラクティス前に水を飲む。力強い水。<br>
+          頭を9個、陰陽を意識。ヘビーハイドロジェン。
+        </div>
+      </div>
+
+      <div class="practice-block">
+        <h3>浄化の呼吸（プラクティス前の準備）</h3>
+        <ol>
+          <li>亀の呼吸（洞窟の呼吸 / タートルブレス / Cave Breathing）</li>
+          <li>蝋燭を吹くように吐き、9秒止める</li>
+          <li>人差し指</li>
+          <li>火と至福のエネルギーと共に</li>
+          <li>手を肘から上げてゆっくり3回で締める</li>
+          <li>しっかりグラウンディングしてエネルギーを落ち着かせる</li>
+        </ol>
+      </div>
+
+      <div class="practice-block">
+        <h3>閉じ方</h3>
+        <ol>
+          <li><span class="breath-pattern">5-5-5-5</span> × 9回（3回目は口で吐く）</li>
+          <li>青空が消える</li>
+          <li>吸って → 止めて → 吐いて → 止めて → 安定</li>
+          <li>最後はゆっくり3回、手を外側から中に降ろす</li>
+          <li><span class="breath-pattern">4-4-4-4</span> で完全に閉じる</li>
+        </ol>
+      </div>
+
+      <div class="practice-block">
+        <h3>洞窟リトリート</h3>
+        <p>全ての修練の集大成。洞窟内で集中的にプラクティスを行う。</p>
+        <ul>
+          <li>アース → スピリット → ヘブン</li>
+          <li>親指で立つ（親指を使う/使わない）</li>
+          <li>膝を曲げる</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- サイエンス -->
+    <div class="practice-panel" id="pp-science">
+      <div class="practice-block">
+        <h3>グラウンディングの神経科学</h3>
+        <p>意識が頭にあるとき → 交感神経（緊張）優位。肩・首が固まり、呼吸は浅く、未来の選択が不安寄りに。</p>
+        <p>意識が足に落ちてグラウンディングが深くなると → 副交感神経（回復モード）→ さらに深まると<span class="highlight">迷走神経がON</span></p>
+
+        <div class="science-card">
+          <h5>迷走神経ONで分泌される物質</h5>
+          <div class="substance-list">
+            <div class="substance"><span class="substance-name">アセチルコリン</span><span class="substance-effect">落ち着き（迷走神経の末端から）</span></div>
+            <div class="substance"><span class="substance-name">オキシトシン</span><span class="substance-effect">安心・ブリス・胸の温かさ（視床下部・下垂体から）</span></div>
+            <div class="substance"><span class="substance-name">GABA</span><span class="substance-effect">頭の静寂・雑念消失（脳全体から）</span></div>
+          </div>
+        </div>
+
+        <div class="science-card">
+          <h5>同時に働くと起こること</h5>
+          <div class="substance-list">
+            <div class="substance"><span class="substance-name">頭</span><span class="substance-effect">静か</span></div>
+            <div class="substance"><span class="substance-name">胸</span><span class="substance-effect">温かい</span></div>
+            <div class="substance"><span class="substance-name">仙骨</span><span class="substance-effect">自由</span></div>
+            <div class="substance"><span class="substance-name">背骨</span><span class="substance-effect">流体</span></div>
+            <div class="substance"><span class="substance-name">全身</span><span class="substance-effect">ブリス発生</span></div>
+          </div>
+        </div>
+
+        <div class="science-card">
+          <h5>体内の至福物質ランキング</h5>
+          <div class="substance-list">
+            <div class="substance"><span class="substance-name">🏆 β-エンドルフィン</span><span class="substance-effect">鎮痛 × 恍惚 × 身体の自由化（最強の内因性オピオイド）</span></div>
+            <div class="substance"><span class="substance-name">🌸 オキシトシン</span><span class="substance-effect">胸の温かさ × 愛 × 安心（ブリスの中心）</span></div>
+            <div class="substance"><span class="substance-name">🧘 GABA</span><span class="substance-effect">思考停止 × 無念無想（静寂と透明さ）</span></div>
+            <div class="substance"><span class="substance-name">✨ アナンダミド</span><span class="substance-effect">全身の一体感（"恍惚の分子"）</span></div>
+          </div>
+        </div>
+
+        <div class="note" style="margin-top:1.5rem">
+          <strong>迷走神経ON ＝ ブリスが自動発生する神経状態</strong><br><br>
+          頭に意識があると不安の未来を選ぶ。<br>
+          足に意識が落ちてグラウンディングするほど、安心とブリスの未来を選ぶ身体になる。<br><br>
+          グラウンディングは：<br>
+          ① 緊張をOFF（交感神経OFF）<br>
+          ② 身体を整え（副交感神経ON）<br>
+          ③ 至福を生むスイッチ（迷走神経ON）<br>
+          人間にとって最も本質的で強力な身体メカニズム。
+        </div>
+      </div>
+
+      <div class="practice-block">
+        <h3>エネルギーの原理</h3>
+        <ul>
+          <li>クンルンで高めているのは<span class="highlight">マグネティック</span>エネルギー</li>
+          <li>身体は<span class="highlight">エレクトロニック</span>エネルギー（生命活動＝電気）</li>
+          <li>呼吸を止めている時、マグネティックエネルギーが最も高くなる</li>
+          <li>丹田のバキュームからエネルギーを取る</li>
+          <li>エネルギーは使わないといけない — 4-4-4-4で定着</li>
+          <li>20分のプラクティスのエネルギーは42分で結晶化される</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== 夢 ===== -->
+<div id="dreams" class="section">
+  <div class="dreams-container">
+    <div>
+      <h1 class="section-title">夢</h1>
+      <p class="section-subtitle">潜在意識からの通信<br>忘れる前に、ここに降ろす</p>
+    </div>
+
+    <button class="dream-add-btn" onclick="toggleDreamForm()">＋ 新しい夢を記録</button>
+
+    <div class="dream-form" id="dreamForm">
+      <label>日付</label>
+      <input type="date" id="dreamDate">
+      <label>夢の内容</label>
+      <textarea id="dreamContent" placeholder="見たものをそのまま書く。断片でいい。"></textarea>
+      <label>タグ（カンマ区切り）</label>
+      <input type="text" id="dreamTags" placeholder="例: 宇宙人, 母, 雪" style="background:rgba(255,255,255,0.02);border:1px solid rgba(144,96,192,0.15);color:var(--text);font-family:'Noto Serif JP',serif;padding:0.5rem;font-size:0.85rem">
+      <div class="dream-form-actions">
+        <button onclick="toggleDreamForm()">やめる</button>
+        <button onclick="saveDream()">記録する</button>
+      </div>
+    </div>
+
+    <div id="dreamList"></div>
+  </div>
+</div>
+
+<!-- ===== 記録 ===== -->
+<div id="archive" class="section">
+  <div class="archive-container">
+    <div>
+      <h1 class="section-title">記録</h1>
+      <p class="section-subtitle">降ろしたものの軌跡</p>
+    </div>
+    <div id="archiveList">
+      <div class="archive-empty">まだ記録はない。<br>書き込みを始めることで、ここに蓄積される。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL ===== -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title" id="modalTitle"></div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- ===== INPUT ===== -->
+<div class="input-area">
+  <div class="input-row">
+    <textarea id="mainInput" placeholder="意識を言葉にする..." rows="1"></textarea>
+    <button onclick="commitInput()" title="降ろす">↓</button>
+  </div>
+</div>
+
+<script>
+// ===== STATE =====
+const state = {
+  projection: { physical: '', etheric: '', psychic: '', noetic: '', chakras: {} },
+  higherSelf: { form: '', voice: '', message: '', imageUrl: '' },
+  temple: { main: '', rooms: {} },
+  tree: { sephiroth: {}, worlds: {} },
+  archive: []
+};
+
+function loadState() {
+  const saved = localStorage.getItem('korin-state');
+  if (saved) {
+    const parsed = JSON.parse(saved);
+    // Deep merge
+    if (parsed.projection) Object.assign(state.projection, parsed.projection);
+    if (parsed.higherSelf) Object.assign(state.higherSelf, parsed.higherSelf);
+    if (parsed.temple) Object.assign(state.temple, parsed.temple);
+    if (parsed.tree) Object.assign(state.tree, parsed.tree);
+    if (parsed.archive) state.archive = parsed.archive;
+    if (parsed.pathway) state.pathway = parsed.pathway;
+    if (parsed.dreams) state.dreams = parsed.dreams;
+
+    // Restore projection fields
+    document.querySelectorAll('.attr-value[data-placeholder]').forEach(el => {
+      const key = el.closest('.attr-card').dataset.key;
+      if (state.projection[key]) {
+        el.textContent = state.projection[key];
+        el.style.color = 'var(--text)';
+      }
+    });
+    // Restore temple text
+    const templeText = document.querySelector('.temple-text[data-key="temple-main"]');
+    if (state.temple.main) {
+      templeText.textContent = state.temple.main;
+      templeText.style.color = 'var(--text)';
+    }
+    // Restore higher self fields
+    document.querySelectorAll('[data-hs]').forEach(el => {
+      const key = el.dataset.hs;
+      if (state.higherSelf[key]) {
+        el.textContent = state.higherSelf[key];
+        el.style.color = 'var(--text)';
+      }
+    });
+    // Restore higher self image
+    if (state.higherSelf.imageUrl) {
+      document.getElementById('hsImage').src = state.higherSelf.imageUrl;
+    }
+    renderArchive();
+  }
+}
+
+function saveState() {
+  document.querySelectorAll('.attr-value[data-placeholder]').forEach(el => {
+    const key = el.closest('.attr-card').dataset.key;
+    const text = el.textContent.trim();
+    if (text !== el.dataset.placeholder) state.projection[key] = text;
+  });
+  const templeText = document.querySelector('.temple-text[data-key="temple-main"]');
+  const tText = templeText.textContent.trim();
+  if (tText !== templeText.dataset.placeholder) state.temple.main = tText;
+  document.querySelectorAll('[data-hs]').forEach(el => {
+    const text = el.textContent.trim();
+    if (text !== (el.dataset.placeholder || '')) state.higherSelf[el.dataset.hs] = text;
+  });
+  localStorage.setItem('korin-state', JSON.stringify(state));
+}
+
+setInterval(saveState, 3000);
+
+// ===== NAVIGATION =====
+function switchSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+  saveState();
+  if (id === 'tree') setTimeout(drawTreePaths, 100);
+  if (id === 'higherself') setTimeout(initHigherSelfCanvas, 100);
+}
+
+// ===== ARCHIVE =====
+function renderArchive() {
+  const list = document.getElementById('archiveList');
+  if (state.archive.length === 0) {
+    list.innerHTML = '<div class="archive-empty">まだ記録はない。<br>書き込みを始めることで、ここに蓄積される。</div>';
+    return;
+  }
+  list.innerHTML = state.archive.map((entry, i) => `
+    <div class="archive-entry">
+      <div class="archive-date">${entry.date} — ${entry.section}</div>
+      <div class="archive-text">${entry.text}</div>
+    </div>
+  `).reverse().join('');
+}
+
+// ===== INPUT =====
+function commitInput() {
+  const input = document.getElementById('mainInput');
+  const text = input.value.trim();
+  if (!text) return;
+
+  const sectionNames = {
+    projection: '自己投影', higherself: '高次の自己', tree: '生命の樹', temple: '神殿', practice: '修練', dreams: '夢', archive: '記録'
+  };
+  const activeId = document.querySelector('.section.active').id;
+  const now = new Date();
+  const dateStr = `${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+
+  state.archive.push({ date: dateStr, section: sectionNames[activeId] || activeId, text });
+  renderArchive();
+  saveState();
+  input.value = '';
+  input.style.height = '44px';
+  input.placeholder = '記録した';
+  setTimeout(() => { input.placeholder = '意識を言葉にする...'; }, 1500);
+}
+
+document.getElementById('mainInput').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); commitInput(); }
+});
+
+document.getElementById('mainInput').addEventListener('input', function() {
+  this.style.height = '44px';
+  this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+});
+
+// ===== PRACTICE PANELS =====
+function switchPractice(id) {
+  document.querySelectorAll('.practice-panel').forEach(p => p.classList.remove('p-visible'));
+  document.querySelectorAll('.practice-nav button').forEach(b => b.classList.remove('p-active'));
+  document.getElementById('pp-' + id).classList.add('p-visible');
+  event.target.classList.add('p-active');
+}
+
+// ===== DREAMS =====
+const defaultDreams = [
+  {
+    date: '2026-04-13',
+    content: `物凄い高貴な人達がいた。髪が長かった。異様な人達、天皇家みたいな。とにかく高貴な宇宙人。彼らの一人が呼んでくれた。その一人が妻に殴られたみたいで笑ってた。10年腹違いの子供がいるみたいなこと言っていて。
+
+呼ばれて進むとそこらじゅうに彼の血と芸術的な作品があった。色んな芸術を一つ一つ見せてくれた。とても綺麗だった。そこにも不思議な歌がある。特殊な未来の歌。芸術的、ガガのラップバージョンみたいな。Lの歌かなんかを歌っていた。
+
+進むと母がいた。
+
+場面が変わり、家の外に出る。昔住んでいた団地から外を見るとそこは大自然の中。母が寝るのをみはからい、外に出る。ベランダから。そこは雪国。めちゃくちゃ雪が降っているので、服を着て外に出る。めっちゃすごい景色。雪が吹いて寒い場所。そこで何か不思議な物を拾う。
+
+場面が変わる。チョコかな。沢山のチョコをもらう。試作品があって食べる。そしたら商品食べてしまった。店員に言うがそれしかないと言われてそれをとりあえず買う。`,
+    tags: ['高貴な宇宙人', '芸術', '未来の歌', '母', '雪国', '大自然', '団地'],
+    interpretation: '',
+    hypnagogic: `起きて変性意識に入る。右手はみぞおち、左手は親指をしまい小指を立てていた。
+
+ベガ。太陽系。ベガスナープ — 胸の至福無極のエネルギー。カラフルで沢山のケーブルの宇宙人。物凄い数のカラフルなケーブルが動いていた。交流しようとしていた。不思議な感覚で少し怖くなってしまい、お互いに会話までは出来なかった。`
+  }
+];
+
+function initDreams() {
+  if (!state.dreams) state.dreams = [];
+  if (state.dreams.length === 0) {
+    state.dreams = defaultDreams;
+    saveState();
+  }
+  renderDreams();
+}
+
+function toggleDreamForm() {
+  const form = document.getElementById('dreamForm');
+  form.classList.toggle('open');
+  if (form.classList.contains('open')) {
+    const now = new Date();
+    document.getElementById('dreamDate').value = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+  }
+}
+
+function saveDream() {
+  const date = document.getElementById('dreamDate').value;
+  const content = document.getElementById('dreamContent').value.trim();
+  const tagsStr = document.getElementById('dreamTags').value.trim();
+  if (!content) return;
+
+  const tags = tagsStr ? tagsStr.split(',').map(t => t.trim()).filter(Boolean) : [];
+  state.dreams.unshift({ date, content, tags, interpretation: '', hypnagogic: '' });
+  saveState();
+  renderDreams();
+  toggleDreamForm();
+  document.getElementById('dreamContent').value = '';
+  document.getElementById('dreamTags').value = '';
+}
+
+function renderDreams() {
+  const list = document.getElementById('dreamList');
+  if (!list) return;
+  if (!state.dreams || state.dreams.length === 0) {
+    list.innerHTML = '<div class="archive-empty" style="color:rgba(176,128,224,0.4)">まだ夢の記録はない。</div>';
+    return;
+  }
+  list.innerHTML = state.dreams.map((dream, i) => {
+    const dateFormatted = dream.date.replace(/-/g, '.');
+    const tagsHtml = dream.tags.map(t => `<span class="dream-tag">${t}</span>`).join('');
+    const hypnagogicHtml = dream.hypnagogic ? `
+      <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid rgba(144,96,192,0.1)">
+        <h4 style="font-size:0.65rem;color:#e0a050;letter-spacing:0.2em;margin-bottom:0.5rem">変性意識 — 覚醒直後</h4>
+        <div style="font-size:0.85rem;line-height:2;color:var(--text);white-space:pre-line">${dream.hypnagogic}</div>
+      </div>
+    ` : '';
+    return `
+      <div class="dream-entry">
+        <div class="dream-date">${dateFormatted}</div>
+        <div class="dream-body">${dream.content}</div>
+        ${tagsHtml ? `<div class="dream-tags">${tagsHtml}</div>` : ''}
+        ${hypnagogicHtml}
+        <div class="dream-interpretation">
+          <h4>解釈・気づき</h4>
+          <div contenteditable="true" data-dream-interp="${i}" data-placeholder="この夢の意味を考える...">${dream.interpretation || ''}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Re-init placeholders for dream interpretations
+  list.querySelectorAll('[contenteditable][data-placeholder]').forEach(el => {
+    if (!el.textContent.trim()) {
+      el.textContent = el.dataset.placeholder;
+      el.style.color = 'var(--text-dim)';
+    }
+    el.addEventListener('focus', () => {
+      if (el.textContent === el.dataset.placeholder) { el.textContent = ''; el.style.color = 'var(--text)'; }
+    });
+    el.addEventListener('blur', () => {
+      const idx = parseInt(el.dataset.dreamInterp);
+      const text = el.textContent.trim();
+      if (text && text !== el.dataset.placeholder) {
+        state.dreams[idx].interpretation = text;
+        saveState();
+      }
+      if (!text) { el.textContent = el.dataset.placeholder; el.style.color = 'var(--text-dim)'; }
+    });
+  });
+}
+
+// ===== PATHWAY MAP =====
+const pathwayData = [
+  { id: 'crown', label: '頭頂', status: 'open', note: '' },
+  { id: 'forehead', label: '額・眉間', status: 'open', note: '' },
+  { id: 'jaw', label: '顎・首', status: 'open', note: '' },
+  { id: 'shoulder', label: '肩', status: 'current', note: '2026.04.14 — 詰まり解放' },
+  { id: 'clavicle', label: '鎖骨', status: 'current', note: '2026.04.14 — ここまで到達' },
+  { id: 'chest', label: '胸・心臓', status: 'blocked', note: '' },
+  { id: 'diaphragm', label: '横隔膜', status: 'blocked', note: '' },
+  { id: 'abdomen', label: '腹部', status: 'blocked', note: '' },
+  { id: 'pelvis', label: '骨盤底', status: 'blocked', note: '' },
+  { id: 'sacrum', label: '仙骨 ◎', status: 'blocked', note: '目標' },
+];
+
+function initPathwayMap() {
+  // Load saved pathway state
+  const savedPathway = state.pathway || null;
+  if (savedPathway) {
+    savedPathway.forEach((saved, i) => {
+      if (pathwayData[i]) {
+        pathwayData[i].status = saved.status;
+        pathwayData[i].note = saved.note;
+      }
+    });
+  }
+  renderPathwayMap();
+}
+
+function renderPathwayMap() {
+  const container = document.getElementById('pathwayMap');
+  if (!container) return;
+  let html = '';
+  pathwayData.forEach((node, i) => {
+    const statusLabel = node.status === 'open' ? '開通' : node.status === 'current' ? '進行中' : '未開通';
+    const labelClass = node.status === 'blocked' ? 'blocked-label' : '';
+    html += `
+      <div class="pathway-node" data-pathway-idx="${i}" onclick="togglePathwayStatus(${i})">
+        <div class="pathway-dot ${node.status}"></div>
+        <span class="pathway-label ${labelClass}">${node.label}</span>
+        <span class="pathway-status ${node.status}">${statusLabel}</span>
+      </div>`;
+    if (node.note) {
+      html += `<div class="pathway-note">${node.note}</div>`;
+    }
+    if (i < pathwayData.length - 1) {
+      const lineStatus = node.status === 'blocked' ? 'blocked' : 'open';
+      html += `<div class="pathway-line ${lineStatus}"></div>`;
+    }
+  });
+  container.innerHTML = html;
+}
+
+function togglePathwayStatus(idx) {
+  const node = pathwayData[idx];
+  const cycle = ['blocked', 'current', 'open'];
+  const nextIdx = (cycle.indexOf(node.status) + 1) % cycle.length;
+  node.status = cycle[nextIdx];
+  if (node.status === 'current' || node.status === 'open') {
+    const now = new Date();
+    const dateStr = `${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')}`;
+    if (!node.note) node.note = dateStr;
+  }
+  state.pathway = pathwayData.map(n => ({ status: n.status, note: n.note }));
+  saveState();
+  renderPathwayMap();
+}
+
+// ===== CHAKRA INTERACTION =====
+document.querySelectorAll('.chakra').forEach(ch => {
+  ch.addEventListener('click', () => {
+    const name = ch.dataset.chakra;
+    const names = {
+      'crown': 'サハスラーラ — 冠', 'third-eye': 'アジュナ — 第三の眼', 'throat': 'ヴィシュッダ — 喉',
+      'heart': 'アナハタ — 心臓', 'solar': 'マニプラ — 太陽神経叢', 'sacral': 'スヴァディスターナ — 仙骨', 'root': 'ムーラダーラ — 根'
+    };
+    openModal(names[name] || name, `<div contenteditable="true" data-chakra="${name}">${state.projection.chakras[name] || ''}</div>`, 'chakra');
+  });
+});
+
+// ===== ROOM INTERACTION =====
+document.querySelectorAll('.room-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const room = card.dataset.room;
+    const names = { sanctuary: '聖所', library: '書庫', mirror: '鏡の間', forge: '炉', garden: '庭園', threshold: '門' };
+    openModal(names[room], `<div contenteditable="true" data-room="${room}" style="min-height:6em">${state.temple.rooms[room] || ''}</div><p style="margin-top:1rem;font-size:0.75rem;color:var(--text-dim)">この部屋の姿を記述する。壁の色、光源、置かれているもの、空気の質。</p>`, 'room');
+  });
+});
+
+// ===== SEPHIRA INTERACTION =====
+const sephData = {
+  keter:   { name: 'ケテル — 王冠', meaning: '純粋な存在、神の意志、無限からの最初の顕現', color: '白・輝き', planet: '原初の旋回', tarot: '四つのエース', element: '根源' },
+  chokmah: { name: 'コクマー — 叡智', meaning: '能動的な力、父性原理、宇宙の最初の動き', color: '灰・真珠', planet: '黄道帯/天王星', tarot: '四つの2・騎士', element: '火' },
+  binah:   { name: 'ビナー — 理解', meaning: '受容する知性、母性原理、形の始まり', color: '黒・深紅', planet: '土星', tarot: '四つの3・女王', element: '水' },
+  daat:    { name: 'ダアト — 知識（隠されたセフィラ）', meaning: '深淵を越える橋、非セフィラ、知識と経験の統合', color: '虹色・透明', planet: '冥王星', tarot: '—', element: '虚空' },
+  chesed:  { name: 'ケセド — 慈悲', meaning: '慈愛、拡張、秩序の構築、王としての力', color: '青', planet: '木星', tarot: '四つの4・王', element: '水' },
+  gevurah: { name: 'ゲブラー — 峻厳', meaning: '力、裁き、制限、不要なものを切る剣', color: '赤', planet: '火星', tarot: '四つの5・戦士', element: '火' },
+  tiferet: { name: 'ティファレト — 美', meaning: '中心、調和、犠牲と復活、キリスト意識', color: '黄金', planet: '太陽', tarot: '四つの6・王子', element: '風' },
+  netzach: { name: 'ネツァク — 勝利', meaning: '感情、欲望、芸術、自然の力、ヴィーナス', color: '緑', planet: '金星', tarot: '四つの7', element: '火' },
+  hod:     { name: 'ホド — 栄光', meaning: '知性、言語、論理、水星の俊敏さ', color: '橙', planet: '水星', tarot: '四つの8', element: '水' },
+  yesod:   { name: 'イェソド — 基盤', meaning: 'アストラル界、夢、潜在意識、月の力', color: '紫', planet: '月', tarot: '四つの9', element: '風' },
+  malkuth: { name: 'マルクト — 王国', meaning: '物質界、肉体、地上の現実、すべての顕現の結実', color: '黄土・黒・橄欖・赤褐', planet: '地球', tarot: '四つの10・王女', element: '地' }
+};
+
+document.querySelectorAll('.sephira').forEach(el => {
+  el.addEventListener('click', () => {
+    const key = el.dataset.seph;
+    const data = sephData[key];
+    const saved = state.tree.sephiroth[key] || '';
+    const html = `
+      <div style="margin-bottom:1.5rem">
+        <div style="font-size:0.75rem;color:var(--text-dim);margin-bottom:0.3rem">${data.meaning}</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-top:1rem;font-size:0.75rem">
+          <div><span style="color:var(--gold)">色:</span> ${data.color}</div>
+          <div><span style="color:var(--gold)">惑星:</span> ${data.planet}</div>
+          <div><span style="color:var(--gold)">タロット:</span> ${data.tarot}</div>
+          <div><span style="color:var(--gold)">元素:</span> ${data.element}</div>
+        </div>
+      </div>
+      <div class="modal-section-label">自分の体験・気づき</div>
+      <div contenteditable="true" data-seph-note="${key}" style="min-height:4em">${saved}</div>
+    `;
+    openModal(data.name, html, 'sephira');
+  });
+});
+
+// World bars
+document.querySelectorAll('.world-bar').forEach(bar => {
+  bar.addEventListener('click', () => {
+    const world = bar.dataset.world;
+    const worldData = {
+      atziluth: { name: 'アツィルト — 流出界', desc: '神名の世界。純粋な原型。ここではすべてが一なるものの直接的な表現。' },
+      briah: { name: 'ブリアー — 創造界', desc: '大天使の世界。創造的知性が原型を受け取り、形を与え始める。' },
+      yetzirah: { name: 'イェツィラー — 形成界', desc: '天使の世界。感情と思考が形態を織りなす。アストラル界に対応。' },
+      assiah: { name: 'アッシャー — 活動界', desc: '物質の世界。すべてが最終的に顕現する場。日常の現実。' }
+    };
+    const d = worldData[world];
+    const saved = state.tree.worlds[world] || '';
+    openModal(d.name, `<div style="margin-bottom:1rem;font-size:0.8rem;color:var(--text-dim)">${d.desc}</div><div class="modal-section-label">記録</div><div contenteditable="true" data-world-note="${world}" style="min-height:4em">${saved}</div>`, 'world');
+  });
+});
+
+// ===== HIGHER SELF IMAGE =====
+document.getElementById('hsImageArea').addEventListener('click', () => {
+  const url = prompt('ハイヤーセルフの画像URL:');
+  if (url && url.trim()) {
+    state.higherSelf.imageUrl = url.trim();
+    document.getElementById('hsImage').src = url.trim();
+    document.getElementById('hsImage').style.display = 'block';
+    document.getElementById('hsImagePlaceholder').style.display = 'none';
+    saveState();
+  }
+});
+
+// ===== MODAL =====
+function openModal(title, bodyHTML, type) {
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalBody').innerHTML = bodyHTML;
+  const modal = document.getElementById('modal');
+  modal.classList.add('open');
+  modal.dataset.type = type;
+  const editable = modal.querySelector('[contenteditable]');
+  if (editable) setTimeout(() => editable.focus(), 100);
+}
+
+function closeModal() {
+  const modal = document.getElementById('modal');
+  // Save chakra
+  const chakraEl = modal.querySelector('[data-chakra]');
+  if (chakraEl) state.projection.chakras[chakraEl.dataset.chakra] = chakraEl.textContent.trim();
+  // Save room
+  const roomEl = modal.querySelector('[data-room]');
+  if (roomEl) state.temple.rooms[roomEl.dataset.room] = roomEl.textContent.trim();
+  // Save sephira note
+  const sephEl = modal.querySelector('[data-seph-note]');
+  if (sephEl) state.tree.sephiroth[sephEl.dataset.sephNote] = sephEl.textContent.trim();
+  // Save world note
+  const worldEl = modal.querySelector('[data-world-note]');
+  if (worldEl) state.tree.worlds[worldEl.dataset.worldNote] = worldEl.textContent.trim();
+  saveState();
+  modal.classList.remove('open');
+}
+
+document.getElementById('modal').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('modal')) closeModal();
+});
+
+// ===== SACRED GEOMETRY (Background) =====
+function initSacredGeometry() {
+  const canvas = document.getElementById('sacredCanvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  function drawFlowerOfLife(cx, cy, r, depth) {
+    if (depth <= 0) return;
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.stroke();
+    if (depth > 1) {
+      for (let i = 0; i < 6; i++) {
+        const angle = (Math.PI / 3) * i;
+        drawFlowerOfLife(cx + r * Math.cos(angle), cy + r * Math.sin(angle), r, depth - 1);
+      }
+    }
+  }
+
+  ctx.strokeStyle = 'rgba(201, 168, 76, 0.5)';
+  ctx.lineWidth = 0.5;
+  drawFlowerOfLife(canvas.width / 2, canvas.height / 2, 60, 3);
+}
+
+// ===== TREE OF LIFE PATHS =====
+function drawTreePaths() {
+  const view = document.getElementById('treeView');
+  const canvas = document.getElementById('treeCanvas');
+  if (!view.offsetWidth) return;
+  canvas.width = view.offsetWidth;
+  canvas.height = view.offsetHeight;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Get sephira centers
+  function getPos(seph) {
+    const el = document.querySelector(`[data-seph="${seph}"]`);
+    if (!el) return null;
+    return {
+      x: el.offsetLeft + el.offsetWidth / 2,
+      y: el.offsetTop + el.offsetHeight / 2
+    };
+  }
+
+  // 22 paths (traditional connections)
+  const paths = [
+    ['keter','chokmah'], ['keter','binah'], ['keter','tiferet'],
+    ['chokmah','binah'], ['chokmah','chesed'], ['chokmah','tiferet'],
+    ['binah','gevurah'], ['binah','tiferet'],
+    ['chesed','gevurah'], ['chesed','tiferet'], ['chesed','netzach'],
+    ['gevurah','tiferet'], ['gevurah','hod'],
+    ['tiferet','netzach'], ['tiferet','hod'], ['tiferet','yesod'],
+    ['netzach','hod'], ['netzach','yesod'],
+    ['hod','yesod'],
+    ['yesod','malkuth'],
+    // Da'at connections (subtle)
+    ['daat','chokmah'], ['daat','binah']
+  ];
+
+  paths.forEach(([a, b]) => {
+    const pa = getPos(a);
+    const pb = getPos(b);
+    if (!pa || !pb) return;
+    ctx.beginPath();
+    ctx.moveTo(pa.x, pa.y);
+    ctx.lineTo(pb.x, pb.y);
+    const isDaat = a === 'daat' || b === 'daat';
+    ctx.strokeStyle = isDaat ? 'rgba(255,255,255,0.06)' : 'rgba(201, 168, 76, 0.12)';
+    ctx.lineWidth = isDaat ? 0.5 : 0.8;
+    if (isDaat) ctx.setLineDash([3, 5]);
+    else ctx.setLineDash([]);
+    ctx.stroke();
+    ctx.setLineDash([]);
+  });
+}
+
+// ===== HIGHER SELF CANVAS =====
+function initHigherSelfCanvas() {
+  const canvas = document.getElementById('higherSelfCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  canvas.width = canvas.offsetWidth || 320;
+  canvas.height = canvas.offsetHeight || 400;
+  const w = canvas.width, h = canvas.height;
+  const cx = w / 2, cy = h / 2;
+
+  let time = 0;
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+
+    // Outer aura rings
+    for (let i = 5; i >= 0; i--) {
+      const r = 80 + i * 25 + Math.sin(time + i) * 5;
+      const alpha = 0.03 + Math.sin(time * 0.5 + i * 0.5) * 0.015;
+      const grd = ctx.createRadialGradient(cx, cy - 20, r * 0.3, cx, cy - 20, r);
+      grd.addColorStop(0, `rgba(255, 220, 150, ${alpha * 2})`);
+      grd.addColorStop(0.5, `rgba(200, 180, 255, ${alpha})`);
+      grd.addColorStop(1, 'transparent');
+      ctx.fillStyle = grd;
+      ctx.beginPath();
+      ctx.ellipse(cx, cy - 20, r * 0.7, r, 0, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Central light figure (silhouette of light)
+    const figGrd = ctx.createRadialGradient(cx, cy - 10, 0, cx, cy - 10, 60);
+    figGrd.addColorStop(0, `rgba(255, 240, 200, ${0.25 + Math.sin(time * 0.7) * 0.1})`);
+    figGrd.addColorStop(0.5, `rgba(220, 200, 255, 0.1)`);
+    figGrd.addColorStop(1, 'transparent');
+    ctx.fillStyle = figGrd;
+    ctx.beginPath();
+    ctx.ellipse(cx, cy - 10, 35, 70, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Crown light
+    const crownGrd = ctx.createRadialGradient(cx, cy - 90, 0, cx, cy - 90, 40);
+    crownGrd.addColorStop(0, `rgba(255, 255, 255, ${0.15 + Math.sin(time * 0.6) * 0.08})`);
+    crownGrd.addColorStop(1, 'transparent');
+    ctx.fillStyle = crownGrd;
+    ctx.beginPath();
+    ctx.arc(cx, cy - 90, 40, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Rising particles
+    for (let i = 0; i < 12; i++) {
+      const angle = (Math.PI * 2 / 12) * i + time * 0.3;
+      const dist = 50 + Math.sin(time + i * 2) * 20;
+      const px = cx + Math.cos(angle) * dist * 0.5;
+      const py = cy - 10 + Math.sin(angle) * dist - Math.sin(time * 0.8 + i) * 30;
+      const size = 1 + Math.sin(time + i) * 0.5;
+      ctx.beginPath();
+      ctx.arc(px, py, size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255, 220, 180, ${0.2 + Math.sin(time + i) * 0.1})`;
+      ctx.fill();
+    }
+
+    time += 0.015;
+    requestAnimationFrame(draw);
+  }
+
+  draw();
+}
+
+// ===== TEMPLE CANVAS =====
+function initTempleCanvas() {
+  const canvas = document.getElementById('templeCanvas');
+  const ctx = canvas.getContext('2d');
+
+  function resize() {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+    draw();
+  }
+
+  function draw() {
+    const w = canvas.width, h = canvas.height;
+    ctx.clearRect(0, 0, w, h);
+
+    const grd = ctx.createLinearGradient(0, 0, 0, h);
+    grd.addColorStop(0, '#0f0f18');
+    grd.addColorStop(1, '#0a0a12');
+    ctx.fillStyle = grd;
+    ctx.fillRect(0, 0, w, h);
+
+    const vanishX = w / 2, vanishY = h * 0.35;
+    ctx.strokeStyle = 'rgba(201, 168, 76, 0.08)';
+    ctx.lineWidth = 1;
+
+    for (let i = 0; i <= 10; i++) {
+      const y = vanishY + (h - vanishY) * (i / 10);
+      const spread = (y - vanishY) / (h - vanishY);
+      const lx = vanishX - spread * w * 0.5;
+      const rx = vanishX + spread * w * 0.5;
+      ctx.beginPath();
+      ctx.moveTo(lx, y);
+      ctx.lineTo(rx, y);
+      ctx.stroke();
+    }
+
+    for (let i = -3; i <= 3; i++) {
+      if (i === 0) continue;
+      ctx.beginPath();
+      ctx.moveTo(vanishX + i * 8, vanishY);
+      ctx.lineTo(vanishX + i * 40, h);
+      ctx.strokeStyle = 'rgba(201, 168, 76, 0.06)';
+      ctx.stroke();
+    }
+
+    const lightGrd = ctx.createRadialGradient(vanishX, vanishY, 0, vanishX, vanishY, 120);
+    lightGrd.addColorStop(0, 'rgba(201, 168, 76, 0.12)');
+    lightGrd.addColorStop(1, 'transparent');
+    ctx.fillStyle = lightGrd;
+    ctx.fillRect(0, 0, w, h);
+
+    ctx.beginPath();
+    ctx.ellipse(vanishX, vanishY + 20, 80, 60, 0, Math.PI, 0);
+    ctx.strokeStyle = 'rgba(201, 168, 76, 0.12)';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+}
+
+// ===== INIT =====
+window.addEventListener('DOMContentLoaded', () => {
+  initSacredGeometry();
+  initTempleCanvas();
+  loadState();
+  initPathwayMap();
+  initDreams();
+  // Tree paths drawn when section becomes visible
+});
+
+window.addEventListener('resize', () => {
+  initSacredGeometry();
+  drawTreePaths();
+});
+
+// Placeholder behavior
+document.querySelectorAll('[contenteditable][data-placeholder]').forEach(el => {
+  if (!el.textContent.trim()) {
+    el.textContent = el.dataset.placeholder;
+    el.style.color = 'var(--text-dim)';
+  }
+  el.addEventListener('focus', () => {
+    if (el.textContent === el.dataset.placeholder) {
+      el.textContent = '';
+      el.style.color = 'var(--text)';
+    }
+  });
+  el.addEventListener('blur', () => {
+    if (!el.textContent.trim()) {
+      el.textContent = el.dataset.placeholder;
+      el.style.color = 'var(--text-dim)';
+    } else {
+      el.style.color = 'var(--text)';
+    }
+  });
+});
+</script>
+
+</body>
+</html>
