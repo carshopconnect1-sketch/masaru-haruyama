@@ -794,6 +794,163 @@
     margin-bottom: 0.5rem;
   }
 
+  /* ===== 夢 (DREAMS) ===== */
+  .dreams-container {
+    max-width: 750px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .dream-entry {
+    border: 1px solid rgba(144, 96, 192, 0.15);
+    padding: 2rem;
+    transition: all 0.3s;
+    position: relative;
+  }
+
+  .dream-entry:hover {
+    border-color: rgba(144, 96, 192, 0.3);
+    background: rgba(144, 96, 192, 0.02);
+  }
+
+  .dream-date {
+    font-size: 0.7rem;
+    color: #b080e0;
+    letter-spacing: 0.15em;
+    margin-bottom: 0.8rem;
+  }
+
+  .dream-body {
+    font-size: 0.9rem;
+    line-height: 2.2;
+    color: var(--text);
+    white-space: pre-line;
+  }
+
+  .dream-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .dream-tag {
+    font-size: 0.6rem;
+    color: #b080e0;
+    border: 1px solid rgba(144, 96, 192, 0.2);
+    padding: 0.2rem 0.6rem;
+    letter-spacing: 0.1em;
+  }
+
+  .dream-interpretation {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(144, 96, 192, 0.1);
+  }
+
+  .dream-interpretation h4 {
+    font-size: 0.65rem;
+    color: #b080e0;
+    letter-spacing: 0.2em;
+    margin-bottom: 0.5rem;
+  }
+
+  .dream-interpretation [contenteditable] {
+    font-size: 0.85rem;
+    line-height: 2;
+    color: var(--text-dim);
+    min-height: 2em;
+  }
+
+  .dream-interpretation [contenteditable]:focus {
+    outline: none;
+    color: var(--text);
+  }
+
+  .dream-add-btn {
+    background: none;
+    border: 1px dashed rgba(144, 96, 192, 0.2);
+    color: #b080e0;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.8rem;
+    padding: 1.5rem;
+    cursor: pointer;
+    letter-spacing: 0.15em;
+    transition: all 0.3s;
+    width: 100%;
+  }
+
+  .dream-add-btn:hover {
+    border-color: rgba(144, 96, 192, 0.4);
+    background: rgba(144, 96, 192, 0.03);
+  }
+
+  .dream-form {
+    display: none;
+    border: 1px solid rgba(144, 96, 192, 0.2);
+    padding: 2rem;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .dream-form.open { display: flex; }
+
+  .dream-form label {
+    font-size: 0.7rem;
+    color: #b080e0;
+    letter-spacing: 0.2em;
+  }
+
+  .dream-form textarea {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(144, 96, 192, 0.15);
+    color: var(--text);
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.9rem;
+    padding: 1rem;
+    resize: vertical;
+    min-height: 120px;
+    line-height: 2;
+  }
+
+  .dream-form textarea:focus {
+    outline: none;
+    border-color: rgba(144, 96, 192, 0.3);
+  }
+
+  .dream-form input[type="date"] {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(144, 96, 192, 0.15);
+    color: var(--text);
+    font-family: 'Noto Serif JP', serif;
+    padding: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .dream-form-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+  }
+
+  .dream-form-actions button {
+    background: none;
+    border: 1px solid rgba(144, 96, 192, 0.2);
+    color: #b080e0;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.75rem;
+    padding: 0.5rem 1.2rem;
+    cursor: pointer;
+    letter-spacing: 0.1em;
+    transition: all 0.3s;
+  }
+
+  .dream-form-actions button:hover {
+    background: rgba(144, 96, 192, 0.1);
+  }
+
   /* ===== RESPONSIVE ===== */
   @media (max-width: 600px) {
     nav { gap: 0.5rem; padding: 0.8rem; }
@@ -817,6 +974,7 @@
   <button onclick="switchSection('higherself')">高次の自己</button>
   <button onclick="switchSection('tree')">生命の樹</button>
   <button onclick="switchSection('temple')">神殿</button>
+  <button onclick="switchSection('dreams')">夢</button>
   <button onclick="switchSection('archive')">記録</button>
 </nav>
 
@@ -1058,6 +1216,33 @@
   </div>
 </div>
 
+<!-- ===== 夢 ===== -->
+<div id="dreams" class="section">
+  <div class="dreams-container">
+    <div>
+      <h1 class="section-title">夢</h1>
+      <p class="section-subtitle">潜在意識からの通信<br>忘れる前に、ここに降ろす</p>
+    </div>
+
+    <button class="dream-add-btn" onclick="toggleDreamForm()">＋ 新しい夢を記録</button>
+
+    <div class="dream-form" id="dreamForm">
+      <label>日付</label>
+      <input type="date" id="dreamDate">
+      <label>夢の内容</label>
+      <textarea id="dreamContent" placeholder="見たものをそのまま書く。断片でいい。"></textarea>
+      <label>タグ（カンマ区切り）</label>
+      <input type="text" id="dreamTags" placeholder="例: 宇宙人, 母, 雪" style="background:rgba(255,255,255,0.02);border:1px solid rgba(144,96,192,0.15);color:var(--text);font-family:'Noto Serif JP',serif;padding:0.5rem;font-size:0.85rem">
+      <div class="dream-form-actions">
+        <button onclick="toggleDreamForm()">やめる</button>
+        <button onclick="saveDream()">記録する</button>
+      </div>
+    </div>
+
+    <div id="dreamList"></div>
+  </div>
+</div>
+
 <!-- ===== 記録 ===== -->
 <div id="archive" class="section">
   <div class="archive-container">
@@ -1109,6 +1294,7 @@ function loadState() {
     if (parsed.tree) Object.assign(state.tree, parsed.tree);
     if (parsed.archive) state.archive = parsed.archive;
     if (parsed.pathway) state.pathway = parsed.pathway;
+    if (parsed.dreams) state.dreams = parsed.dreams;
 
     // Restore projection fields
     document.querySelectorAll('.attr-value[data-placeholder]').forEach(el => {
@@ -1191,7 +1377,7 @@ function commitInput() {
   if (!text) return;
 
   const sectionNames = {
-    projection: '自己投影', higherself: '高次の自己', tree: '生命の樹', temple: '神殿', archive: '記録'
+    projection: '自己投影', higherself: '高次の自己', tree: '生命の樹', temple: '神殿', dreams: '夢', archive: '記録'
   };
   const activeId = document.querySelector('.section.active').id;
   const now = new Date();
@@ -1214,6 +1400,111 @@ document.getElementById('mainInput').addEventListener('input', function() {
   this.style.height = '44px';
   this.style.height = Math.min(this.scrollHeight, 120) + 'px';
 });
+
+// ===== DREAMS =====
+const defaultDreams = [
+  {
+    date: '2026-04-13',
+    content: `物凄い高貴な人達がいた。髪が長かった。異様な人達、天皇家みたいな。とにかく高貴な宇宙人。彼らの一人が呼んでくれた。その一人が妻に殴られたみたいで笑ってた。10年腹違いの子供がいるみたいなこと言っていて。
+
+呼ばれて進むとそこらじゅうに彼の血と芸術的な作品があった。色んな芸術を一つ一つ見せてくれた。とても綺麗だった。そこにも不思議な歌がある。特殊な未来の歌。芸術的、ガガのラップバージョンみたいな。Lの歌かなんかを歌っていた。
+
+進むと母がいた。
+
+場面が変わり、家の外に出る。昔住んでいた団地から外を見るとそこは大自然の中。母が寝るのをみはからい、外に出る。ベランダから。そこは雪国。めちゃくちゃ雪が降っているので、服を着て外に出る。めっちゃすごい景色。雪が吹いて寒い場所。そこで何か不思議な物を拾う。
+
+場面が変わる。チョコかな。沢山のチョコをもらう。試作品があって食べる。そしたら商品食べてしまった。店員に言うがそれしかないと言われてそれをとりあえず買う。`,
+    tags: ['高貴な宇宙人', '芸術', '未来の歌', '母', '雪国', '大自然', '団地'],
+    interpretation: '',
+    hypnagogic: `起きて変性意識に入る。右手はみぞおち、左手は親指をしまい小指を立てていた。
+
+ベガ。太陽系。ベガスナープ — 胸の至福無極のエネルギー。カラフルで沢山のケーブルの宇宙人。物凄い数のカラフルなケーブルが動いていた。交流しようとしていた。不思議な感覚で少し怖くなってしまい、お互いに会話までは出来なかった。`
+  }
+];
+
+function initDreams() {
+  if (!state.dreams) state.dreams = [];
+  if (state.dreams.length === 0) {
+    state.dreams = defaultDreams;
+    saveState();
+  }
+  renderDreams();
+}
+
+function toggleDreamForm() {
+  const form = document.getElementById('dreamForm');
+  form.classList.toggle('open');
+  if (form.classList.contains('open')) {
+    const now = new Date();
+    document.getElementById('dreamDate').value = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+  }
+}
+
+function saveDream() {
+  const date = document.getElementById('dreamDate').value;
+  const content = document.getElementById('dreamContent').value.trim();
+  const tagsStr = document.getElementById('dreamTags').value.trim();
+  if (!content) return;
+
+  const tags = tagsStr ? tagsStr.split(',').map(t => t.trim()).filter(Boolean) : [];
+  state.dreams.unshift({ date, content, tags, interpretation: '', hypnagogic: '' });
+  saveState();
+  renderDreams();
+  toggleDreamForm();
+  document.getElementById('dreamContent').value = '';
+  document.getElementById('dreamTags').value = '';
+}
+
+function renderDreams() {
+  const list = document.getElementById('dreamList');
+  if (!list) return;
+  if (!state.dreams || state.dreams.length === 0) {
+    list.innerHTML = '<div class="archive-empty" style="color:rgba(176,128,224,0.4)">まだ夢の記録はない。</div>';
+    return;
+  }
+  list.innerHTML = state.dreams.map((dream, i) => {
+    const dateFormatted = dream.date.replace(/-/g, '.');
+    const tagsHtml = dream.tags.map(t => `<span class="dream-tag">${t}</span>`).join('');
+    const hypnagogicHtml = dream.hypnagogic ? `
+      <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid rgba(144,96,192,0.1)">
+        <h4 style="font-size:0.65rem;color:#e0a050;letter-spacing:0.2em;margin-bottom:0.5rem">変性意識 — 覚醒直後</h4>
+        <div style="font-size:0.85rem;line-height:2;color:var(--text);white-space:pre-line">${dream.hypnagogic}</div>
+      </div>
+    ` : '';
+    return `
+      <div class="dream-entry">
+        <div class="dream-date">${dateFormatted}</div>
+        <div class="dream-body">${dream.content}</div>
+        ${tagsHtml ? `<div class="dream-tags">${tagsHtml}</div>` : ''}
+        ${hypnagogicHtml}
+        <div class="dream-interpretation">
+          <h4>解釈・気づき</h4>
+          <div contenteditable="true" data-dream-interp="${i}" data-placeholder="この夢の意味を考える...">${dream.interpretation || ''}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Re-init placeholders for dream interpretations
+  list.querySelectorAll('[contenteditable][data-placeholder]').forEach(el => {
+    if (!el.textContent.trim()) {
+      el.textContent = el.dataset.placeholder;
+      el.style.color = 'var(--text-dim)';
+    }
+    el.addEventListener('focus', () => {
+      if (el.textContent === el.dataset.placeholder) { el.textContent = ''; el.style.color = 'var(--text)'; }
+    });
+    el.addEventListener('blur', () => {
+      const idx = parseInt(el.dataset.dreamInterp);
+      const text = el.textContent.trim();
+      if (text && text !== el.dataset.placeholder) {
+        state.dreams[idx].interpretation = text;
+        saveState();
+      }
+      if (!text) { el.textContent = el.dataset.placeholder; el.style.color = 'var(--text-dim)'; }
+    });
+  });
+}
 
 // ===== PATHWAY MAP =====
 const pathwayData = [
@@ -1614,6 +1905,7 @@ window.addEventListener('DOMContentLoaded', () => {
   initTempleCanvas();
   loadState();
   initPathwayMap();
+  initDreams();
   // Tree paths drawn when section becomes visible
 });
 
