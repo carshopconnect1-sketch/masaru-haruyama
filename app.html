@@ -3322,30 +3322,41 @@ document.querySelectorAll('[contenteditable][data-placeholder]').forEach(el => {
   const H = container.clientHeight || 450;
 
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(45, W / H, 0.1, 100);
-  camera.position.set(0, 1, 8);
-  camera.lookAt(0, 0, 0);
+  const camera = new THREE.PerspectiveCamera(40, W / H, 0.1, 100);
+  camera.position.set(0, 0.5, 9);
+  camera.lookAt(0, -0.3, 0);
 
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
   renderer.setSize(W, H);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.setClearColor(0x000000, 0);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.2;
 
-  // Lights
-  const ambientLight = new THREE.AmbientLight(0x666655, 0.8);
+  // Lights — cinematic setup
+  const ambientLight = new THREE.AmbientLight(0x334455, 0.4);
   scene.add(ambientLight);
-  const topLight = new THREE.PointLight(0xc9a84c, 2.0, 25);
-  topLight.position.set(0, 6, 4);
-  scene.add(topLight);
-  const frontLight = new THREE.PointLight(0xddcc88, 1.0, 20);
-  frontLight.position.set(0, 0, 6);
-  scene.add(frontLight);
-  const bottomLight = new THREE.PointLight(0xe06440, 0.6, 15);
+  // Key light (warm gold from above-front)
+  const keyLight = new THREE.SpotLight(0xc9a84c, 2.5, 30, Math.PI/4, 0.5);
+  keyLight.position.set(2, 8, 6);
+  keyLight.lookAt(0, 0, 0);
+  scene.add(keyLight);
+  // Fill light (cool blue from left)
+  const fillLight = new THREE.PointLight(0x6688cc, 0.8, 20);
+  fillLight.position.set(-5, 1, 3);
+  scene.add(fillLight);
+  // Rim light (purple from behind)
+  const rimLight = new THREE.PointLight(0xaa77dd, 1.2, 18);
+  rimLight.position.set(0, 2, -5);
+  scene.add(rimLight);
+  // Bottom accent (red-orange for grounding)
+  const bottomLight = new THREE.PointLight(0xe06440, 0.5, 12);
   bottomLight.position.set(0, -5, 2);
   scene.add(bottomLight);
-  const rimLight = new THREE.PointLight(0xc0b0ff, 0.8, 15);
-  rimLight.position.set(-3, 2, 5);
-  scene.add(rimLight);
+  // Crown glow
+  const crownLight = new THREE.PointLight(0xddccff, 0.6, 8);
+  crownLight.position.set(0, 3.5, 1);
+  scene.add(crownLight);
 
   // Materials
   // (body materials are defined inline below)
@@ -3386,15 +3397,22 @@ document.querySelectorAll('[contenteditable][data-placeholder]').forEach(el => {
   }
 
   // === ワイヤーフレーム3D人体（パーツ別構築） ===
-  const wireMat = new THREE.MeshBasicMaterial({
-    color: 0xdcc090, wireframe: true, transparent: true, opacity: 0.5
+  const wireMat = new THREE.MeshPhongMaterial({
+    color: 0xc9a84c, wireframe: true, transparent: true, opacity: 0.45,
+    emissive: 0x332200, emissiveIntensity: 0.3
   });
-  const wireBright = new THREE.MeshBasicMaterial({
-    color: 0xeedd99, wireframe: true, transparent: true, opacity: 0.65
+  const wireBright = new THREE.MeshPhongMaterial({
+    color: 0xeedd99, wireframe: true, transparent: true, opacity: 0.6,
+    emissive: 0x443300, emissiveIntensity: 0.4
   });
   const innerMat = new THREE.MeshPhongMaterial({
-    color: 0xc9a84c, transparent: true, opacity: 0.04,
-    side: THREE.DoubleSide
+    color: 0x1a1a2e, transparent: true, opacity: 0.12,
+    side: THREE.DoubleSide, shininess: 80, specular: 0x4444aa,
+    emissive: 0x0a0a1a, emissiveIntensity: 0.5
+  });
+  const glowEdgeMat = new THREE.MeshBasicMaterial({
+    color: 0xc9a84c, transparent: true, opacity: 0.08,
+    side: THREE.BackSide
   });
 
   function addPart(geo, pos, rot, mat) {
@@ -3402,10 +3420,17 @@ document.querySelectorAll('[contenteditable][data-placeholder]').forEach(el => {
     if (pos) m.position.set(pos[0], pos[1], pos[2] || 0);
     if (rot) { m.rotation.x = rot[0]||0; m.rotation.y = rot[1]||0; m.rotation.z = rot[2]||0; }
     bodyGroup.add(m);
+    // Inner glow
     const inner = new THREE.Mesh(geo, innerMat);
     if (pos) inner.position.copy(m.position);
     if (rot) inner.rotation.copy(m.rotation);
     bodyGroup.add(inner);
+    // Edge glow (slightly larger)
+    const edge = new THREE.Mesh(geo, glowEdgeMat);
+    if (pos) edge.position.copy(m.position);
+    if (rot) edge.rotation.copy(m.rotation);
+    edge.scale.multiplyScalar(1.05);
+    bodyGroup.add(edge);
     return m;
   }
 
@@ -3481,22 +3506,34 @@ document.querySelectorAll('[contenteditable][data-placeholder]').forEach(el => {
   chakraY.forEach((y, i) => {
     const geo = new THREE.SphereGeometry(0.16, 16, 12);
     const mat = new THREE.MeshPhongMaterial({ 
-      color: chakraColors[i], emissive: chakraColors[i], emissiveIntensity: 0.8,
-      transparent: true, opacity: 1.0 
+      color: chakraColors[i], emissive: chakraColors[i], emissiveIntensity: 1.0,
+      transparent: true, opacity: 0.95, shininess: 100 
     });
     const mesh = new THREE.Mesh(geo, mat);
-    mesh.position.set(0, y, 0.3);
+    mesh.position.set(0, y, 0.35);
     scene.add(mesh);
+    // Outer glow sphere
+    const glowGeo = new THREE.SphereGeometry(0.28, 12, 8);
+    const glowMat = new THREE.MeshBasicMaterial({
+      color: chakraColors[i], transparent: true, opacity: 0.12, side: THREE.BackSide
+    });
+    const glow = new THREE.Mesh(glowGeo, glowMat);
+    glow.position.set(0, y, 0.35);
+    scene.add(glow);
     // Glow ring
-    const ringGeo = new THREE.RingGeometry(0.18, 0.25, 24);
+    const ringGeo = new THREE.RingGeometry(0.20, 0.30, 32);
     const ringMat = new THREE.MeshBasicMaterial({ 
-      color: chakraColors[i], transparent: true, opacity: 0.3, side: THREE.DoubleSide 
+      color: chakraColors[i], transparent: true, opacity: 0.25, side: THREE.DoubleSide 
     });
     const ring = new THREE.Mesh(ringGeo, ringMat);
-    ring.position.set(0, y, 0.3);
+    ring.position.set(0, y, 0.35);
     ring.rotation.x = Math.PI / 2;
     scene.add(ring);
-    chakras.push({ mesh, ring, baseY: y });
+    // Point light per chakra
+    const cLight = new THREE.PointLight(chakraColors[i], 0.15, 2);
+    cLight.position.set(0, y, 0.5);
+    scene.add(cLight);
+    chakras.push({ mesh, ring, glow, baseY: y });
   });
 
   // === CENTRAL AXIS ===
@@ -3622,21 +3659,47 @@ document.querySelectorAll('[contenteditable][data-placeholder]').forEach(el => {
   sealR.position.set(0.75, -1.05, 0);
   scene.add(sealR);
 
-  // === GROUND SHADOW ===
-  const groundGeo = new THREE.PlaneGeometry(4, 4);
-  const groundMat = new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.15 });
+  // === GROUND (reflective circle) ===
+  const groundGeo = new THREE.CircleGeometry(3, 48);
+  const groundMat = new THREE.MeshPhongMaterial({ 
+    color: 0x111122, transparent: true, opacity: 0.3,
+    shininess: 100, specular: 0x333355
+  });
   const ground = new THREE.Mesh(groundGeo, groundMat);
-  ground.position.y = -4.5;
+  ground.position.y = -3.3;
   ground.rotation.x = -Math.PI / 2;
   scene.add(ground);
+  // Ground glow ring
+  const groundRingGeo = new THREE.RingGeometry(2.8, 3.1, 48);
+  const groundRingMat = new THREE.MeshBasicMaterial({
+    color: 0xc9a84c, transparent: true, opacity: 0.1, side: THREE.DoubleSide
+  });
+  const groundRing = new THREE.Mesh(groundRingGeo, groundRingMat);
+  groundRing.position.y = -3.29;
+  groundRing.rotation.x = -Math.PI / 2;
+  scene.add(groundRing);
 
-  // === AURA ===
-  const auraGeo = new THREE.SphereGeometry(2.5, 24, 16);
+  // === AURA (多層) ===
+  const auraGeo = new THREE.SphereGeometry(2.5, 32, 20);
   const auraMat = new THREE.MeshBasicMaterial({ 
     color: 0xc9a84c, transparent: true, opacity: 0.03, side: THREE.BackSide 
   });
   const aura = new THREE.Mesh(auraGeo, auraMat);
   scene.add(aura);
+  // Inner aura (purple-blue)
+  const aura2Geo = new THREE.SphereGeometry(1.8, 24, 16);
+  const aura2Mat = new THREE.MeshBasicMaterial({
+    color: 0x6644aa, transparent: true, opacity: 0.025, side: THREE.BackSide
+  });
+  const aura2 = new THREE.Mesh(aura2Geo, aura2Mat);
+  scene.add(aura2);
+  // Outer aura (faint white)
+  const aura3Geo = new THREE.SphereGeometry(3.5, 24, 16);
+  const aura3Mat = new THREE.MeshBasicMaterial({
+    color: 0xffffff, transparent: true, opacity: 0.01, side: THREE.BackSide
+  });
+  const aura3 = new THREE.Mesh(aura3Geo, aura3Mat);
+  scene.add(aura3);
 
   // === TOUCH ROTATION ===
   let autoRotate = true;
@@ -3681,10 +3744,14 @@ document.querySelectorAll('[contenteditable][data-placeholder]').forEach(el => {
 
     // Chakra pulse
     chakras.forEach((c, i) => {
-      const s = 1 + 0.15 * Math.sin(t * 2 + i * 0.8);
+      const s = 1 + 0.2 * Math.sin(t * 2 + i * 0.8);
       c.mesh.scale.set(s, s, s);
-      c.ring.scale.set(s * 1.2, s * 1.2, 1);
-      c.ring.material.opacity = 0.2 + 0.15 * Math.sin(t * 2 + i * 0.8);
+      c.ring.scale.set(s * 1.3, s * 1.3, 1);
+      c.ring.material.opacity = 0.15 + 0.2 * Math.sin(t * 2 + i * 0.8);
+      if (c.glow) {
+        c.glow.scale.setScalar(1 + 0.3 * Math.sin(t * 1.5 + i * 0.6));
+        c.glow.material.opacity = 0.08 + 0.08 * Math.sin(t * 1.5 + i * 0.6);
+      }
     });
 
     // Block pulse
@@ -3698,8 +3765,15 @@ document.querySelectorAll('[contenteditable][data-placeholder]').forEach(el => {
     sealR.scale.setScalar(1 + 0.15 * Math.sin(t * 2.5 + 1));
 
     // Aura breath
-    aura.scale.setScalar(1 + 0.05 * Math.sin(t * 0.8));
-    auraMat.opacity = 0.02 + 0.015 * Math.sin(t * 0.8);
+    aura.scale.setScalar(1 + 0.06 * Math.sin(t * 0.8));
+    auraMat.opacity = 0.025 + 0.015 * Math.sin(t * 0.8);
+    aura2.scale.setScalar(1 + 0.08 * Math.sin(t * 1.2 + 0.5));
+    aura2Mat.opacity = 0.02 + 0.01 * Math.sin(t * 1.2 + 0.5);
+    aura3.scale.setScalar(1 + 0.04 * Math.sin(t * 0.5));
+
+    // Cinematic light animation
+    crownLight.intensity = 0.4 + 0.3 * Math.sin(t * 1.5);
+    rimLight.intensity = 0.8 + 0.4 * Math.sin(t * 0.7);
 
     // Particles
     particles.forEach(p => {
