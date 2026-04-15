@@ -3312,6 +3312,7 @@ document.querySelectorAll('[contenteditable][data-placeholder]').forEach(el => {
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 <script>
 (function() {
   const container = document.getElementById('ethericBody3D');
@@ -3352,113 +3353,73 @@ document.querySelectorAll('[contenteditable][data-placeholder]').forEach(el => {
 
   // === HOLOGRAM MATERIALS ===
   const holoWire = new THREE.MeshPhongMaterial({
-    color: 0x2299ff, wireframe: true, transparent: true, opacity: 0.4,
-    emissive: 0x0044aa, emissiveIntensity: 0.6
-  });
-  const holoWireBright = new THREE.MeshPhongMaterial({
-    color: 0x44bbff, wireframe: true, transparent: true, opacity: 0.55,
-    emissive: 0x0066cc, emissiveIntensity: 0.8
+    color: 0x2299ff, wireframe: true, transparent: true, opacity: 0.35,
+    emissive: 0x0055cc, emissiveIntensity: 0.8
   });
   const holoInner = new THREE.MeshPhongMaterial({
-    color: 0x0a1530, transparent: true, opacity: 0.15,
+    color: 0x0a1530, transparent: true, opacity: 0.1,
     side: THREE.DoubleSide, shininess: 100, specular: 0x2266cc,
-    emissive: 0x001133, emissiveIntensity: 0.4
+    emissive: 0x001144, emissiveIntensity: 0.5
   });
   const holoEdge = new THREE.MeshBasicMaterial({
-    color: 0x0088ff, transparent: true, opacity: 0.06, side: THREE.BackSide
+    color: 0x0088ff, transparent: true, opacity: 0.04, side: THREE.BackSide
   });
 
-  // Chakra colors (hologram-tinted)
+  // Chakra colors
   const chakraColors = [
     0xff3344, 0xff7733, 0xffcc33, 0x33ff66, 0x3388ff, 0x7744dd, 0xcc44ff
   ];
   const chakraY = [-0.65, -0.3, 0.05, 0.45, 0.85, 1.4, 1.95];
 
-  // === BODY GROUP ===
+  // === BODY — GLTF MODEL LOAD ===
   const bodyGroup = new THREE.Group();
-
-  function addPart(geo, pos, rot, mat) {
-    const m = new THREE.Mesh(geo, mat || holoWire);
-    if (pos) m.position.set(pos[0], pos[1], pos[2]||0);
-    if (rot) { m.rotation.x=rot[0]||0; m.rotation.y=rot[1]||0; m.rotation.z=rot[2]||0; }
-    bodyGroup.add(m);
-    const inner = new THREE.Mesh(geo, holoInner);
-    if (pos) inner.position.copy(m.position);
-    if (rot) inner.rotation.copy(m.rotation);
-    bodyGroup.add(inner);
-    const edge = new THREE.Mesh(geo, holoEdge);
-    if (pos) edge.position.copy(m.position);
-    if (rot) edge.rotation.copy(m.rotation);
-    edge.scale.multiplyScalar(1.04);
-    bodyGroup.add(edge);
-    return m;
-  }
-
-  // 頭
-  const headGeo = new THREE.SphereGeometry(0.32, 16, 12);
-  headGeo.scale(1, 1.15, 0.95);
-  addPart(headGeo, [0, 1.75, 0], null, holoWireBright);
-  // 首
-  addPart(new THREE.CylinderGeometry(0.10,0.12,0.35,10), [0,1.25,0]);
-  // 胸
-  const chestGeo = new THREE.CylinderGeometry(0.35,0.30,0.8,14);
-  chestGeo.scale(1.2,1,0.75);
-  addPart(chestGeo, [0,0.7,0], null, holoWireBright);
-  // 肩
-  const shGeo = new THREE.SphereGeometry(0.12,8,6);
-  addPart(shGeo, [-0.50,0.9,0]); addPart(shGeo, [0.50,0.9,0]);
-  // 腹
-  const abdGeo = new THREE.CylinderGeometry(0.30,0.28,0.5,12);
-  abdGeo.scale(1.1,1,0.7);
-  addPart(abdGeo, [0,0.05,0]);
-  // 骨盤
-  const pelGeo = new THREE.CylinderGeometry(0.28,0.32,0.45,12);
-  pelGeo.scale(1.15,1,0.7);
-  addPart(pelGeo, [0,-0.4,0]);
-  // 腕
-  const uaGeo = new THREE.CylinderGeometry(0.07,0.06,0.9,8);
-  addPart(uaGeo, [-0.55,0.25,0],[0,0,0.2]);
-  addPart(uaGeo, [0.55,0.25,0],[0,0,-0.2]);
-  const faGeo = new THREE.CylinderGeometry(0.055,0.04,0.85,8);
-  addPart(faGeo, [-0.68,-0.55,0],[0,0,0.15]);
-  addPart(faGeo, [0.68,-0.55,0],[0,0,-0.15]);
-  // 手
-  const hGeo = new THREE.BoxGeometry(0.1,0.14,0.04,3,3,1);
-  addPart(hGeo, [-0.75,-1.05,0]); addPart(hGeo, [0.75,-1.05,0]);
-  // 脚
-  const thGeo = new THREE.CylinderGeometry(0.14,0.10,1.2,10);
-  addPart(thGeo, [-0.18,-1.2,0]); addPart(thGeo, [0.18,-1.2,0]);
-  const snGeo = new THREE.CylinderGeometry(0.09,0.065,1.2,8);
-  addPart(snGeo, [-0.18,-2.45,0]); addPart(snGeo, [0.18,-2.45,0]);
-  // 足
-  const ftGeo = new THREE.BoxGeometry(0.12,0.06,0.25,3,1,3);
-  addPart(ftGeo, [-0.18,-3.08,0.05]); addPart(ftGeo, [0.18,-3.08,0.05]);
-
-  // === 骨格ライン (skeleton inside) ===
-  const skelMat = new THREE.LineBasicMaterial({color:0x66ccff, transparent:true, opacity:0.2});
-  function skelLine(pts){
-    const g=new THREE.BufferGeometry().setFromPoints(pts.map(p=>new THREE.Vector3(p[0],p[1],p[2]||0)));
-    bodyGroup.add(new THREE.Line(g, skelMat));
-  }
-  // 脊椎
-  skelLine([[0,1.95,0],[0,1.6,0],[0,1.25,0],[0,0.7,0],[0,0.05,0],[0,-0.4,0],[0,-0.65,0]]);
-  // 鎖骨
-  skelLine([[-0.48,0.9,0],[0,0.85,0],[0.48,0.9,0]]);
-  // 肋骨
-  for(let i=0;i<4;i++){const y=0.7-i*0.18; const w=0.35-i*0.03;
-    skelLine([[-w,y,0],[0,y-0.05,0],[w,y,0]]);}
-  // 骨盤
-  skelLine([[-0.3,-0.5,0],[0,-0.65,0],[0.3,-0.5,0]]);
-  // 左腕骨
-  skelLine([[-0.48,0.9,0],[-0.55,0.25,0],[-0.68,-0.55,0],[-0.75,-1.05,0]]);
-  // 右腕骨
-  skelLine([[0.48,0.9,0],[0.55,0.25,0],[0.68,-0.55,0],[0.75,-1.05,0]]);
-  // 左脚骨
-  skelLine([[0,-0.65,0],[-0.18,-1.2,0],[-0.18,-2.45,0],[-0.18,-3.08,0]]);
-  // 右脚骨
-  skelLine([[0,-0.65,0],[0.18,-1.2,0],[0.18,-2.45,0],[0.18,-3.08,0]]);
-
   scene.add(bodyGroup);
+
+  const loader = new THREE.GLTFLoader();
+  loader.load('https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/models/gltf/Soldier.glb',
+    function(gltf) {
+      const model = gltf.scene;
+      // Scale & position to match our coordinate system
+      model.scale.set(3.5, 3.5, 3.5);
+      model.position.y = -3.1;
+
+      // Replace all materials with hologram wireframe
+      model.traverse(function(child) {
+        if (child.isMesh) {
+          // Wireframe layer
+          child.material = holoWire;
+          // Add inner glow duplicate
+          const innerClone = child.clone();
+          innerClone.material = holoInner;
+          model.add(innerClone);
+          // Add edge glow
+          const edgeClone = child.clone();
+          edgeClone.material = holoEdge;
+          edgeClone.scale.multiplyScalar(1.02);
+          model.add(edgeClone);
+        }
+      });
+
+      bodyGroup.add(model);
+    },
+    undefined,
+    function(err) {
+      console.warn('GLTF load failed, using fallback body');
+      // Fallback: simple capsule body
+      const capsule = new THREE.Mesh(
+        new THREE.CapsuleGeometry(0.4, 3.5, 16, 24),
+        holoWire
+      );
+      capsule.position.y = -0.3;
+      bodyGroup.add(capsule);
+      const capsuleInner = new THREE.Mesh(
+        new THREE.CapsuleGeometry(0.4, 3.5, 16, 24),
+        holoInner
+      );
+      capsuleInner.position.y = -0.3;
+      bodyGroup.add(capsuleInner);
+    }
+  );
 
   // === ホログラム走査線 (scanline plane) ===
   const scanGeo = new THREE.PlaneGeometry(2.5, 0.02);
