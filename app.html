@@ -134,6 +134,8 @@
     height: 100%;
     filter: drop-shadow(0 0 40px rgba(201, 168, 76, 0.3))
            drop-shadow(0 15px 30px rgba(0,0,0,0.5));
+    transform: rotateX(15deg) rotateY(-5deg);
+    transform-style: preserve-3d;
   }
 
   .etheric-body .aura {
@@ -143,6 +145,7 @@
     border-radius: 50% 50% 40% 40%;
     background: radial-gradient(ellipse at 40% 35%, rgba(201, 168, 76, 0.12) 0%, rgba(160,120,255,0.06) 35%, transparent 65%);
     animation: auraPulse 4s ease-in-out infinite;
+    transform: rotateX(15deg) rotateY(-5deg) translateZ(-30px);
   }
 
   .etheric-body::before {
@@ -177,8 +180,8 @@
   }
 
   @keyframes auraPulse {
-    0%, 100% { transform: scale(1); opacity: 0.6; }
-    50% { transform: scale(1.1); opacity: 1; }
+    0%, 100% { transform: rotateX(15deg) rotateY(-5deg) translateZ(-30px) scale(1); opacity: 0.6; }
+    50% { transform: rotateX(15deg) rotateY(-5deg) translateZ(-30px) scale(1.1); opacity: 1; }
   }
 
   .chakra {
@@ -1223,54 +1226,63 @@
         <line x1="-20" y1="360" x2="220" y2="360" stroke="rgba(201,168,76,0.03)" stroke-width="0.3"/>
         <line x1="0" y1="370" x2="200" y2="370" stroke="rgba(201,168,76,0.02)" stroke-width="0.3"/>
 
-        <!-- ===== ウィトルウィウス人体図（AI生成画像） ===== -->
-        <image href="vitruvian.png" x="-60" y="-35" width="325" height="325" opacity="0.45" preserveAspectRatio="xMidYMid meet"/>
-        
+        <!-- 身体（3Dボリューム） -->
+        <!-- 身体の影（奥行き） -->
+        <ellipse cx="103" cy="38" rx="28" ry="32" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="1.5" filter="url(#depthShadow)"/>
+        <path d="M103 70 C63 73 43 113 45 163 L45 223 C45 243 58 253 73 253 L73 333 C73 343 83 348 91 348 L91 253 L115 253 L115 348 C123 348 133 343 133 333 L133 253 C148 253 161 243 161 223 L161 163 C163 113 143 73 103 70Z" fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="1.2" filter="url(#depthShadow)"/>
+        <!-- 身体メイン -->
+        <ellipse cx="100" cy="35" rx="28" ry="32" fill="rgba(201,168,76,0.02)" stroke="url(#bodyDepth)" stroke-width="1"/>
+        <path d="M100 67 C60 70 40 110 42 160 L42 220 C42 240 55 250 70 250 L70 330 C70 340 80 345 88 345 L88 250 L112 250 L112 345 C120 345 130 340 130 330 L130 250 C145 250 158 240 158 220 L158 160 C160 110 140 70 100 67Z" fill="rgba(201,168,76,0.015)" stroke="url(#bodyDepth)" stroke-width="1"/>
+        <!-- 身体のハイライト（光が当たる面） -->
+        <path d="M90 70 C70 75 55 110 56 160 L56 210" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="2" stroke-linecap="round"/>
+        <!-- 腕 -->
+        <path d="M42 120 C20 130 10 170 15 200" fill="none" stroke="rgba(201,168,76,0.2)" stroke-width="0.8"/>
+        <path d="M158 120 C180 130 190 170 185 200" fill="none" stroke="rgba(201,168,76,0.2)" stroke-width="0.8"/>
         <!-- 中心軸 -->
         <line x1="100" y1="15" x2="100" y2="250" stroke="rgba(201,168,76,0.08)" stroke-width="0.5" stroke-dasharray="2 4"/>
 
         <!-- ===== 左手の封印（金剛拳） ===== -->
         <!-- 封印リング -->
-        <circle cx="20" cy="210" r="8" fill="none" stroke="rgba(224,80,80,0.5)" stroke-width="1.2" filter="url(#glow)">
+        <circle cx="15" cy="200" r="8" fill="none" stroke="rgba(224,80,80,0.5)" stroke-width="1.2" filter="url(#glow)">
           <animate attributeName="r" values="7;9;7" dur="3s" repeatCount="indefinite"/>
           <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite"/>
         </circle>
         <!-- 封印の×印 -->
-        <line x1="16" y1="206" x2="24" y2="214" stroke="rgba(224,80,80,0.6)" stroke-width="0.8"/>
-        <line x1="24" y1="206" x2="16" y2="214" stroke="rgba(224,80,80,0.6)" stroke-width="0.8"/>
+        <line x1="11" y1="196" x2="19" y2="204" stroke="rgba(224,80,80,0.6)" stroke-width="0.8"/>
+        <line x1="19" y1="196" x2="11" y2="204" stroke="rgba(224,80,80,0.6)" stroke-width="0.8"/>
 
-        <!-- 左手→体内への循環フロー（真横） -->
-        <path d="M28 210 C45 210 60 180 70 155" fill="none" stroke="url(#flowGrad)" stroke-width="1" stroke-dasharray="3 3" opacity="0.6">
+        <!-- 左手→体内への循環フロー -->
+        <path d="M15 192 C15 170 25 140 42 130" fill="none" stroke="url(#flowGrad)" stroke-width="1" stroke-dasharray="3 3" opacity="0.6">
           <animate attributeName="stroke-dashoffset" values="0;-12" dur="2s" repeatCount="indefinite"/>
         </path>
         <!-- 左のフロー粒子 -->
         <circle r="1.5" fill="rgba(240,214,138,0.8)" filter="url(#glow)">
-          <animateMotion dur="2.5s" repeatCount="indefinite" path="M28,210 C45,210 60,180 70,155"/>
+          <animateMotion dur="2.5s" repeatCount="indefinite" path="M15,192 C15,170 25,140 42,130"/>
         </circle>
         <circle r="1" fill="rgba(240,214,138,0.6)">
-          <animateMotion dur="2.5s" repeatCount="indefinite" begin="0.8s" path="M28,210 C45,210 60,180 70,155"/>
+          <animateMotion dur="2.5s" repeatCount="indefinite" begin="0.8s" path="M15,192 C15,170 25,140 42,130"/>
         </circle>
 
         <!-- ===== 右手の封印（金剛拳） ===== -->
         <!-- 封印リング -->
-        <circle cx="180" cy="210" r="8" fill="none" stroke="rgba(224,80,80,0.5)" stroke-width="1.2" filter="url(#glow)">
+        <circle cx="185" cy="200" r="8" fill="none" stroke="rgba(224,80,80,0.5)" stroke-width="1.2" filter="url(#glow)">
           <animate attributeName="r" values="7;9;7" dur="3s" repeatCount="indefinite" begin="0.5s"/>
           <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite" begin="0.5s"/>
         </circle>
         <!-- 封印の×印 -->
-        <line x1="176" y1="206" x2="184" y2="214" stroke="rgba(224,80,80,0.6)" stroke-width="0.8"/>
-        <line x1="184" y1="206" x2="176" y2="214" stroke="rgba(224,80,80,0.6)" stroke-width="0.8"/>
+        <line x1="181" y1="196" x2="189" y2="204" stroke="rgba(224,80,80,0.6)" stroke-width="0.8"/>
+        <line x1="189" y1="196" x2="181" y2="204" stroke="rgba(224,80,80,0.6)" stroke-width="0.8"/>
 
-        <!-- 右手→体内への循環フロー（真横） -->
-        <path d="M172 210 C155 210 140 180 130 155" fill="none" stroke="url(#flowGrad)" stroke-width="1" stroke-dasharray="3 3" opacity="0.6">
+        <!-- 右手→体内への循環フロー -->
+        <path d="M185 192 C185 170 175 140 158 130" fill="none" stroke="url(#flowGrad)" stroke-width="1" stroke-dasharray="3 3" opacity="0.6">
           <animate attributeName="stroke-dashoffset" values="0;-12" dur="2s" repeatCount="indefinite"/>
         </path>
         <!-- 右のフロー粒子 -->
         <circle r="1.5" fill="rgba(240,214,138,0.8)" filter="url(#glow)">
-          <animateMotion dur="2.5s" repeatCount="indefinite" path="M172,210 C155,210 140,180 130,155"/>
+          <animateMotion dur="2.5s" repeatCount="indefinite" path="M185,192 C185,170 175,140 158,130"/>
         </circle>
         <circle r="1" fill="rgba(240,214,138,0.6)">
-          <animateMotion dur="2.5s" repeatCount="indefinite" begin="0.8s" path="M172,210 C155,210 140,180 130,155"/>
+          <animateMotion dur="2.5s" repeatCount="indefinite" begin="0.8s" path="M185,192 C185,170 175,140 158,130"/>
         </circle>
 
         <!-- ===== 体内の循環（ハートを中心に回る） ===== -->
@@ -1533,8 +1545,8 @@
         <text x="135" y="78" fill="rgba(160,200,255,0.25)" font-size="3.5" font-family="sans-serif">浄化</text>
 
         <!-- ラベル -->
-        <text x="8" y="228" fill="rgba(224,80,80,0.5)" font-size="5" font-family="sans-serif">封印</text>
-        <text x="172" y="228" fill="rgba(224,80,80,0.5)" font-size="5" font-family="sans-serif">封印</text>
+        <text x="5" y="218" fill="rgba(224,80,80,0.5)" font-size="5" font-family="sans-serif">封印</text>
+        <text x="177" y="218" fill="rgba(224,80,80,0.5)" font-size="5" font-family="sans-serif">封印</text>
       </svg>
 
       <div class="chakra chakra-crown" title="サハスラーラ" data-chakra="crown"></div>
