@@ -1121,13 +1121,13 @@
 <div class="sacred-bg"><canvas id="sacredCanvas"></canvas></div>
 
 <nav>
-  <button class="active" onclick="switchSection('projection')">自己投影</button>
-  <button onclick="switchSection('higherself')">高次の自己</button>
-  <button onclick="switchSection('tree')">生命の樹</button>
-  <button onclick="switchSection('temple')">神殿</button>
-  <button onclick="switchSection('practice')">修練</button>
-  <button onclick="switchSection('dreams')">夢</button>
-  <button onclick="switchSection('archive')">記録</button>
+  <button class="active" onclick="switchSection('projection',this)">自己投影</button>
+  <button onclick="switchSection('higherself',this)">高次の自己</button>
+  <button onclick="switchSection('tree',this)">生命の樹</button>
+  <button onclick="switchSection('temple',this)">神殿</button>
+  <button onclick="switchSection('practice',this)">修練</button>
+  <button onclick="switchSection('dreams',this)">夢</button>
+  <button onclick="switchSection('archive',this)">記録</button>
 </nav>
 
 <!-- ===== 自己投影 ===== -->
@@ -2136,11 +2136,17 @@ function saveState() {
 setInterval(saveState, 3000);
 
 // ===== NAVIGATION =====
-function switchSection(id) {
+function switchSection(id, btn) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  event.target.classList.add('active');
+  const section = document.getElementById(id);
+  // Force animation restart by removing and re-adding class
+  section.style.animation = 'none';
+  section.offsetHeight; // trigger reflow
+  section.style.animation = '';
+  section.classList.add('active');
+  if (btn) btn.classList.add('active');
+  else if (typeof event !== 'undefined' && event.target) event.target.classList.add('active');
   saveState();
   if (id === 'tree') setTimeout(drawTreePaths, 100);
   if (id === 'higherself') setTimeout(initHigherSelfCanvas, 100);
