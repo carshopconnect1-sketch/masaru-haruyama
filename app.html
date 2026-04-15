@@ -3332,33 +3332,37 @@ document.querySelectorAll('[contenteditable][data-placeholder]').forEach(el => {
   renderer.setClearColor(0x000000, 0);
 
   // Lights
-  const ambientLight = new THREE.AmbientLight(0x444444, 0.5);
+  const ambientLight = new THREE.AmbientLight(0x666655, 0.8);
   scene.add(ambientLight);
-  const topLight = new THREE.PointLight(0xc9a84c, 1.2, 20);
-  topLight.position.set(0, 6, 3);
+  const topLight = new THREE.PointLight(0xc9a84c, 2.0, 25);
+  topLight.position.set(0, 6, 4);
   scene.add(topLight);
-  const bottomLight = new THREE.PointLight(0xe06440, 0.4, 15);
+  const frontLight = new THREE.PointLight(0xddcc88, 1.0, 20);
+  frontLight.position.set(0, 0, 6);
+  scene.add(frontLight);
+  const bottomLight = new THREE.PointLight(0xe06440, 0.6, 15);
   bottomLight.position.set(0, -5, 2);
   scene.add(bottomLight);
-  const rimLight = new THREE.PointLight(0xc0b0ff, 0.6, 15);
-  rimLight.position.set(-3, 2, 4);
+  const rimLight = new THREE.PointLight(0xc0b0ff, 0.8, 15);
+  rimLight.position.set(-3, 2, 5);
   scene.add(rimLight);
 
   // Materials
   const bodyWireMat = new THREE.MeshPhongMaterial({ 
-    color: 0xc9a84c, transparent: true, opacity: 0.12, 
+    color: 0xdcc090, transparent: true, opacity: 0.35, 
     wireframe: true 
   });
   const bodySolidMat = new THREE.MeshPhongMaterial({ 
-    color: 0xc9a84c, transparent: true, opacity: 0.08, 
-    side: THREE.DoubleSide, shininess: 30 
+    color: 0xc9a84c, transparent: true, opacity: 0.15, 
+    side: THREE.DoubleSide, shininess: 50 
   });
   const bodyEdgeMat = new THREE.MeshPhongMaterial({ 
-    color: 0xdcc090, transparent: true, opacity: 0.25, 
-    side: THREE.FrontSide, shininess: 60, specular: 0x665533 
+    color: 0xeedd99, transparent: true, opacity: 0.4, 
+    side: THREE.FrontSide, shininess: 80, specular: 0x887744,
+    emissive: 0xc9a84c, emissiveIntensity: 0.1
   });
   const bodyGlowMat = new THREE.MeshPhongMaterial({ 
-    color: 0xc9a84c, transparent: true, opacity: 0.04, 
+    color: 0xc9a84c, transparent: true, opacity: 0.06, 
     side: THREE.DoubleSide 
   });
   const crystalMat = new THREE.MeshPhongMaterial({ 
@@ -3471,10 +3475,10 @@ document.querySelectorAll('[contenteditable][data-placeholder]').forEach(el => {
   // === CHAKRAS ===
   const chakras = [];
   chakraY.forEach((y, i) => {
-    const geo = new THREE.SphereGeometry(0.12, 16, 12);
+    const geo = new THREE.SphereGeometry(0.16, 16, 12);
     const mat = new THREE.MeshPhongMaterial({ 
-      color: chakraColors[i], emissive: chakraColors[i], emissiveIntensity: 0.6,
-      transparent: true, opacity: 0.9 
+      color: chakraColors[i], emissive: chakraColors[i], emissiveIntensity: 0.8,
+      transparent: true, opacity: 1.0 
     });
     const mesh = new THREE.Mesh(geo, mat);
     mesh.position.set(0, y, 0.3);
