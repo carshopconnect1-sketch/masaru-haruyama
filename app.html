@@ -3348,23 +3348,7 @@ document.querySelectorAll('[contenteditable][data-placeholder]').forEach(el => {
   scene.add(rimLight);
 
   // Materials
-  const bodyWireMat = new THREE.MeshPhongMaterial({ 
-    color: 0xdcc090, transparent: true, opacity: 0.35, 
-    wireframe: true 
-  });
-  const bodySolidMat = new THREE.MeshPhongMaterial({ 
-    color: 0xc9a84c, transparent: true, opacity: 0.15, 
-    side: THREE.DoubleSide, shininess: 50 
-  });
-  const bodyEdgeMat = new THREE.MeshPhongMaterial({ 
-    color: 0xeedd99, transparent: true, opacity: 0.4, 
-    side: THREE.FrontSide, shininess: 80, specular: 0x887744,
-    emissive: 0xc9a84c, emissiveIntensity: 0.1
-  });
-  const bodyGlowMat = new THREE.MeshPhongMaterial({ 
-    color: 0xc9a84c, transparent: true, opacity: 0.06, 
-    side: THREE.DoubleSide 
-  });
+  // (body materials are defined inline below)
   const crystalMat = new THREE.MeshPhongMaterial({ 
     color: 0xc8dcff, transparent: true, opacity: 0.4, 
     shininess: 100, specular: 0xffffff 
@@ -3392,135 +3376,97 @@ document.querySelectorAll('[contenteditable][data-placeholder]').forEach(el => {
   ];
   const chakraY = [-1.0, -0.5, 0.0, 0.35, 0.75, 1.5, 2.1];
 
-  // === BODY (ウィトルウィウス風 線画人体) ===
+  // === BODY (ワイヤーフレーム3Dメッシュ人体) ===
   const bodyGroup = new THREE.Group();
-  const lineMat = new THREE.LineBasicMaterial({ color: 0xdcc090, transparent: true, opacity: 0.9 });
-  const lineMatDim = new THREE.LineBasicMaterial({ color: 0xc9a84c, transparent: true, opacity: 0.5 });
-  const lineMatBright = new THREE.LineBasicMaterial({ color: 0xeedd99, transparent: true, opacity: 1.0 });
+  const V2 = THREE.Vector2;
 
   function makeLine(pts, mat) {
     const g = new THREE.BufferGeometry().setFromPoints(pts.map(p => new THREE.Vector3(p[0], p[1], p[2]||0)));
-    return new THREE.Line(g, mat || lineMat);
+    return new THREE.Line(g, mat);
   }
-  function mirror(pts) { return pts.map(p => [-p[0], p[1], p[2]||0]); }
 
-  // === 直立ポーズ（メイン） ===
-  // 右半身の輪郭
-  const rightOutline = [
-    [0, 2.3, 0], [0.28, 2.1, 0], [0.33, 1.8, 0], [0.30, 1.5, 0],
-    [0.15, 1.3, 0], [0.20, 1.1, 0], [0.50, 0.9, 0], [0.55, 0.85, 0],
-    [0.48, 0.5, 0], [0.42, 0.0, 0], [0.38, -0.5, 0], [0.35, -1.0, 0], [0.33, -1.2, 0],
-  ];
-  const rightTorso = [
-    [0.50, 0.9, 0], [0.45, 0.6, 0], [0.42, 0.3, 0], [0.38, 0.0, 0],
-    [0.32, -0.3, 0], [0.38, -0.6, 0], [0.40, -0.9, 0], [0.25, -1.2, 0],
-  ];
-  const rightLeg = [
-    [0.25, -1.2, 0], [0.28, -1.8, 0], [0.22, -2.4, 0],
-    [0.20, -3.0, 0], [0.15, -3.5, 0], [0.12, -3.7, 0], [0.20, -3.8, 0],
-  ];
-  const rightLegInner = [
-    [0.05, -1.2, 0], [0.08, -1.8, 0], [0.10, -2.4, 0],
-    [0.08, -3.0, 0], [0.06, -3.5, 0], [0.05, -3.7, 0],
-  ];
-
-  bodyGroup.add(makeLine(rightOutline, lineMatBright));
-  bodyGroup.add(makeLine(mirror(rightOutline), lineMatBright));
-  bodyGroup.add(makeLine(rightTorso, lineMat));
-  bodyGroup.add(makeLine(mirror(rightTorso), lineMat));
-  bodyGroup.add(makeLine(rightLeg, lineMat));
-  bodyGroup.add(makeLine(mirror(rightLeg), lineMat));
-  bodyGroup.add(makeLine(rightLegInner, lineMatDim));
-  bodyGroup.add(makeLine(mirror(rightLegInner), lineMatDim));
-
-  // === 腕を広げたポーズ（ウィトルウィウス風・重ね描き） ===
-  const spreadArmR = [
-    [0.55, 0.85, 0], [1.0, 0.75, 0], [1.5, 0.7, 0],
-    [2.0, 0.68, 0], [2.5, 0.65, 0], [2.8, 0.65, 0], [3.0, 0.63, 0],
-  ];
-  const spreadArmRBottom = [
-    [0.55, 0.75, 0], [1.0, 0.62, 0], [1.5, 0.58, 0],
-    [2.0, 0.55, 0], [2.5, 0.53, 0], [2.8, 0.53, 0], [3.0, 0.52, 0],
-  ];
-  // 斜め上に上げた腕
-  const raiseArmR = [
-    [0.55, 0.85, 0], [1.0, 1.3, 0], [1.5, 1.65, 0],
-    [2.0, 1.9, 0], [2.5, 2.1, 0], [2.8, 2.2, 0],
-  ];
-  const raiseArmRBottom = [
-    [0.55, 0.75, 0], [1.0, 1.18, 0], [1.5, 1.52, 0],
-    [2.0, 1.78, 0], [2.5, 1.98, 0], [2.8, 2.08, 0],
-  ];
-  // 脚を広げたポーズ
-  const spreadLegR = [
-    [0.25, -1.2, 0], [0.6, -1.8, 0], [0.85, -2.4, 0],
-    [1.05, -3.0, 0], [1.15, -3.5, 0], [1.2, -3.8, 0],
-  ];
-  const spreadLegRInner = [
-    [0.15, -1.2, 0], [0.45, -1.8, 0], [0.65, -2.4, 0],
-    [0.85, -3.0, 0], [0.95, -3.5, 0], [1.0, -3.8, 0],
+  // === ワイヤーフレーム3Dメッシュ人体 ===
+  // 詳細な人体プロファイル（半断面 → LatheGeometryで回転）
+  const bodyProfile = [
+    new V2(0.00, -3.8),   // 足先
+    new V2(0.10, -3.7),   // つま先
+    new V2(0.12, -3.55),  // 足甲
+    new V2(0.09, -3.4),   // 足首
+    new V2(0.14, -3.1),   // ふくらはぎ下
+    new V2(0.17, -2.7),   // ふくらはぎ
+    new V2(0.13, -2.3),   // 膝
+    new V2(0.14, -2.1),   // 膝上
+    new V2(0.20, -1.6),   // 太もも
+    new V2(0.24, -1.2),   // 太もも上
+    new V2(0.28, -0.9),   // 股関節
+    new V2(0.32, -0.6),   // 骨盤
+    new V2(0.28, -0.3),   // ウエスト
+    new V2(0.33, 0.0),    // 腹
+    new V2(0.38, 0.25),   // 胸下
+    new V2(0.42, 0.5),    // 胸
+    new V2(0.45, 0.7),    // 肩
+    new V2(0.20, 0.85),   // 首の付け根
+    new V2(0.12, 1.0),    // 首
+    new V2(0.11, 1.15),   // 首上
+    new V2(0.22, 1.3),    // 顎
+    new V2(0.28, 1.5),    // 頬
+    new V2(0.30, 1.65),   // 顔面
+    new V2(0.27, 1.8),    // 額
+    new V2(0.18, 1.95),   // 頭頂付近
+    new V2(0.05, 2.05),   // 頭頂
+    new V2(0.00, 2.1),    // てっぺん
   ];
 
-  const ghostMat = new THREE.LineBasicMaterial({ color: 0xc9a84c, transparent: true, opacity: 0.3 });
+  // 高密度LatheGeometry
+  const bodyGeo = new THREE.LatheGeometry(bodyProfile, 32);
 
-  // 水平に広げた腕
-  bodyGroup.add(makeLine(spreadArmR, ghostMat));
-  bodyGroup.add(makeLine(mirror(spreadArmR), ghostMat));
-  bodyGroup.add(makeLine(spreadArmRBottom, ghostMat));
-  bodyGroup.add(makeLine(mirror(spreadArmRBottom), ghostMat));
-  // 斜め上の腕
-  bodyGroup.add(makeLine(raiseArmR, ghostMat));
-  bodyGroup.add(makeLine(mirror(raiseArmR), ghostMat));
-  bodyGroup.add(makeLine(raiseArmRBottom, ghostMat));
-  bodyGroup.add(makeLine(mirror(raiseArmRBottom), ghostMat));
-  // 広げた脚
-  bodyGroup.add(makeLine(spreadLegR, ghostMat));
-  bodyGroup.add(makeLine(mirror(spreadLegR), ghostMat));
-  bodyGroup.add(makeLine(spreadLegRInner, ghostMat));
-  bodyGroup.add(makeLine(mirror(spreadLegRInner), ghostMat));
+  // ワイヤーフレームメッシュ（メイン — 明るい金色グリッド）
+  const wireMat = new THREE.MeshBasicMaterial({
+    color: 0xdcc090, wireframe: true, transparent: true, opacity: 0.55
+  });
+  const bodyWire = new THREE.Mesh(bodyGeo, wireMat);
+  bodyGroup.add(bodyWire);
 
-  // === ディテール ===
-  bodyGroup.add(makeLine([[0,2.3,0],[0,-1.2,0]], lineMatDim)); // 中心線
-  bodyGroup.add(makeLine([[-0.55,0.85,0],[0.55,0.85,0]], lineMatDim)); // 肩
-  bodyGroup.add(makeLine([[-0.42,0.3,0],[0.42,0.3,0]], lineMatDim));   // 胸
-  bodyGroup.add(makeLine([[-0.32,-0.3,0],[0.32,-0.3,0]], lineMatDim)); // ウエスト
-  bodyGroup.add(makeLine([[-0.40,-0.9,0],[0.40,-0.9,0]], lineMatDim)); // 骨盤
-  bodyGroup.add(makeLine([[-0.50,0.9,0],[0,0.75,0],[0.50,0.9,0]], lineMat)); // 鎖骨V
-  bodyGroup.add(makeLine([[0.15,0.8,0],[0.35,0.6,0],[0.40,0.35,0]], lineMatDim)); // 胸筋R
-  bodyGroup.add(makeLine([[-0.15,0.8,0],[-0.35,0.6,0],[-0.40,0.35,0]], lineMatDim)); // 胸筋L
-  bodyGroup.add(makeLine([[0.12,0.2,0],[0.12,-0.5,0]], lineMatDim)); // 腹筋R
-  bodyGroup.add(makeLine([[-0.12,0.2,0],[-0.12,-0.5,0]], lineMatDim)); // 腹筋L
+  // 半透明ソリッド（内側の深み）
+  const solidMat = new THREE.MeshPhongMaterial({
+    color: 0xc9a84c, transparent: true, opacity: 0.06,
+    side: THREE.DoubleSide, shininess: 30
+  });
+  const bodySolid = new THREE.Mesh(bodyGeo, solidMat);
+  bodyGroup.add(bodySolid);
 
-  // 背面ライン
-  const backR = rightTorso.map(p => [p[0]*0.95, p[1], -0.2]);
-  const backL = mirror(rightTorso).map(p => [p[0]*0.95, p[1], -0.2]);
-  bodyGroup.add(makeLine(backR, lineMatDim));
-  bodyGroup.add(makeLine(backL, lineMatDim));
-  [[0.50,0.9],[0.42,0.3],[0.32,-0.3],[0.40,-0.9]].forEach(([x,y]) => {
-    bodyGroup.add(makeLine([[x,y,0],[x*0.95,y,-0.2]], lineMatDim));
-    bodyGroup.add(makeLine([[-x,y,0],[-x*0.95,y,-0.2]], lineMatDim));
+  // === 腕（LatheGeometryベース） ===
+  const armProfile = [
+    new V2(0.00, 0.0),
+    new V2(0.06, 0.05),
+    new V2(0.08, 0.3),
+    new V2(0.09, 0.6),  // 肩近く
+    new V2(0.07, 1.0),  // 上腕
+    new V2(0.055, 1.3), // 肘
+    new V2(0.06, 1.4),
+    new V2(0.05, 1.7),  // 前腕
+    new V2(0.04, 1.95), // 手首
+    new V2(0.05, 2.05), // 手のひら
+    new V2(0.03, 2.15),
+    new V2(0.00, 2.2),
+  ];
+  const armGeo = new THREE.LatheGeometry(armProfile, 12);
+  const armWireMat = new THREE.MeshBasicMaterial({
+    color: 0xdcc090, wireframe: true, transparent: true, opacity: 0.5
   });
 
-  // 頭（円）
-  const headPts = [];
-  for (let i = 0; i <= 24; i++) {
-    const a = (i/24) * Math.PI * 2;
-    headPts.push([Math.cos(a)*0.32, 1.8 + Math.sin(a)*0.35, 0]);
-  }
-  bodyGroup.add(makeLine(headPts, lineMatBright));
-
-  // === ウィトルウィウスの円 + 正方形 ===
-  const guideMat = new THREE.LineBasicMaterial({ color: 0xc9a84c, transparent: true, opacity: 0.1 });
-  // 大円
-  const bigCircle = [];
-  for (let i = 0; i <= 64; i++) {
-    const a = (i/64) * Math.PI * 2;
-    bigCircle.push([Math.cos(a)*4.0, Math.sin(a)*4.0 - 0.5, -0.3]);
-  }
-  bodyGroup.add(makeLine(bigCircle, guideMat));
-  // 正方形
-  const sq = 3.5;
-  bodyGroup.add(makeLine([[-sq,-3.8,-0.3],[sq,-3.8,-0.3],[sq,3.2,-0.3],[-sq,3.2,-0.3],[-sq,-3.8,-0.3]], guideMat));
+  // 左腕
+  const armL = new THREE.Mesh(armGeo, armWireMat);
+  armL.position.set(-0.48, 0.72, 0);
+  armL.rotation.z = 0.35;
+  armL.rotation.x = -0.05;
+  bodyGroup.add(armL);
+  // 右腕
+  const armR = new THREE.Mesh(armGeo, armWireMat);
+  armR.position.set(0.48, 0.72, 0);
+  armR.rotation.z = -0.35;
+  armR.rotation.x = -0.05;
+  bodyGroup.add(armR);
 
   scene.add(bodyGroup);
 
