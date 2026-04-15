@@ -121,23 +121,21 @@
 
   .etheric-body {
     position: relative;
-    width: 300px;
-    height: 450px;
+    width: 280px;
+    height: 420px;
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-
-  #etheric3DCanvas {
-    width: 100%;
-    height: 100%;
-    border-radius: 8px;
-    touch-action: none;
+    perspective: 600px;
   }
 
   .etheric-body svg {
     width: 100%;
     height: 100%;
+    filter: drop-shadow(0 0 40px rgba(201, 168, 76, 0.3))
+           drop-shadow(0 15px 30px rgba(0,0,0,0.5));
+    transform: rotateX(15deg) rotateY(-5deg);
+    transform-style: preserve-3d;
   }
 
   .etheric-body .aura {
@@ -145,13 +143,45 @@
     top: -40px; left: -40px;
     right: -40px; bottom: -40px;
     border-radius: 50% 50% 40% 40%;
-    background: radial-gradient(ellipse at 40% 35%, rgba(201, 168, 76, 0.08) 0%, transparent 65%);
+    background: radial-gradient(ellipse at 40% 35%, rgba(201, 168, 76, 0.12) 0%, rgba(160,120,255,0.06) 35%, transparent 65%);
     animation: auraPulse 4s ease-in-out infinite;
+    transform: rotateX(15deg) rotateY(-5deg) translateZ(-30px);
+  }
+
+  .etheric-body::before {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 10%;
+    right: 10%;
+    height: 40px;
+    background: radial-gradient(ellipse, rgba(201,168,76,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    filter: blur(12px);
+    transform: rotateX(70deg);
+  }
+
+  .etheric-body::after {
+    content: '';
+    position: absolute;
+    top: -30px;
+    left: 20%;
+    right: 20%;
+    height: 25px;
+    background: radial-gradient(ellipse, rgba(200,180,255,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+    filter: blur(8px);
+    animation: topGlow 5s ease-in-out infinite;
+  }
+
+  @keyframes topGlow {
+    0%, 100% { opacity: 0.5; transform: scaleX(1); }
+    50% { opacity: 1; transform: scaleX(1.3); }
   }
 
   @keyframes auraPulse {
-    0%, 100% { transform: scale(1); opacity: 0.6; }
-    50% { transform: scale(1.08); opacity: 1; }
+    0%, 100% { transform: rotateX(15deg) rotateY(-5deg) translateZ(-30px) scale(1); opacity: 0.6; }
+    50% { transform: rotateX(15deg) rotateY(-5deg) translateZ(-30px) scale(1.1); opacity: 1; }
   }
 
   .chakra {
@@ -1112,7 +1142,7 @@
     .attributes { grid-template-columns: 1fr; }
     .temple-rooms { grid-template-columns: 1fr 1fr; }
     .section-title { font-size: 1.3rem; }
-    .etheric-body { width: 260px; height: 400px; }
+    .etheric-body { width: 220px; height: 330px; }
     .sephira { width: 45px; height: 45px; }
     .sephira-name { font-size: 0.6rem; }
     .tree-pillars { grid-template-columns: 1fr; }
@@ -1141,10 +1171,7 @@
       <p class="section-subtitle">エーテルダブルの構築<br>自分自身を精密に観察し、ここに降ろす</p>
     </div>
 
-    <div class="etheric-body" id="ethericBody3D">
-      <canvas id="etheric3DCanvas"></canvas>
-    </div>
-    <div class="etheric-body" style="display:none">
+    <div class="etheric-body">
       <div class="aura"></div>
       <svg viewBox="-60 -40 320 440" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
@@ -3311,351 +3338,5 @@ document.querySelectorAll('[contenteditable][data-placeholder]').forEach(el => {
 });
 </script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
-<script>
-(function() {
-  const container = document.getElementById('ethericBody3D');
-  const canvas = document.getElementById('etheric3DCanvas');
-  if (!container || !canvas) return;
-
-  const W = container.clientWidth || 300;
-  const H = container.clientHeight || 450;
-
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(40, W / H, 0.1, 100);
-  camera.position.set(0, 0.3, 9);
-  camera.lookAt(0, -0.2, 0);
-
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-  renderer.setSize(W, H);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setClearColor(0x000000, 0);
-
-  // === HOLOGRAM LIGHTS ===
-  const ambLight = new THREE.AmbientLight(0x112244, 0.3);
-  scene.add(ambLight);
-  const keyLight = new THREE.DirectionalLight(0x4488ff, 1.2);
-  keyLight.position.set(2, 5, 5);
-  scene.add(keyLight);
-  const fillLight = new THREE.PointLight(0x0066cc, 0.8, 20);
-  fillLight.position.set(-4, 0, 4);
-  scene.add(fillLight);
-  const rimLight = new THREE.PointLight(0x00aaff, 1.0, 15);
-  rimLight.position.set(0, 3, -4);
-  scene.add(rimLight);
-  const bottomGlow = new THREE.PointLight(0x0088ff, 1.5, 8);
-  bottomGlow.position.set(0, -3.5, 0);
-  scene.add(bottomGlow);
-  const topGlow = new THREE.PointLight(0x66ccff, 0.5, 8);
-  topGlow.position.set(0, 3, 2);
-  scene.add(topGlow);
-
-  // === HOLOGRAM MATERIALS ===
-  const holoWire = new THREE.MeshPhongMaterial({
-    color: 0x2299ff, wireframe: true, transparent: true, opacity: 0.35,
-    emissive: 0x0055cc, emissiveIntensity: 0.8
-  });
-  const holoInner = new THREE.MeshPhongMaterial({
-    color: 0x0a1530, transparent: true, opacity: 0.1,
-    side: THREE.DoubleSide, shininess: 100, specular: 0x2266cc,
-    emissive: 0x001144, emissiveIntensity: 0.5
-  });
-  const holoEdge = new THREE.MeshBasicMaterial({
-    color: 0x0088ff, transparent: true, opacity: 0.04, side: THREE.BackSide
-  });
-
-  // Chakra colors
-  const chakraColors = [
-    0xff3344, 0xff7733, 0xffcc33, 0x33ff66, 0x3388ff, 0x7744dd, 0xcc44ff
-  ];
-  const chakraY = [-0.65, -0.3, 0.05, 0.45, 0.85, 1.4, 1.95];
-
-  // === BODY — GLTF MODEL LOAD ===
-  const bodyGroup = new THREE.Group();
-  scene.add(bodyGroup);
-
-  const loader = new THREE.GLTFLoader();
-  loader.load('https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/models/gltf/Soldier.glb',
-    function(gltf) {
-      const model = gltf.scene;
-      // Scale & position to match our coordinate system
-      model.scale.set(3.5, 3.5, 3.5);
-      model.position.y = -3.1;
-
-      // Replace all materials with hologram wireframe
-      model.traverse(function(child) {
-        if (child.isMesh) {
-          // Wireframe layer
-          child.material = holoWire;
-          // Add inner glow duplicate
-          const innerClone = child.clone();
-          innerClone.material = holoInner;
-          model.add(innerClone);
-          // Add edge glow
-          const edgeClone = child.clone();
-          edgeClone.material = holoEdge;
-          edgeClone.scale.multiplyScalar(1.02);
-          model.add(edgeClone);
-        }
-      });
-
-      bodyGroup.add(model);
-    },
-    undefined,
-    function(err) {
-      console.warn('GLTF load failed, using fallback body');
-      // Fallback: simple capsule body
-      const capsule = new THREE.Mesh(
-        new THREE.CapsuleGeometry(0.4, 3.5, 16, 24),
-        holoWire
-      );
-      capsule.position.y = -0.3;
-      bodyGroup.add(capsule);
-      const capsuleInner = new THREE.Mesh(
-        new THREE.CapsuleGeometry(0.4, 3.5, 16, 24),
-        holoInner
-      );
-      capsuleInner.position.y = -0.3;
-      bodyGroup.add(capsuleInner);
-    }
-  );
-
-  // === ホログラム走査線 (scanline plane) ===
-  const scanGeo = new THREE.PlaneGeometry(2.5, 0.02);
-  const scanMat = new THREE.MeshBasicMaterial({color:0x44ccff, transparent:true, opacity:0.3, side:THREE.DoubleSide});
-  const scanLine = new THREE.Mesh(scanGeo, scanMat);
-  scanLine.position.z = 0.5;
-  scene.add(scanLine);
-
-  // === CHAKRAS ===
-  const chakras = [];
-  chakraY.forEach((y, i) => {
-    const geo = new THREE.SphereGeometry(0.14, 16, 12);
-    const mat = new THREE.MeshPhongMaterial({
-      color: chakraColors[i], emissive: chakraColors[i], emissiveIntensity: 1.0,
-      transparent: true, opacity: 0.9, shininess: 100
-    });
-    const mesh = new THREE.Mesh(geo, mat);
-    mesh.position.set(0, y, 0.35);
-    scene.add(mesh);
-    const glowGeo = new THREE.SphereGeometry(0.25, 12, 8);
-    const glowMat = new THREE.MeshBasicMaterial({color:chakraColors[i], transparent:true, opacity:0.1, side:THREE.BackSide});
-    const glow = new THREE.Mesh(glowGeo, glowMat);
-    glow.position.set(0, y, 0.35);
-    scene.add(glow);
-    const ringGeo = new THREE.RingGeometry(0.18, 0.26, 32);
-    const ringMat = new THREE.MeshBasicMaterial({color:chakraColors[i], transparent:true, opacity:0.2, side:THREE.DoubleSide});
-    const ring = new THREE.Mesh(ringGeo, ringMat);
-    ring.position.set(0, y, 0.35);
-    ring.rotation.x = Math.PI/2;
-    scene.add(ring);
-    const cLight = new THREE.PointLight(chakraColors[i], 0.12, 1.5);
-    cLight.position.set(0, y, 0.5);
-    scene.add(cLight);
-    chakras.push({mesh, ring, glow, baseY:y});
-  });
-
-  // === CENTRAL AXIS ===
-  const axisGeo = new THREE.CylinderGeometry(0.015, 0.015, 6, 8);
-  const axisMat = new THREE.MeshBasicMaterial({color:0x2288ff, transparent:true, opacity:0.12});
-  const axis = new THREE.Mesh(axisGeo, axisMat);
-  scene.add(axis);
-
-  // === 鎖骨ブロック ===
-  const blockGeo = new THREE.TorusGeometry(0.4, 0.03, 8, 32);
-  const blockMat = new THREE.MeshBasicMaterial({color:0xff4466, transparent:true, opacity:0.35});
-  const block = new THREE.Mesh(blockGeo, blockMat);
-  block.position.y = 0.95;
-  block.rotation.x = Math.PI/2;
-  scene.add(block);
-
-  // === 21 LEMURIAN CRYSTALS ===
-  const crystalMat = new THREE.MeshPhongMaterial({
-    color:0x88ccff, transparent:true, opacity:0.35, shininess:120, specular:0xffffff,
-    emissive:0x004488, emissiveIntensity:0.3
-  });
-  const goldCrystalMat = new THREE.MeshPhongMaterial({
-    color:0xaaddff, transparent:true, opacity:0.4, shininess:120, specular:0xffffff,
-    emissive:0x0066aa, emissiveIntensity:0.4
-  });
-  function createCrystal(mat, scale) {
-    return new THREE.Mesh(new THREE.ConeGeometry(0.08*scale, 0.35*scale, 6), mat);
-  }
-  const crystalGroup = new THREE.Group();
-  for(let i=0;i<6;i++){const a=(i/6)*Math.PI*2-Math.PI/2;
-    const c=createCrystal(crystalMat,1.0);c.position.set(Math.cos(a)*3.2,Math.sin(a)*2.5,0);c.rotation.z=a+Math.PI;crystalGroup.add(c);}
-  for(let i=0;i<6;i++){const a=(i/6)*Math.PI*2-Math.PI/6;
-    const c=createCrystal(crystalMat,0.85);c.position.set(Math.cos(a)*2.0,Math.sin(a)*1.8,0);crystalGroup.add(c);}
-  for(let i=0;i<6;i++){const a=(i/6)*Math.PI*2;
-    const c=createCrystal(goldCrystalMat,0.7);c.position.set(Math.cos(a)*1.0,Math.sin(a)*1.0,0);crystalGroup.add(c);}
-  for(let i=0;i<3;i++){const a=(i/3)*Math.PI*2-Math.PI/2;
-    const c=createCrystal(goldCrystalMat,0.6);c.position.set(Math.cos(a)*0.35,Math.sin(a)*0.4,0.2);crystalGroup.add(c);}
-  scene.add(crystalGroup);
-
-  // === HEXAGRAM LINES (blue) ===
-  function hexLine(r, yS, op){
-    const pts=[];for(let i=0;i<=6;i++){const a=(i/6)*Math.PI*2-Math.PI/2;
-      pts.push(new THREE.Vector3(Math.cos(a)*r,Math.sin(a)*r*yS,0));}
-    scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),
-      new THREE.LineBasicMaterial({color:0x2288ff, transparent:true, opacity:op})));
-  }
-  hexLine(3.2,0.78,0.12); hexLine(2.0,0.9,0.1); hexLine(1.0,1.0,0.12);
-
-  // === PHURBA ===
-  const phurbaMatH = new THREE.MeshPhongMaterial({color:0x66aaff, shininess:80, specular:0xaaddff, emissive:0x003366, emissiveIntensity:0.3});
-  const phurbaTop = new THREE.Mesh(new THREE.ConeGeometry(0.06,0.6,6), phurbaMatH);
-  phurbaTop.position.set(0,2.6,0); phurbaTop.rotation.z=Math.PI; scene.add(phurbaTop);
-  const ptopGlow = new THREE.PointLight(0x88ccff, 0.3, 3);
-  ptopGlow.position.set(0,2.8,0); scene.add(ptopGlow);
-  const phurbaBot = new THREE.Mesh(new THREE.ConeGeometry(0.08,0.8,6), phurbaMatH);
-  phurbaBot.position.set(0,-3.5,0); scene.add(phurbaBot);
-  const pbotGlow = new THREE.PointLight(0x4488ff, 0.3, 3);
-  pbotGlow.position.set(0,-3.7,0); scene.add(pbotGlow);
-
-  // === ENERGY PARTICLES ===
-  const particles = [];
-  function createParticle(color, path, speed) {
-    const mat = new THREE.MeshBasicMaterial({color, transparent:true, opacity:0.8});
-    const mesh = new THREE.Mesh(new THREE.SphereGeometry(0.035,8,6), mat);
-    scene.add(mesh);
-    particles.push({mesh, path, speed, t:Math.random()});
-  }
-  const descPath=(t)=>new THREE.Vector3(0, 3.0-t*2.0, 0.1);
-  for(let i=0;i<6;i++) createParticle(0x88ccff, descPath, 0.3+Math.random()*0.2);
-  const ascPath=(t)=>new THREE.Vector3(0, -3.5+t*4.4, 0.1);
-  for(let i=0;i<6;i++) createParticle(0x4488ff, ascPath, 0.25+Math.random()*0.15);
-  for(let i=0;i<4;i++){const a=(i/4)*Math.PI*2;
-    const p=(t)=>new THREE.Vector3(Math.cos(a)*t*2, 0.95, Math.sin(a)*t*2);
-    createParticle(0x446688, p, 0.4);}
-  const lPath=(t)=>new THREE.Vector3(-0.75+t*0.5,-1.05+t*1.5,0.2*Math.sin(t*Math.PI));
-  const rPath=(t)=>new THREE.Vector3(0.75-t*0.5,-1.05+t*1.5,0.2*Math.sin(t*Math.PI));
-  for(let i=0;i<3;i++){createParticle(0x44aaff,lPath,0.35);createParticle(0x44aaff,rPath,0.35);}
-
-  // === HAND SEALS ===
-  const sealMat = new THREE.MeshBasicMaterial({color:0xff4466, transparent:true, opacity:0.5});
-  const sealGeo = new THREE.SphereGeometry(0.1, 12, 8);
-  const sealL = new THREE.Mesh(sealGeo, sealMat.clone());
-  sealL.position.set(-0.75,-1.05,0); scene.add(sealL);
-  const sealR = new THREE.Mesh(sealGeo, sealMat.clone());
-  sealR.position.set(0.75,-1.05,0); scene.add(sealR);
-
-  // === HOLOGRAM PLATFORM (足元の光るリング) ===
-  // メインリング
-  const platGeo = new THREE.RingGeometry(1.8, 2.0, 64);
-  const platMat = new THREE.MeshBasicMaterial({color:0x2288ff, transparent:true, opacity:0.2, side:THREE.DoubleSide});
-  const platform = new THREE.Mesh(platGeo, platMat);
-  platform.position.y=-3.15; platform.rotation.x=-Math.PI/2; scene.add(platform);
-  // 内側リング
-  const plat2Geo = new THREE.RingGeometry(1.2, 1.3, 64);
-  const plat2 = new THREE.Mesh(plat2Geo, new THREE.MeshBasicMaterial({color:0x44aaff, transparent:true, opacity:0.15, side:THREE.DoubleSide}));
-  plat2.position.y=-3.15; plat2.rotation.x=-Math.PI/2; scene.add(plat2);
-  // 外側リング
-  const plat3Geo = new THREE.RingGeometry(2.5, 2.6, 64);
-  const plat3 = new THREE.Mesh(plat3Geo, new THREE.MeshBasicMaterial({color:0x1166cc, transparent:true, opacity:0.1, side:THREE.DoubleSide}));
-  plat3.position.y=-3.15; plat3.rotation.x=-Math.PI/2; scene.add(plat3);
-  // 床面の光
-  const floorGeo = new THREE.CircleGeometry(2.0, 48);
-  const floorMat = new THREE.MeshBasicMaterial({color:0x0044aa, transparent:true, opacity:0.06});
-  const floor = new THREE.Mesh(floorGeo, floorMat);
-  floor.position.y=-3.16; floor.rotation.x=-Math.PI/2; scene.add(floor);
-  // 足元からの上方ライトコーン
-  const coneGeo = new THREE.CylinderGeometry(0.3, 2.0, 6.5, 24, 1, true);
-  const coneMat = new THREE.MeshBasicMaterial({color:0x1166cc, transparent:true, opacity:0.015, side:THREE.DoubleSide});
-  const cone = new THREE.Mesh(coneGeo, coneMat);
-  cone.position.y = 0; scene.add(cone);
-
-  // === AURA ===
-  const auraGeo = new THREE.SphereGeometry(2.5, 32, 20);
-  const auraMat = new THREE.MeshBasicMaterial({color:0x2266cc, transparent:true, opacity:0.02, side:THREE.BackSide});
-  const aura = new THREE.Mesh(auraGeo, auraMat); scene.add(aura);
-
-  // === TOUCH ROTATION ===
-  let autoRotate = true, rotY = 0, rotX = 0.08;
-  let isDragging = false, lastX = 0, lastY = 0;
-  canvas.addEventListener('pointerdown', (e) => { isDragging=true; autoRotate=false; lastX=e.clientX; lastY=e.clientY; });
-  canvas.addEventListener('pointermove', (e) => {
-    if(!isDragging) return;
-    rotY+=(e.clientX-lastX)*0.01; rotX+=(e.clientY-lastY)*0.005;
-    rotX=Math.max(-0.5, Math.min(0.5, rotX)); lastX=e.clientX; lastY=e.clientY;
-  });
-  canvas.addEventListener('pointerup', () => { isDragging=false; });
-  canvas.addEventListener('pointerleave', () => { isDragging=false; });
-  let autoTimer;
-  canvas.addEventListener('pointerup', () => { clearTimeout(autoTimer); autoTimer=setTimeout(()=>{autoRotate=true;}, 5000); });
-
-  // === ANIMATE ===
-  const clock = new THREE.Clock();
-  function animate() {
-    requestAnimationFrame(animate);
-    const t = clock.getElapsedTime();
-
-    if (autoRotate) rotY += 0.003;
-    scene.rotation.y = rotY;
-    scene.rotation.x = rotX;
-
-    // Scanline sweep
-    scanLine.position.y = -3 + ((t * 0.8) % 1) * 6;
-    scanMat.opacity = 0.15 + 0.15 * Math.sin(t * 4);
-
-    // Chakra pulse
-    chakras.forEach((c, i) => {
-      const s = 1 + 0.2 * Math.sin(t*2 + i*0.8);
-      c.mesh.scale.set(s,s,s);
-      c.ring.scale.set(s*1.3, s*1.3, 1);
-      c.ring.material.opacity = 0.12 + 0.18 * Math.sin(t*2 + i*0.8);
-      if(c.glow){c.glow.scale.setScalar(1 + 0.3*Math.sin(t*1.5+i*0.6)); c.glow.material.opacity = 0.06+0.08*Math.sin(t*1.5+i*0.6);}
-    });
-
-    // Block pulse
-    block.material.opacity = 0.25 + 0.15 * Math.sin(t*3);
-    block.scale.set(1+0.05*Math.sin(t*2), 1, 1+0.05*Math.sin(t*2));
-
-    // Seal pulse
-    sealL.material.opacity = 0.35+0.3*Math.sin(t*2.5);
-    sealR.material.opacity = 0.35+0.3*Math.sin(t*2.5+1);
-    sealL.scale.setScalar(1+0.15*Math.sin(t*2.5));
-    sealR.scale.setScalar(1+0.15*Math.sin(t*2.5+1));
-
-    // Aura
-    aura.scale.setScalar(1 + 0.05*Math.sin(t*0.8));
-    auraMat.opacity = 0.015 + 0.01*Math.sin(t*0.8);
-
-    // Platform rings rotate
-    platform.rotation.z = t * 0.15;
-    plat2.rotation.z = -t * 0.2;
-    plat3.rotation.z = t * 0.1;
-    platMat.opacity = 0.15 + 0.1*Math.sin(t*1.5);
-
-    // Light animation
-    rimLight.intensity = 0.7 + 0.4*Math.sin(t*0.7);
-    topGlow.intensity = 0.3 + 0.2*Math.sin(t*1.5);
-    bottomGlow.intensity = 1.0 + 0.5*Math.sin(t*0.9);
-
-    // Particles
-    particles.forEach(p => {
-      p.t = (p.t + p.speed*0.01) % 1;
-      const pos = p.path(p.t);
-      p.mesh.position.copy(pos);
-      p.mesh.material.opacity = 0.7*(1-Math.abs(p.t-0.5)*2);
-    });
-
-    // Crystal shimmer
-    crystalGroup.children.forEach((c,i)=>{c.material.opacity=0.25+0.15*Math.sin(t*1.5+i*0.5);});
-
-    // Phurba
-    ptopGlow.intensity = 0.2+0.15*Math.sin(t*2);
-    pbotGlow.intensity = 0.2+0.15*Math.sin(t*2+Math.PI);
-
-    renderer.render(scene, camera);
-  }
-  animate();
-
-  window.addEventListener('resize', () => {
-    const w=container.clientWidth, h=container.clientHeight;
-    camera.aspect=w/h; camera.updateProjectionMatrix(); renderer.setSize(w,h);
-  });
-})();
-</script>
 </body>
 </html>
