@@ -3374,7 +3374,7 @@ document.querySelectorAll('[contenteditable][data-placeholder]').forEach(el => {
     0x6040c0, // third eye
     0xc040ff  // crown
   ];
-  const chakraY = [-1.0, -0.5, 0.0, 0.35, 0.75, 1.5, 2.1];
+  const chakraY = [-0.65, -0.3, 0.05, 0.45, 0.85, 1.4, 1.95];
 
   // === BODY (ワイヤーフレーム3Dメッシュ人体) ===
   const bodyGroup = new THREE.Group();
@@ -3385,88 +3385,94 @@ document.querySelectorAll('[contenteditable][data-placeholder]').forEach(el => {
     return new THREE.Line(g, mat);
   }
 
-  // === ワイヤーフレーム3Dメッシュ人体 ===
-  // 詳細な人体プロファイル（半断面 → LatheGeometryで回転）
-  const bodyProfile = [
-    new V2(0.00, -3.8),   // 足先
-    new V2(0.10, -3.7),   // つま先
-    new V2(0.12, -3.55),  // 足甲
-    new V2(0.09, -3.4),   // 足首
-    new V2(0.14, -3.1),   // ふくらはぎ下
-    new V2(0.17, -2.7),   // ふくらはぎ
-    new V2(0.13, -2.3),   // 膝
-    new V2(0.14, -2.1),   // 膝上
-    new V2(0.20, -1.6),   // 太もも
-    new V2(0.24, -1.2),   // 太もも上
-    new V2(0.28, -0.9),   // 股関節
-    new V2(0.32, -0.6),   // 骨盤
-    new V2(0.28, -0.3),   // ウエスト
-    new V2(0.33, 0.0),    // 腹
-    new V2(0.38, 0.25),   // 胸下
-    new V2(0.42, 0.5),    // 胸
-    new V2(0.45, 0.7),    // 肩
-    new V2(0.20, 0.85),   // 首の付け根
-    new V2(0.12, 1.0),    // 首
-    new V2(0.11, 1.15),   // 首上
-    new V2(0.22, 1.3),    // 顎
-    new V2(0.28, 1.5),    // 頬
-    new V2(0.30, 1.65),   // 顔面
-    new V2(0.27, 1.8),    // 額
-    new V2(0.18, 1.95),   // 頭頂付近
-    new V2(0.05, 2.05),   // 頭頂
-    new V2(0.00, 2.1),    // てっぺん
-  ];
-
-  // 高密度LatheGeometry
-  const bodyGeo = new THREE.LatheGeometry(bodyProfile, 32);
-
-  // ワイヤーフレームメッシュ（メイン — 明るい金色グリッド）
+  // === ワイヤーフレーム3D人体（パーツ別構築） ===
   const wireMat = new THREE.MeshBasicMaterial({
-    color: 0xdcc090, wireframe: true, transparent: true, opacity: 0.55
-  });
-  const bodyWire = new THREE.Mesh(bodyGeo, wireMat);
-  bodyGroup.add(bodyWire);
-
-  // 半透明ソリッド（内側の深み）
-  const solidMat = new THREE.MeshPhongMaterial({
-    color: 0xc9a84c, transparent: true, opacity: 0.06,
-    side: THREE.DoubleSide, shininess: 30
-  });
-  const bodySolid = new THREE.Mesh(bodyGeo, solidMat);
-  bodyGroup.add(bodySolid);
-
-  // === 腕（LatheGeometryベース） ===
-  const armProfile = [
-    new V2(0.00, 0.0),
-    new V2(0.06, 0.05),
-    new V2(0.08, 0.3),
-    new V2(0.09, 0.6),  // 肩近く
-    new V2(0.07, 1.0),  // 上腕
-    new V2(0.055, 1.3), // 肘
-    new V2(0.06, 1.4),
-    new V2(0.05, 1.7),  // 前腕
-    new V2(0.04, 1.95), // 手首
-    new V2(0.05, 2.05), // 手のひら
-    new V2(0.03, 2.15),
-    new V2(0.00, 2.2),
-  ];
-  const armGeo = new THREE.LatheGeometry(armProfile, 12);
-  const armWireMat = new THREE.MeshBasicMaterial({
     color: 0xdcc090, wireframe: true, transparent: true, opacity: 0.5
   });
+  const wireBright = new THREE.MeshBasicMaterial({
+    color: 0xeedd99, wireframe: true, transparent: true, opacity: 0.65
+  });
+  const innerMat = new THREE.MeshPhongMaterial({
+    color: 0xc9a84c, transparent: true, opacity: 0.04,
+    side: THREE.DoubleSide
+  });
 
-  // 左腕
-  const armL = new THREE.Mesh(armGeo, armWireMat);
-  armL.position.set(-0.48, 0.72, 0);
-  armL.rotation.z = 0.35;
-  armL.rotation.x = -0.05;
-  bodyGroup.add(armL);
-  // 右腕
-  const armR = new THREE.Mesh(armGeo, armWireMat);
-  armR.position.set(0.48, 0.72, 0);
-  armR.rotation.z = -0.35;
-  armR.rotation.x = -0.05;
-  bodyGroup.add(armR);
+  function addPart(geo, pos, rot, mat) {
+    const m = new THREE.Mesh(geo, mat || wireMat);
+    if (pos) m.position.set(pos[0], pos[1], pos[2] || 0);
+    if (rot) { m.rotation.x = rot[0]||0; m.rotation.y = rot[1]||0; m.rotation.z = rot[2]||0; }
+    bodyGroup.add(m);
+    const inner = new THREE.Mesh(geo, innerMat);
+    if (pos) inner.position.copy(m.position);
+    if (rot) inner.rotation.copy(m.rotation);
+    bodyGroup.add(inner);
+    return m;
+  }
+
+  // 頭（楕円球）
+  const headGeo = new THREE.SphereGeometry(0.32, 16, 12);
+  headGeo.scale(1, 1.15, 0.95);
+  addPart(headGeo, [0, 1.75, 0], null, wireBright);
+
+  // 首
+  const neckGeo = new THREE.CylinderGeometry(0.10, 0.12, 0.35, 10);
+  addPart(neckGeo, [0, 1.25, 0]);
+
+  // 胸部（胸は前後に厚みがある楕円柱）
+  const chestGeo = new THREE.CylinderGeometry(0.35, 0.30, 0.8, 14);
+  chestGeo.scale(1.2, 1, 0.75);
+  addPart(chestGeo, [0, 0.7, 0], null, wireBright);
+
+  // 肩（球）
+  const shoulderGeo = new THREE.SphereGeometry(0.12, 8, 6);
+  addPart(shoulderGeo, [-0.50, 0.9, 0]);
+  addPart(shoulderGeo, [0.50, 0.9, 0]);
+
+  // 腹部
+  const abdGeo = new THREE.CylinderGeometry(0.30, 0.28, 0.5, 12);
+  abdGeo.scale(1.1, 1, 0.7);
+  addPart(abdGeo, [0, 0.05, 0]);
+
+  // 骨盤
+  const pelvisGeo = new THREE.CylinderGeometry(0.28, 0.32, 0.45, 12);
+  pelvisGeo.scale(1.15, 1, 0.7);
+  addPart(pelvisGeo, [0, -0.4, 0]);
+
+  // 上腕（左）
+  const upperArmGeo = new THREE.CylinderGeometry(0.07, 0.06, 0.9, 8);
+  addPart(upperArmGeo, [-0.55, 0.25, 0], [0, 0, 0.2]);
+  // 上腕（右）
+  addPart(upperArmGeo, [0.55, 0.25, 0], [0, 0, -0.2]);
+
+  // 前腕（左）
+  const forearmGeo = new THREE.CylinderGeometry(0.055, 0.04, 0.85, 8);
+  addPart(forearmGeo, [-0.68, -0.55, 0], [0, 0, 0.15]);
+  // 前腕（右）
+  addPart(forearmGeo, [0.68, -0.55, 0], [0, 0, -0.15]);
+
+  // 手（左）
+  const handGeo = new THREE.BoxGeometry(0.1, 0.14, 0.04, 3, 3, 1);
+  addPart(handGeo, [-0.75, -1.05, 0]);
+  // 手（右）
+  addPart(handGeo, [0.75, -1.05, 0]);
+
+  // 太もも（左）
+  const thighGeo = new THREE.CylinderGeometry(0.14, 0.10, 1.2, 10);
+  addPart(thighGeo, [-0.18, -1.2, 0]);
+  // 太もも（右）
+  addPart(thighGeo, [0.18, -1.2, 0]);
+
+  // すね（左）
+  const shinGeo = new THREE.CylinderGeometry(0.09, 0.065, 1.2, 8);
+  addPart(shinGeo, [-0.18, -2.45, 0]);
+  // すね（右）
+  addPart(shinGeo, [0.18, -2.45, 0]);
+
+  // 足（左）
+  const footGeo = new THREE.BoxGeometry(0.12, 0.06, 0.25, 3, 1, 3);
+  addPart(footGeo, [-0.18, -3.08, 0.05]);
+  // 足（右）
+  addPart(footGeo, [0.18, -3.08, 0.05]);
 
   scene.add(bodyGroup);
 
@@ -3501,10 +3507,10 @@ document.querySelectorAll('[contenteditable][data-placeholder]').forEach(el => {
   scene.add(axis);
 
   // === 鎖骨ブロック ===
-  const blockGeo = new THREE.TorusGeometry(0.5, 0.04, 8, 32);
+  const blockGeo = new THREE.TorusGeometry(0.4, 0.04, 8, 32);
   const blockMat = new THREE.MeshBasicMaterial({ color: 0xe05050, transparent: true, opacity: 0.4 });
   const block = new THREE.Mesh(blockGeo, blockMat);
-  block.position.y = 0.8;
+  block.position.y = 0.95;
   block.rotation.x = Math.PI / 2;
   scene.add(block);
 
@@ -3563,20 +3569,20 @@ document.querySelectorAll('[contenteditable][data-placeholder]').forEach(el => {
   // === PHURBA (top - small) ===
   const phurbaTopGeo = new THREE.ConeGeometry(0.06, 0.6, 6);
   const phurbaTop = new THREE.Mesh(phurbaTopGeo, phurbaTopMat);
-  phurbaTop.position.set(0, 3.2, 0);
+  phurbaTop.position.set(0, 2.6, 0);
   phurbaTop.rotation.z = Math.PI;
   scene.add(phurbaTop);
   const ptopGlow = new THREE.PointLight(0xc8a0dc, 0.3, 3);
-  ptopGlow.position.set(0, 3.5, 0);
+  ptopGlow.position.set(0, 2.8, 0);
   scene.add(ptopGlow);
 
   // === PHURBA (bottom - large) ===
   const phurbaBotGeo = new THREE.ConeGeometry(0.08, 0.8, 6);
   const phurbaBot = new THREE.Mesh(phurbaBotGeo, phurbaMat);
-  phurbaBot.position.set(0, -4.0, 0);
+  phurbaBot.position.set(0, -3.5, 0);
   scene.add(phurbaBot);
   const pbotGlow = new THREE.PointLight(0xe06440, 0.3, 3);
-  pbotGlow.position.set(0, -4.2, 0);
+  pbotGlow.position.set(0, -3.7, 0);
   scene.add(pbotGlow);
 
   // === ENERGY FLOW PARTICLES ===
@@ -3589,20 +3595,20 @@ document.querySelectorAll('[contenteditable][data-placeholder]').forEach(el => {
     particles.push({ mesh, path, speed, t: Math.random() });
   }
   // Descending (天 → 鎖骨)
-  const descPath = (t) => new THREE.Vector3(0, 3.5 - t * 2.7, 0.1);
+  const descPath = (t) => new THREE.Vector3(0, 3.0 - t * 2.0, 0.1);
   for (let i = 0; i < 5; i++) createParticle(0xe0d0ff, descPath, 0.3 + Math.random() * 0.2);
   // Ascending (地 → 鎖骨)
-  const ascPath = (t) => new THREE.Vector3(0, -3.8 + t * 4.6, 0.1);
+  const ascPath = (t) => new THREE.Vector3(0, -3.5 + t * 4.4, 0.1);
   for (let i = 0; i < 5; i++) createParticle(0xe06440, ascPath, 0.25 + Math.random() * 0.15);
   // Purification (鎖骨から外へ排出)
   for (let i = 0; i < 4; i++) {
     const angle = (i / 4) * Math.PI * 2;
-    const purPath = (t) => new THREE.Vector3(Math.cos(angle) * t * 2, 0.8, Math.sin(angle) * t * 2);
+    const purPath = (t) => new THREE.Vector3(Math.cos(angle) * t * 2, 0.95, Math.sin(angle) * t * 2);
     createParticle(0x666666, purPath, 0.4);
   }
   // Hand seal energy (回帰)
-  const leftPath = (t) => new THREE.Vector3(-1.4 + t * 0.9, -0.5 + t * 0.6, 0.2 * Math.sin(t * Math.PI));
-  const rightPath = (t) => new THREE.Vector3(1.4 - t * 0.9, -0.5 + t * 0.6, 0.2 * Math.sin(t * Math.PI));
+  const leftPath = (t) => new THREE.Vector3(-0.75 + t * 0.5, -1.05 + t * 1.5, 0.2 * Math.sin(t * Math.PI));
+  const rightPath = (t) => new THREE.Vector3(0.75 - t * 0.5, -1.05 + t * 1.5, 0.2 * Math.sin(t * Math.PI));
   for (let i = 0; i < 3; i++) createParticle(0xc9a84c, leftPath, 0.35);
   for (let i = 0; i < 3; i++) createParticle(0xc9a84c, rightPath, 0.35);
 
@@ -3610,10 +3616,10 @@ document.querySelectorAll('[contenteditable][data-placeholder]').forEach(el => {
   const sealMat = new THREE.MeshBasicMaterial({ color: 0xe05050, transparent: true, opacity: 0.6 });
   const sealGeo = new THREE.SphereGeometry(0.1, 12, 8);
   const sealL = new THREE.Mesh(sealGeo, sealMat.clone());
-  sealL.position.set(-1.4, -0.5, 0);
+  sealL.position.set(-0.75, -1.05, 0);
   scene.add(sealL);
   const sealR = new THREE.Mesh(sealGeo, sealMat.clone());
-  sealR.position.set(1.4, -0.5, 0);
+  sealR.position.set(0.75, -1.05, 0);
   scene.add(sealR);
 
   // === GROUND SHADOW ===
