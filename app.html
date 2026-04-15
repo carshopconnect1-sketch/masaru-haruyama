@@ -121,21 +121,23 @@
 
   .etheric-body {
     position: relative;
-    width: 280px;
-    height: 420px;
+    width: 300px;
+    height: 450px;
     display: flex;
     align-items: center;
     justify-content: center;
-    perspective: 600px;
+  }
+
+  #etheric3DCanvas {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    touch-action: none;
   }
 
   .etheric-body svg {
     width: 100%;
     height: 100%;
-    filter: drop-shadow(0 0 40px rgba(201, 168, 76, 0.3))
-           drop-shadow(0 15px 30px rgba(0,0,0,0.5));
-    transform: rotateX(15deg) rotateY(-5deg);
-    transform-style: preserve-3d;
   }
 
   .etheric-body .aura {
@@ -143,45 +145,13 @@
     top: -40px; left: -40px;
     right: -40px; bottom: -40px;
     border-radius: 50% 50% 40% 40%;
-    background: radial-gradient(ellipse at 40% 35%, rgba(201, 168, 76, 0.12) 0%, rgba(160,120,255,0.06) 35%, transparent 65%);
+    background: radial-gradient(ellipse at 40% 35%, rgba(201, 168, 76, 0.08) 0%, transparent 65%);
     animation: auraPulse 4s ease-in-out infinite;
-    transform: rotateX(15deg) rotateY(-5deg) translateZ(-30px);
-  }
-
-  .etheric-body::before {
-    content: '';
-    position: absolute;
-    bottom: -20px;
-    left: 10%;
-    right: 10%;
-    height: 40px;
-    background: radial-gradient(ellipse, rgba(201,168,76,0.15) 0%, transparent 70%);
-    border-radius: 50%;
-    filter: blur(12px);
-    transform: rotateX(70deg);
-  }
-
-  .etheric-body::after {
-    content: '';
-    position: absolute;
-    top: -30px;
-    left: 20%;
-    right: 20%;
-    height: 25px;
-    background: radial-gradient(ellipse, rgba(200,180,255,0.12) 0%, transparent 70%);
-    border-radius: 50%;
-    filter: blur(8px);
-    animation: topGlow 5s ease-in-out infinite;
-  }
-
-  @keyframes topGlow {
-    0%, 100% { opacity: 0.5; transform: scaleX(1); }
-    50% { opacity: 1; transform: scaleX(1.3); }
   }
 
   @keyframes auraPulse {
-    0%, 100% { transform: rotateX(15deg) rotateY(-5deg) translateZ(-30px) scale(1); opacity: 0.6; }
-    50% { transform: rotateX(15deg) rotateY(-5deg) translateZ(-30px) scale(1.1); opacity: 1; }
+    0%, 100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.08); opacity: 1; }
   }
 
   .chakra {
@@ -1142,7 +1112,7 @@
     .attributes { grid-template-columns: 1fr; }
     .temple-rooms { grid-template-columns: 1fr 1fr; }
     .section-title { font-size: 1.3rem; }
-    .etheric-body { width: 220px; height: 330px; }
+    .etheric-body { width: 260px; height: 400px; }
     .sephira { width: 45px; height: 45px; }
     .sephira-name { font-size: 0.6rem; }
     .tree-pillars { grid-template-columns: 1fr; }
@@ -1171,7 +1141,10 @@
       <p class="section-subtitle">エーテルダブルの構築<br>自分自身を精密に観察し、ここに降ろす</p>
     </div>
 
-    <div class="etheric-body">
+    <div class="etheric-body" id="ethericBody3D">
+      <canvas id="etheric3DCanvas"></canvas>
+    </div>
+    <div class="etheric-body" style="display:none">
       <div class="aura"></div>
       <svg viewBox="-60 -40 320 440" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
@@ -3338,5 +3311,370 @@ document.querySelectorAll('[contenteditable][data-placeholder]').forEach(el => {
 });
 </script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function() {
+  const container = document.getElementById('ethericBody3D');
+  const canvas = document.getElementById('etheric3DCanvas');
+  if (!container || !canvas) return;
+
+  const W = container.clientWidth || 300;
+  const H = container.clientHeight || 450;
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(45, W / H, 0.1, 100);
+  camera.position.set(0, 1, 8);
+  camera.lookAt(0, 0, 0);
+
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setSize(W, H);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setClearColor(0x000000, 0);
+
+  // Lights
+  const ambientLight = new THREE.AmbientLight(0x444444, 0.5);
+  scene.add(ambientLight);
+  const topLight = new THREE.PointLight(0xc9a84c, 1.2, 20);
+  topLight.position.set(0, 6, 3);
+  scene.add(topLight);
+  const bottomLight = new THREE.PointLight(0xe06440, 0.4, 15);
+  bottomLight.position.set(0, -5, 2);
+  scene.add(bottomLight);
+  const rimLight = new THREE.PointLight(0xc0b0ff, 0.6, 15);
+  rimLight.position.set(-3, 2, 4);
+  scene.add(rimLight);
+
+  // Materials
+  const bodyMat = new THREE.MeshPhongMaterial({ 
+    color: 0xc9a84c, transparent: true, opacity: 0.15, 
+    wireframe: true, wireframeLinewidth: 1 
+  });
+  const bodyGlowMat = new THREE.MeshPhongMaterial({ 
+    color: 0xc9a84c, transparent: true, opacity: 0.05, 
+    side: THREE.DoubleSide 
+  });
+  const crystalMat = new THREE.MeshPhongMaterial({ 
+    color: 0xc8dcff, transparent: true, opacity: 0.4, 
+    shininess: 100, specular: 0xffffff 
+  });
+  const goldCrystalMat = new THREE.MeshPhongMaterial({ 
+    color: 0xdcc88c, transparent: true, opacity: 0.5, 
+    shininess: 120, specular: 0xffffcc 
+  });
+  const phurbaMat = new THREE.MeshPhongMaterial({ 
+    color: 0xaa6644, shininess: 80, specular: 0xccaa88 
+  });
+  const phurbaTopMat = new THREE.MeshPhongMaterial({ 
+    color: 0xc8a0dc, shininess: 80, specular: 0xddccee 
+  });
+
+  // Chakra colors
+  const chakraColors = [
+    0xe04040, // root
+    0xe08030, // sacral
+    0xe0c040, // solar
+    0x40c060, // heart
+    0x4080e0, // throat
+    0x6040c0, // third eye
+    0xc040ff  // crown
+  ];
+  const chakraY = [-2.4, -1.7, -0.9, 0, 0.7, 1.3, 2.0];
+
+  // === BODY (torso + head) ===
+  const bodyGroup = new THREE.Group();
+  // Torso
+  const torsoGeo = new THREE.CylinderGeometry(0.5, 0.4, 3.0, 12);
+  const torso = new THREE.Mesh(torsoGeo, bodyMat);
+  torso.position.y = -0.3;
+  bodyGroup.add(torso);
+  const torsoGlow = new THREE.Mesh(torsoGeo, bodyGlowMat);
+  torsoGlow.position.y = -0.3;
+  torsoGlow.scale.set(1.15, 1.05, 1.15);
+  bodyGroup.add(torsoGlow);
+  // Head
+  const headGeo = new THREE.SphereGeometry(0.45, 16, 12);
+  const head = new THREE.Mesh(headGeo, bodyMat);
+  head.position.y = 1.7;
+  bodyGroup.add(head);
+  const headGlow = new THREE.Mesh(headGeo, bodyGlowMat);
+  headGlow.position.y = 1.7;
+  headGlow.scale.set(1.2, 1.2, 1.2);
+  bodyGroup.add(headGlow);
+  // Legs
+  const legGeo = new THREE.CylinderGeometry(0.18, 0.15, 2.0, 8);
+  const legL = new THREE.Mesh(legGeo, bodyMat);
+  legL.position.set(-0.2, -2.8, 0);
+  bodyGroup.add(legL);
+  const legR = new THREE.Mesh(legGeo, bodyMat);
+  legR.position.set(0.2, -2.8, 0);
+  bodyGroup.add(legR);
+  // Arms
+  const armGeo = new THREE.CylinderGeometry(0.1, 0.08, 1.8, 8);
+  const armL = new THREE.Mesh(armGeo, bodyMat);
+  armL.position.set(-0.8, 0.1, 0);
+  armL.rotation.z = 0.3;
+  bodyGroup.add(armL);
+  const armR = new THREE.Mesh(armGeo, bodyMat);
+  armR.position.set(0.8, 0.1, 0);
+  armR.rotation.z = -0.3;
+  bodyGroup.add(armR);
+  scene.add(bodyGroup);
+
+  // === CHAKRAS ===
+  const chakras = [];
+  chakraY.forEach((y, i) => {
+    const geo = new THREE.SphereGeometry(0.12, 16, 12);
+    const mat = new THREE.MeshPhongMaterial({ 
+      color: chakraColors[i], emissive: chakraColors[i], emissiveIntensity: 0.6,
+      transparent: true, opacity: 0.9 
+    });
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.position.set(0, y, 0.3);
+    scene.add(mesh);
+    // Glow ring
+    const ringGeo = new THREE.RingGeometry(0.18, 0.25, 24);
+    const ringMat = new THREE.MeshBasicMaterial({ 
+      color: chakraColors[i], transparent: true, opacity: 0.3, side: THREE.DoubleSide 
+    });
+    const ring = new THREE.Mesh(ringGeo, ringMat);
+    ring.position.set(0, y, 0.3);
+    ring.rotation.x = Math.PI / 2;
+    scene.add(ring);
+    chakras.push({ mesh, ring, baseY: y });
+  });
+
+  // === CENTRAL AXIS ===
+  const axisGeo = new THREE.CylinderGeometry(0.02, 0.02, 6, 8);
+  const axisMat = new THREE.MeshBasicMaterial({ color: 0xc9a84c, transparent: true, opacity: 0.15 });
+  const axis = new THREE.Mesh(axisGeo, axisMat);
+  axis.position.y = 0;
+  scene.add(axis);
+
+  // === 鎖骨ブロック ===
+  const blockGeo = new THREE.TorusGeometry(0.6, 0.05, 8, 32);
+  const blockMat = new THREE.MeshBasicMaterial({ color: 0xe05050, transparent: true, opacity: 0.4 });
+  const block = new THREE.Mesh(blockGeo, blockMat);
+  block.position.y = 0.45;
+  block.rotation.x = Math.PI / 2;
+  scene.add(block);
+
+  // === 21 LEMURIAN CRYSTALS (3 rings of 6 + center 3) ===
+  function createCrystal(mat, scale) {
+    const geo = new THREE.ConeGeometry(0.08 * scale, 0.35 * scale, 6);
+    return new THREE.Mesh(geo, mat);
+  }
+  const crystalGroup = new THREE.Group();
+  // Outer ring (6) - radius 3.2
+  for (let i = 0; i < 6; i++) {
+    const angle = (i / 6) * Math.PI * 2 - Math.PI / 2;
+    const c = createCrystal(crystalMat, 1.0);
+    c.position.set(Math.cos(angle) * 3.2, Math.sin(angle) * 2.5, 0);
+    c.rotation.z = angle + Math.PI;
+    crystalGroup.add(c);
+  }
+  // Middle ring (6) - radius 2.0
+  for (let i = 0; i < 6; i++) {
+    const angle = (i / 6) * Math.PI * 2 - Math.PI / 6;
+    const c = createCrystal(crystalMat, 0.85);
+    c.position.set(Math.cos(angle) * 2.0, Math.sin(angle) * 1.8, 0);
+    crystalGroup.add(c);
+  }
+  // Inner ring (6) - radius 1.0
+  for (let i = 0; i < 6; i++) {
+    const angle = (i / 6) * Math.PI * 2;
+    const c = createCrystal(goldCrystalMat, 0.7);
+    c.position.set(Math.cos(angle) * 1.0, Math.sin(angle) * 1.0, 0);
+    crystalGroup.add(c);
+  }
+  // Center triangle (3)
+  for (let i = 0; i < 3; i++) {
+    const angle = (i / 3) * Math.PI * 2 - Math.PI / 2;
+    const c = createCrystal(goldCrystalMat, 0.6);
+    c.position.set(Math.cos(angle) * 0.35, Math.sin(angle) * 0.4, 0.2);
+    crystalGroup.add(c);
+  }
+  scene.add(crystalGroup);
+
+  // === HEXAGRAM LINES ===
+  function createHexLine(radius, yScale, color, opacity) {
+    const pts = [];
+    for (let i = 0; i <= 6; i++) {
+      const angle = (i / 6) * Math.PI * 2 - Math.PI / 2;
+      pts.push(new THREE.Vector3(Math.cos(angle) * radius, Math.sin(angle) * radius * yScale, 0));
+    }
+    const geo = new THREE.BufferGeometry().setFromPoints(pts);
+    const mat = new THREE.LineBasicMaterial({ color, transparent: true, opacity });
+    return new THREE.Line(geo, mat);
+  }
+  scene.add(createHexLine(3.2, 0.78, 0xc8dcff, 0.15));
+  scene.add(createHexLine(2.0, 0.9, 0xb4c8ff, 0.12));
+  scene.add(createHexLine(1.0, 1.0, 0xdcc88c, 0.15));
+
+  // === PHURBA (top - small) ===
+  const phurbaTopGeo = new THREE.ConeGeometry(0.06, 0.6, 6);
+  const phurbaTop = new THREE.Mesh(phurbaTopGeo, phurbaTopMat);
+  phurbaTop.position.set(0, 3.2, 0);
+  phurbaTop.rotation.z = Math.PI;
+  scene.add(phurbaTop);
+  const ptopGlow = new THREE.PointLight(0xc8a0dc, 0.3, 3);
+  ptopGlow.position.set(0, 3.5, 0);
+  scene.add(ptopGlow);
+
+  // === PHURBA (bottom - large) ===
+  const phurbaBotGeo = new THREE.ConeGeometry(0.08, 0.8, 6);
+  const phurbaBot = new THREE.Mesh(phurbaBotGeo, phurbaMat);
+  phurbaBot.position.set(0, -4.0, 0);
+  scene.add(phurbaBot);
+  const pbotGlow = new THREE.PointLight(0xe06440, 0.3, 3);
+  pbotGlow.position.set(0, -4.2, 0);
+  scene.add(pbotGlow);
+
+  // === ENERGY FLOW PARTICLES ===
+  const particles = [];
+  function createParticle(color, path, speed) {
+    const geo = new THREE.SphereGeometry(0.04, 8, 6);
+    const mat = new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.8 });
+    const mesh = new THREE.Mesh(geo, mat);
+    scene.add(mesh);
+    particles.push({ mesh, path, speed, t: Math.random() });
+  }
+  // Descending (天 → 鎖骨)
+  const descPath = (t) => new THREE.Vector3(0, 3.5 - t * 3.0, 0.1);
+  for (let i = 0; i < 5; i++) createParticle(0xe0d0ff, descPath, 0.3 + Math.random() * 0.2);
+  // Ascending (地 → 鎖骨)
+  const ascPath = (t) => new THREE.Vector3(0, -4.0 + t * 4.4, 0.1);
+  for (let i = 0; i < 5; i++) createParticle(0xe06440, ascPath, 0.25 + Math.random() * 0.15);
+  // Purification (鎖骨から外へ排出)
+  for (let i = 0; i < 4; i++) {
+    const angle = (i / 4) * Math.PI * 2;
+    const purPath = (t) => new THREE.Vector3(Math.cos(angle) * t * 2, 0.45, Math.sin(angle) * t * 2);
+    createParticle(0x666666, purPath, 0.4);
+  }
+  // Hand seal energy (回帰)
+  const leftPath = (t) => new THREE.Vector3(-1.3 + t * 0.7, -0.5 + t * 0.6, 0.2 * Math.sin(t * Math.PI));
+  const rightPath = (t) => new THREE.Vector3(1.3 - t * 0.7, -0.5 + t * 0.6, 0.2 * Math.sin(t * Math.PI));
+  for (let i = 0; i < 3; i++) createParticle(0xc9a84c, leftPath, 0.35);
+  for (let i = 0; i < 3; i++) createParticle(0xc9a84c, rightPath, 0.35);
+
+  // === HAND SEALS (赤い球) ===
+  const sealMat = new THREE.MeshBasicMaterial({ color: 0xe05050, transparent: true, opacity: 0.6 });
+  const sealGeo = new THREE.SphereGeometry(0.1, 12, 8);
+  const sealL = new THREE.Mesh(sealGeo, sealMat.clone());
+  sealL.position.set(-1.3, -0.7, 0);
+  scene.add(sealL);
+  const sealR = new THREE.Mesh(sealGeo, sealMat.clone());
+  sealR.position.set(1.3, -0.7, 0);
+  scene.add(sealR);
+
+  // === GROUND SHADOW ===
+  const groundGeo = new THREE.PlaneGeometry(4, 4);
+  const groundMat = new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.15 });
+  const ground = new THREE.Mesh(groundGeo, groundMat);
+  ground.position.y = -4.5;
+  ground.rotation.x = -Math.PI / 2;
+  scene.add(ground);
+
+  // === AURA ===
+  const auraGeo = new THREE.SphereGeometry(2.5, 24, 16);
+  const auraMat = new THREE.MeshBasicMaterial({ 
+    color: 0xc9a84c, transparent: true, opacity: 0.03, side: THREE.BackSide 
+  });
+  const aura = new THREE.Mesh(auraGeo, auraMat);
+  scene.add(aura);
+
+  // === TOUCH ROTATION ===
+  let autoRotate = true;
+  let rotY = 0, rotX = 0.1;
+  let isDragging = false, lastX = 0, lastY = 0;
+  
+  canvas.addEventListener('pointerdown', (e) => {
+    isDragging = true;
+    autoRotate = false;
+    lastX = e.clientX;
+    lastY = e.clientY;
+  });
+  canvas.addEventListener('pointermove', (e) => {
+    if (!isDragging) return;
+    rotY += (e.clientX - lastX) * 0.01;
+    rotX += (e.clientY - lastY) * 0.005;
+    rotX = Math.max(-0.5, Math.min(0.5, rotX));
+    lastX = e.clientX;
+    lastY = e.clientY;
+  });
+  canvas.addEventListener('pointerup', () => { isDragging = false; });
+  canvas.addEventListener('pointerleave', () => { isDragging = false; });
+  // Resume auto-rotate after 5s
+  let autoTimer;
+  canvas.addEventListener('pointerup', () => {
+    clearTimeout(autoTimer);
+    autoTimer = setTimeout(() => { autoRotate = true; }, 5000);
+  });
+
+  // === ANIMATE ===
+  const clock = new THREE.Clock();
+  function animate() {
+    requestAnimationFrame(animate);
+    const t = clock.getElapsedTime();
+
+    // Auto rotation
+    if (autoRotate) rotY += 0.003;
+
+    // Apply rotation
+    scene.rotation.y = rotY;
+    scene.rotation.x = rotX;
+
+    // Chakra pulse
+    chakras.forEach((c, i) => {
+      const s = 1 + 0.15 * Math.sin(t * 2 + i * 0.8);
+      c.mesh.scale.set(s, s, s);
+      c.ring.scale.set(s * 1.2, s * 1.2, 1);
+      c.ring.material.opacity = 0.2 + 0.15 * Math.sin(t * 2 + i * 0.8);
+    });
+
+    // Block pulse
+    block.material.opacity = 0.3 + 0.15 * Math.sin(t * 3);
+    block.scale.set(1 + 0.05 * Math.sin(t * 2), 1, 1 + 0.05 * Math.sin(t * 2));
+
+    // Seals pulse
+    sealL.material.opacity = 0.4 + 0.3 * Math.sin(t * 2.5);
+    sealR.material.opacity = 0.4 + 0.3 * Math.sin(t * 2.5 + 1);
+    sealL.scale.setScalar(1 + 0.15 * Math.sin(t * 2.5));
+    sealR.scale.setScalar(1 + 0.15 * Math.sin(t * 2.5 + 1));
+
+    // Aura breath
+    aura.scale.setScalar(1 + 0.05 * Math.sin(t * 0.8));
+    auraMat.opacity = 0.02 + 0.015 * Math.sin(t * 0.8);
+
+    // Particles
+    particles.forEach(p => {
+      p.t = (p.t + p.speed * 0.01) % 1;
+      const pos = p.path(p.t);
+      p.mesh.position.copy(pos);
+      p.mesh.material.opacity = 0.8 * (1 - Math.abs(p.t - 0.5) * 2);
+    });
+
+    // Crystal shimmer
+    crystalGroup.children.forEach((c, i) => {
+      c.material.opacity = 0.3 + 0.15 * Math.sin(t * 1.5 + i * 0.5);
+    });
+
+    // Phurba glow pulse
+    ptopGlow.intensity = 0.2 + 0.15 * Math.sin(t * 2);
+    pbotGlow.intensity = 0.2 + 0.15 * Math.sin(t * 2 + Math.PI);
+
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  // Resize
+  window.addEventListener('resize', () => {
+    const w = container.clientWidth;
+    const h = container.clientHeight;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h);
+  });
+})();
+</script>
 </body>
 </html>
