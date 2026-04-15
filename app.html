@@ -2246,9 +2246,8 @@ const defaultDreams = [
 ];
 
 function initDreams() {
-  if (!state.dreams) state.dreams = [];
-  if (state.dreams.length === 0) {
-    state.dreams = defaultDreams;
+  if (!state.dreams || state.dreams.length === 0) {
+    state.dreams = JSON.parse(JSON.stringify(defaultDreams));
     saveState();
   }
   renderDreams();
