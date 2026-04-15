@@ -3404,55 +3404,26 @@ document.querySelectorAll('[contenteditable][data-placeholder]').forEach(el => {
   }
   function mirror(pts) { return pts.map(p => [-p[0], p[1], p[2]||0]); }
 
-  // 右半身の輪郭（正面から見た形）
+  // === 直立ポーズ（メイン） ===
+  // 右半身の輪郭
   const rightOutline = [
-    [0, 2.3, 0],      // 頭頂
-    [0.28, 2.1, 0],    // 額右
-    [0.33, 1.8, 0],    // こめかみ
-    [0.30, 1.5, 0],    // 顎
-    [0.15, 1.3, 0],    // 首
-    [0.20, 1.1, 0],    // 首の付け根
-    [0.50, 0.9, 0],    // 肩
-    [0.55, 0.85, 0],   // 肩先
-    // 腕（下ろした状態）
-    [0.48, 0.5, 0],    // 上腕
-    [0.42, 0.0, 0],    // 肘
-    [0.38, -0.5, 0],   // 前腕
-    [0.35, -1.0, 0],   // 手首
-    [0.33, -1.2, 0],   // 手
+    [0, 2.3, 0], [0.28, 2.1, 0], [0.33, 1.8, 0], [0.30, 1.5, 0],
+    [0.15, 1.3, 0], [0.20, 1.1, 0], [0.50, 0.9, 0], [0.55, 0.85, 0],
+    [0.48, 0.5, 0], [0.42, 0.0, 0], [0.38, -0.5, 0], [0.35, -1.0, 0], [0.33, -1.2, 0],
   ];
-  // 右胴体
   const rightTorso = [
-    [0.50, 0.9, 0],    // 肩
-    [0.45, 0.6, 0],    // 胸上
-    [0.42, 0.3, 0],    // 胸
-    [0.38, 0.0, 0],    // 肋骨下
-    [0.32, -0.3, 0],   // ウエスト
-    [0.38, -0.6, 0],   // 腰
-    [0.40, -0.9, 0],   // 骨盤
-    [0.25, -1.2, 0],   // 股関節
+    [0.50, 0.9, 0], [0.45, 0.6, 0], [0.42, 0.3, 0], [0.38, 0.0, 0],
+    [0.32, -0.3, 0], [0.38, -0.6, 0], [0.40, -0.9, 0], [0.25, -1.2, 0],
   ];
-  // 右脚
   const rightLeg = [
-    [0.25, -1.2, 0],   // 股関節
-    [0.28, -1.8, 0],   // 太もも
-    [0.22, -2.4, 0],   // 膝
-    [0.20, -3.0, 0],   // ふくらはぎ
-    [0.15, -3.5, 0],   // 足首
-    [0.12, -3.7, 0],   // 足
-    [0.20, -3.8, 0],   // つま先
+    [0.25, -1.2, 0], [0.28, -1.8, 0], [0.22, -2.4, 0],
+    [0.20, -3.0, 0], [0.15, -3.5, 0], [0.12, -3.7, 0], [0.20, -3.8, 0],
   ];
-  // 内側の脚ライン
   const rightLegInner = [
-    [0.05, -1.2, 0],   // 股下
-    [0.08, -1.8, 0],
-    [0.10, -2.4, 0],
-    [0.08, -3.0, 0],
-    [0.06, -3.5, 0],
-    [0.05, -3.7, 0],
+    [0.05, -1.2, 0], [0.08, -1.8, 0], [0.10, -2.4, 0],
+    [0.08, -3.0, 0], [0.06, -3.5, 0], [0.05, -3.7, 0],
   ];
 
-  // 描画
   bodyGroup.add(makeLine(rightOutline, lineMatBright));
   bodyGroup.add(makeLine(mirror(rightOutline), lineMatBright));
   bodyGroup.add(makeLine(rightTorso, lineMat));
@@ -3462,33 +3433,69 @@ document.querySelectorAll('[contenteditable][data-placeholder]').forEach(el => {
   bodyGroup.add(makeLine(rightLegInner, lineMatDim));
   bodyGroup.add(makeLine(mirror(rightLegInner), lineMatDim));
 
-  // 中心線
-  bodyGroup.add(makeLine([[0,2.3,0],[0,-1.2,0]], lineMatDim));
+  // === 腕を広げたポーズ（ウィトルウィウス風・重ね描き） ===
+  const spreadArmR = [
+    [0.55, 0.85, 0], [1.0, 0.75, 0], [1.5, 0.7, 0],
+    [2.0, 0.68, 0], [2.5, 0.65, 0], [2.8, 0.65, 0], [3.0, 0.63, 0],
+  ];
+  const spreadArmRBottom = [
+    [0.55, 0.75, 0], [1.0, 0.62, 0], [1.5, 0.58, 0],
+    [2.0, 0.55, 0], [2.5, 0.53, 0], [2.8, 0.53, 0], [3.0, 0.52, 0],
+  ];
+  // 斜め上に上げた腕
+  const raiseArmR = [
+    [0.55, 0.85, 0], [1.0, 1.3, 0], [1.5, 1.65, 0],
+    [2.0, 1.9, 0], [2.5, 2.1, 0], [2.8, 2.2, 0],
+  ];
+  const raiseArmRBottom = [
+    [0.55, 0.75, 0], [1.0, 1.18, 0], [1.5, 1.52, 0],
+    [2.0, 1.78, 0], [2.5, 1.98, 0], [2.8, 2.08, 0],
+  ];
+  // 脚を広げたポーズ
+  const spreadLegR = [
+    [0.25, -1.2, 0], [0.6, -1.8, 0], [0.85, -2.4, 0],
+    [1.05, -3.0, 0], [1.15, -3.5, 0], [1.2, -3.8, 0],
+  ];
+  const spreadLegRInner = [
+    [0.15, -1.2, 0], [0.45, -1.8, 0], [0.65, -2.4, 0],
+    [0.85, -3.0, 0], [0.95, -3.5, 0], [1.0, -3.8, 0],
+  ];
 
-  // 横ライン（肩、胸、腰）
+  const ghostMat = new THREE.LineBasicMaterial({ color: 0xc9a84c, transparent: true, opacity: 0.3 });
+
+  // 水平に広げた腕
+  bodyGroup.add(makeLine(spreadArmR, ghostMat));
+  bodyGroup.add(makeLine(mirror(spreadArmR), ghostMat));
+  bodyGroup.add(makeLine(spreadArmRBottom, ghostMat));
+  bodyGroup.add(makeLine(mirror(spreadArmRBottom), ghostMat));
+  // 斜め上の腕
+  bodyGroup.add(makeLine(raiseArmR, ghostMat));
+  bodyGroup.add(makeLine(mirror(raiseArmR), ghostMat));
+  bodyGroup.add(makeLine(raiseArmRBottom, ghostMat));
+  bodyGroup.add(makeLine(mirror(raiseArmRBottom), ghostMat));
+  // 広げた脚
+  bodyGroup.add(makeLine(spreadLegR, ghostMat));
+  bodyGroup.add(makeLine(mirror(spreadLegR), ghostMat));
+  bodyGroup.add(makeLine(spreadLegRInner, ghostMat));
+  bodyGroup.add(makeLine(mirror(spreadLegRInner), ghostMat));
+
+  // === ディテール ===
+  bodyGroup.add(makeLine([[0,2.3,0],[0,-1.2,0]], lineMatDim)); // 中心線
   bodyGroup.add(makeLine([[-0.55,0.85,0],[0.55,0.85,0]], lineMatDim)); // 肩
   bodyGroup.add(makeLine([[-0.42,0.3,0],[0.42,0.3,0]], lineMatDim));   // 胸
   bodyGroup.add(makeLine([[-0.32,-0.3,0],[0.32,-0.3,0]], lineMatDim)); // ウエスト
   bodyGroup.add(makeLine([[-0.40,-0.9,0],[0.40,-0.9,0]], lineMatDim)); // 骨盤
+  bodyGroup.add(makeLine([[-0.50,0.9,0],[0,0.75,0],[0.50,0.9,0]], lineMat)); // 鎖骨V
+  bodyGroup.add(makeLine([[0.15,0.8,0],[0.35,0.6,0],[0.40,0.35,0]], lineMatDim)); // 胸筋R
+  bodyGroup.add(makeLine([[-0.15,0.8,0],[-0.35,0.6,0],[-0.40,0.35,0]], lineMatDim)); // 胸筋L
+  bodyGroup.add(makeLine([[0.12,0.2,0],[0.12,-0.5,0]], lineMatDim)); // 腹筋R
+  bodyGroup.add(makeLine([[-0.12,0.2,0],[-0.12,-0.5,0]], lineMatDim)); // 腹筋L
 
-  // 鎖骨のV
-  bodyGroup.add(makeLine([[-0.50,0.9,0],[0,0.75,0],[0.50,0.9,0]], lineMat));
-
-  // 胸の筋肉ライン
-  bodyGroup.add(makeLine([[0.15,0.8,0],[0.35,0.6,0],[0.40,0.35,0]], lineMatDim));
-  bodyGroup.add(makeLine([[-0.15,0.8,0],[-0.35,0.6,0],[-0.40,0.35,0]], lineMatDim));
-
-  // 腹筋ライン
-  bodyGroup.add(makeLine([[0.12,0.2,0],[0.12,-0.5,0]], lineMatDim));
-  bodyGroup.add(makeLine([[-0.12,0.2,0],[-0.12,-0.5,0]], lineMatDim));
-
-  // 背面の身体ライン（奥行き）
-  const backOutlineR = rightTorso.map(p => [p[0]*0.95, p[1], -0.2]);
-  const backOutlineL = mirror(rightTorso).map(p => [p[0]*0.95, p[1], -0.2]);
-  bodyGroup.add(makeLine(backOutlineR, lineMatDim));
-  bodyGroup.add(makeLine(backOutlineL, lineMatDim));
-
-  // 身体を繋ぐ横の線（3D感）
+  // 背面ライン
+  const backR = rightTorso.map(p => [p[0]*0.95, p[1], -0.2]);
+  const backL = mirror(rightTorso).map(p => [p[0]*0.95, p[1], -0.2]);
+  bodyGroup.add(makeLine(backR, lineMatDim));
+  bodyGroup.add(makeLine(backL, lineMatDim));
   [[0.50,0.9],[0.42,0.3],[0.32,-0.3],[0.40,-0.9]].forEach(([x,y]) => {
     bodyGroup.add(makeLine([[x,y,0],[x*0.95,y,-0.2]], lineMatDim));
     bodyGroup.add(makeLine([[-x,y,0],[-x*0.95,y,-0.2]], lineMatDim));
@@ -3502,13 +3509,18 @@ document.querySelectorAll('[contenteditable][data-placeholder]').forEach(el => {
   }
   bodyGroup.add(makeLine(headPts, lineMatBright));
 
-  // ウィトルウィウスの円
-  const vitruvCircle = [];
-  for (let i = 0; i <= 48; i++) {
-    const a = (i/48) * Math.PI * 2;
-    vitruvCircle.push([Math.cos(a)*4.0, Math.sin(a)*4.0, -0.3]);
+  // === ウィトルウィウスの円 + 正方形 ===
+  const guideMat = new THREE.LineBasicMaterial({ color: 0xc9a84c, transparent: true, opacity: 0.1 });
+  // 大円
+  const bigCircle = [];
+  for (let i = 0; i <= 64; i++) {
+    const a = (i/64) * Math.PI * 2;
+    bigCircle.push([Math.cos(a)*4.0, Math.sin(a)*4.0 - 0.5, -0.3]);
   }
-  bodyGroup.add(makeLine(vitruvCircle, new THREE.LineBasicMaterial({ color: 0xc9a84c, transparent: true, opacity: 0.08 })));
+  bodyGroup.add(makeLine(bigCircle, guideMat));
+  // 正方形
+  const sq = 3.5;
+  bodyGroup.add(makeLine([[-sq,-3.8,-0.3],[sq,-3.8,-0.3],[sq,3.2,-0.3],[-sq,3.2,-0.3],[-sq,-3.8,-0.3]], guideMat));
 
   scene.add(bodyGroup);
 
