@@ -1373,6 +1373,131 @@
         <div class="room-desc">内と外の境界</div>
       </div>
     </div>
+
+    <!-- ===== 三界六芒の曼荼羅 ===== -->
+    <div style="width:100%;margin-top:3rem;border-top:1px solid rgba(201,168,76,0.1);padding-top:3rem">
+      <h2 style="font-size:1.2rem;font-weight:300;color:var(--gold);letter-spacing:0.25em;text-align:center;margin-bottom:0.5rem">三界六芒の曼荼羅</h2>
+      <p style="font-size:0.8rem;color:var(--text-dim);text-align:center;letter-spacing:0.15em;margin-bottom:2.5rem">21柱レムリアンシード配置図 — 身体を神殿とする</p>
+
+      <div style="width:100%;max-width:600px;margin:0 auto;aspect-ratio:1;position:relative" id="mandalaContainer">
+        <canvas id="mandalaCanvas" style="width:100%;height:100%"></canvas>
+      </div>
+
+      <!-- 配置の解説 -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:2.5rem">
+        <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(136,187,238,0.15);padding:1.5rem">
+          <h4 style="font-size:0.7rem;color:#88bbee;letter-spacing:0.2em;margin-bottom:0.8rem">外環 — 応身の結界</h4>
+          <p style="font-size:0.8rem;line-height:2;color:var(--text-dim)">6本 ・ 半径1.5m ・ 六芒星<br>ポイント<span style="color:#88bbee">外向き</span><br>六道を浄化し結界を張る<br>スモーキーは北（大プルバ側）に</p>
+        </div>
+        <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(102,153,187,0.15);padding:1.5rem">
+          <h4 style="font-size:0.7rem;color:#6699bb;letter-spacing:0.2em;margin-bottom:0.8rem">中環 — 報身の柱</h4>
+          <p style="font-size:0.8rem;line-height:2;color:var(--text-dim)">6本 ・ 半径1m ・ 30°回転<br>ポイント<span style="color:#6699bb">天向き（立てる）</span><br>外+中で12頂点＝黄道十二宮<br>天地を繋ぐ光の柱</p>
+        </div>
+        <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(119,153,204,0.15);padding:1.5rem">
+          <h4 style="font-size:0.7rem;color:#7799cc;letter-spacing:0.2em;margin-bottom:0.8rem">内環 — 法身の受容</h4>
+          <p style="font-size:0.8rem;line-height:2;color:var(--text-dim)">6本 ・ 半径50cm ・ 六芒星<br>ポイント<span style="color:#7799cc">身体に向ける</span><br>神のエネルギーを直接導く<br>受容と変容の場</p>
+        </div>
+        <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(201,168,76,0.2);padding:1.5rem">
+          <h4 style="font-size:0.7rem;color:var(--gold);letter-spacing:0.2em;margin-bottom:0.8rem">三宝 — 中心の三角形</h4>
+          <p style="font-size:0.8rem;line-height:2;color:var(--text-dim)">3本 ・ 正三角形 ・ 至近<br>ポイント<span style="color:var(--gold)">天向き（立てる）</span><br>仏・法・僧 / 父・子・聖霊<br>ブラフマー・ヴィシュヌ・シヴァ</p>
+        </div>
+      </div>
+
+      <!-- 中心軸 -->
+      <div style="background:rgba(170,51,68,0.05);border:1px solid rgba(170,51,68,0.2);padding:2rem;margin-top:1.5rem;text-align:center">
+        <h4 style="font-size:0.7rem;color:#cc5566;letter-spacing:0.2em;margin-bottom:1rem">中心軸 — 天地の杭</h4>
+        <div style="display:flex;justify-content:center;align-items:center;gap:2rem;flex-wrap:wrap">
+          <div>
+            <div style="font-size:1.5rem;margin-bottom:0.3rem">🔺</div>
+            <div style="font-size:0.75rem;color:#cc8899">小プルバ（15cm）</div>
+            <div style="font-size:0.7rem;color:var(--text-dim)">第七チャクラ・頭上</div>
+            <div style="font-size:0.65rem;color:var(--text-dim);margin-top:0.2rem">天への接続</div>
+          </div>
+          <div style="font-size:0.7rem;color:rgba(201,168,76,0.3);letter-spacing:0.3em">━━━</div>
+          <div>
+            <div style="font-size:0.75rem;color:var(--gold);margin-bottom:0.3rem">器</div>
+            <div style="font-size:0.65rem;color:var(--text-dim)">身体＝神殿</div>
+          </div>
+          <div style="font-size:0.7rem;color:rgba(201,168,76,0.3);letter-spacing:0.3em">━━━</div>
+          <div>
+            <div style="font-size:1.5rem;margin-bottom:0.3rem">🔻</div>
+            <div style="font-size:0.75rem;color:#cc8899">大プルバ（20cm）</div>
+            <div style="font-size:0.7rem;color:var(--text-dim)">第一チャクラ・足元</div>
+            <div style="font-size:0.65rem;color:var(--text-dim);margin-top:0.2rem">地のアンカー</div>
+          </div>
+        </div>
+        <p style="font-size:0.75rem;color:var(--text-dim);margin-top:1.5rem;line-height:2">素材：隕石（ナムチャク）10個 ＋ テルマ石<br>天鉄と埋蔵聖物の融合</p>
+      </div>
+
+      <!-- 六芒星の神智融合 -->
+      <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(201,168,76,0.1);padding:2rem;margin-top:1.5rem">
+        <h4 style="font-size:0.7rem;color:var(--gold);letter-spacing:0.2em;margin-bottom:1rem;text-align:center">六芒星 — あらゆる神智の交差点</h4>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;font-size:0.8rem;line-height:2;color:var(--text-dim)">
+          <div><span style="color:var(--gold)">ヒンドゥー</span> — シヴァ（▽）とシャクティ（△）の合一</div>
+          <div><span style="color:var(--gold)">カバラ</span> — ティファレトの印、上下の統合</div>
+          <div><span style="color:var(--gold)">密教</span> — 金剛界と胎蔵界の合一</div>
+          <div><span style="color:var(--gold)">ヘルメス学</span> — "As above, so below"</div>
+          <div><span style="color:var(--gold)">神道</span> — 籠目紋（伊勢神宮の灯籠）</div>
+          <div><span style="color:var(--gold)">幾何学</span> — フラワーオブライフの核</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== ムドラー — エネルギーの封印 ===== -->
+    <div style="width:100%;margin-top:3rem;border-top:1px solid rgba(201,168,76,0.1);padding-top:3rem">
+      <h2 style="font-size:1.2rem;font-weight:300;color:var(--gold);letter-spacing:0.25em;text-align:center;margin-bottom:0.5rem">印 — ムドラー</h2>
+      <p style="font-size:0.8rem;color:var(--text-dim);text-align:center;letter-spacing:0.15em;margin-bottom:2.5rem">手のエネルギーを制御する</p>
+
+      <div style="display:flex;flex-direction:column;gap:1.5rem">
+
+        <div style="background:rgba(224,64,64,0.03);border:1px solid rgba(224,64,64,0.15);padding:2rem">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1rem">
+            <h4 style="font-size:0.8rem;color:#e06050;letter-spacing:0.15em">金剛拳 — ヴァジュラ・ムシュティ</h4>
+            <span style="font-size:0.6rem;color:#e06050;background:rgba(224,64,64,0.1);padding:0.2rem 0.6rem;letter-spacing:0.1em">日常用・即効</span>
+          </div>
+          <p style="font-size:0.85rem;line-height:2.2;color:var(--text)">親指を中に入れて握る。他の4指で親指を包む。両手。</p>
+          <p style="font-size:0.8rem;line-height:2;color:var(--text-dim);margin-top:0.5rem">密教の最も基本的な封印。歩行中、電車、仕事中 — いつでも使える。気の漏出を即座に止める。</p>
+        </div>
+
+        <div style="background:rgba(96,192,224,0.03);border:1px solid rgba(96,192,224,0.15);padding:2rem">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1rem">
+            <h4 style="font-size:0.8rem;color:#60c0e0;letter-spacing:0.15em">内縛印 — ないばくいん</h4>
+            <span style="font-size:0.6rem;color:#60c0e0;background:rgba(96,192,224,0.1);padding:0.2rem 0.6rem;letter-spacing:0.1em">循環</span>
+          </div>
+          <p style="font-size:0.85rem;line-height:2.2;color:var(--text)">両手の指を内側に組む（指先が手のひら側に入る）。</p>
+          <p style="font-size:0.8rem;line-height:2;color:var(--text-dim);margin-top:0.5rem">エネルギーを外に出さず体内循環させる。閉じた回路を作る。</p>
+        </div>
+
+        <div style="background:rgba(201,168,76,0.03);border:1px solid rgba(201,168,76,0.15);padding:2rem">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1rem">
+            <h4 style="font-size:0.8rem;color:var(--gold);letter-spacing:0.15em">宝瓶印 — ほうびょういん</h4>
+            <span style="font-size:0.6rem;color:var(--gold);background:rgba(201,168,76,0.1);padding:0.2rem 0.6rem;letter-spacing:0.1em">修行用・蓄積</span>
+          </div>
+          <p style="font-size:0.85rem;line-height:2.2;color:var(--text)">両手をお椀にして重ねる（右上・左下）。親指の先端同士を合わせる。</p>
+          <p style="font-size:0.8rem;line-height:2;color:var(--text-dim);margin-top:0.5rem">「瓶に蓋をする」。エネルギーを容器に閉じ込め、修行中に蓄積する。神殿での瞑想時に最適。</p>
+        </div>
+
+        <div style="background:rgba(128,96,64,0.05);border:1px solid rgba(128,96,64,0.2);padding:2rem">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1rem">
+            <h4 style="font-size:0.8rem;color:#a08060;letter-spacing:0.15em">触地印 — そくちいん</h4>
+            <span style="font-size:0.6rem;color:#a08060;background:rgba(128,96,64,0.1);padding:0.2rem 0.6rem;letter-spacing:0.1em">アース・放出</span>
+          </div>
+          <p style="font-size:0.85rem;line-height:2.2;color:var(--text)">右手を膝から下に向けて地に触れる。</p>
+          <p style="font-size:0.8rem;line-height:2;color:var(--text-dim);margin-top:0.5rem">余剰エネルギーを大地にアースする。漏れではなく意図的な放出。釈迦が悟りの瞬間に結んだ印。プルバの接地と同じ原理。</p>
+        </div>
+
+      </div>
+
+      <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(201,168,76,0.08);padding:1.5rem;margin-top:1.5rem">
+        <h4 style="font-size:0.65rem;color:var(--gold);letter-spacing:0.2em;margin-bottom:0.8rem;text-align:center">使い分け</h4>
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:0.5rem 1.5rem;font-size:0.8rem">
+          <span style="color:#e06050;font-weight:500">日常</span><span style="color:var(--text-dim)">金剛拳 — 常時の漏出を止める</span>
+          <span style="color:var(--gold);font-weight:500">修行中</span><span style="color:var(--text-dim)">宝瓶印 — 内に蓄える</span>
+          <span style="color:#a08060;font-weight:500">浄化時</span><span style="color:var(--text-dim)">触地印 — 大地にアース</span>
+        </div>
+        <p style="font-size:0.75rem;color:var(--text-dim);margin-top:1rem;line-height:2;text-align:center">※ 神々を降ろす器として、完全に閉じるより「制御」が重要<br>手のチャクラ（労宮）は受信と放出の両方に使う</p>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1932,6 +2057,7 @@ function switchSection(id) {
   saveState();
   if (id === 'tree') setTimeout(drawTreePaths, 100);
   if (id === 'higherself') setTimeout(initHigherSelfCanvas, 100);
+  if (id === 'temple') setTimeout(initMandalaCanvas, 100);
 }
 
 // ===== ARCHIVE =====
@@ -2503,10 +2629,272 @@ function initTempleCanvas() {
   window.addEventListener('resize', resize);
 }
 
+// ===== MANDALA CANVAS =====
+function initMandalaCanvas() {
+  const container = document.getElementById('mandalaContainer');
+  const canvas = document.getElementById('mandalaCanvas');
+  if (!container || !canvas) return;
+  const size = container.offsetWidth || 600;
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext('2d');
+  const cx = size / 2, cy = size / 2;
+  const scale = size / 600;
+
+  // Background
+  ctx.fillStyle = '#0a0a14';
+  ctx.fillRect(0, 0, size, size);
+
+  // Subtle concentric circles
+  for (let r = 30 * scale; r < 280 * scale; r += 30 * scale) {
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.strokeStyle = `rgba(40,50,60,${Math.max(0.08, 0.2 - r/(800*scale))})`;
+    ctx.lineWidth = 0.5;
+    ctx.stroke();
+  }
+
+  // Hexagram drawing
+  function drawHexagram(cx, cy, radius, color, width, rotation) {
+    // Triangle up
+    ctx.beginPath();
+    for (let i = 0; i < 3; i++) {
+      const a = (rotation - 90 + i * 120) * Math.PI / 180;
+      const x = cx + radius * Math.cos(a);
+      const y = cy + radius * Math.sin(a);
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+    ctx.strokeStyle = color;
+    ctx.lineWidth = width;
+    ctx.stroke();
+    // Triangle down
+    ctx.beginPath();
+    for (let i = 0; i < 3; i++) {
+      const a = (rotation + 90 + i * 120) * Math.PI / 180;
+      const x = cx + radius * Math.cos(a);
+      const y = cy + radius * Math.sin(a);
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+    ctx.stroke();
+  }
+
+  // Three hexagrams
+  drawHexagram(cx, cy, 240 * scale, 'rgba(136,187,238,0.12)', 1.5, 0);    // outer
+  drawHexagram(cx, cy, 170 * scale, 'rgba(102,153,187,0.12)', 1.5, 30);   // middle
+  drawHexagram(cx, cy, 100 * scale, 'rgba(119,153,204,0.12)', 1.5, 0);    // inner
+
+  // Crystal drawing function
+  function drawCrystal(x, y, angleDeg, sz, color, glowColor) {
+    const a = angleDeg * Math.PI / 180;
+    sz *= scale;
+    // Glow
+    const grd = ctx.createRadialGradient(x, y, 0, x, y, sz * 0.8);
+    grd.addColorStop(0, glowColor.replace(')', ',0.2)').replace('rgb', 'rgba'));
+    grd.addColorStop(1, 'transparent');
+    ctx.fillStyle = grd;
+    ctx.beginPath();
+    ctx.arc(x, y, sz * 0.8, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Crystal shape
+    const dx = Math.cos(a), dy = Math.sin(a);
+    const px = -dy, py = dx;
+    const w = sz * 0.25;
+    const tipX = x + dx * sz * 0.5, tipY = y + dy * sz * 0.5;
+    const baseX = x - dx * sz * 0.35, baseY = y - dy * sz * 0.35;
+    ctx.beginPath();
+    ctx.moveTo(tipX, tipY);
+    ctx.lineTo(x + px * w + dx * sz * 0.08, y + py * w + dy * sz * 0.08);
+    ctx.lineTo(baseX + px * w * 0.6, baseY + py * w * 0.6);
+    ctx.lineTo(baseX - px * w * 0.6, baseY - py * w * 0.6);
+    ctx.lineTo(x - px * w + dx * sz * 0.08, y - py * w + dy * sz * 0.08);
+    ctx.closePath();
+    ctx.fillStyle = color;
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(170,221,255,0.5)';
+    ctx.lineWidth = 0.8;
+    ctx.stroke();
+    // Facet line
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(tipX, tipY);
+    ctx.strokeStyle = 'rgba(187,221,255,0.3)';
+    ctx.lineWidth = 0.5;
+    ctx.stroke();
+  }
+
+  // Place crystals
+  // Outer ring: 6, radius 240, pointing outward
+  const outerR = 230 * scale;
+  for (let i = 0; i < 6; i++) {
+    const deg = -90 + i * 60;
+    const rad = deg * Math.PI / 180;
+    const x = cx + outerR * Math.cos(rad);
+    const y = cy + outerR * Math.sin(rad);
+    drawCrystal(x, y, deg, 40, 'rgba(85,136,170,0.7)', 'rgb(51,102,170)');
+    // Number
+    const lx = cx + (outerR + 22 * scale) * Math.cos(rad);
+    const ly = cy + (outerR + 22 * scale) * Math.sin(rad);
+    ctx.fillStyle = 'rgba(192,200,216,0.6)';
+    ctx.font = `${11 * scale}px sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(String(i + 1), lx, ly);
+  }
+
+  // Middle ring: 6, radius 170, rotated 30°, pointing UP
+  const midR = 165 * scale;
+  for (let i = 0; i < 6; i++) {
+    const deg = -90 + 30 + i * 60;
+    const rad = deg * Math.PI / 180;
+    const x = cx + midR * Math.cos(rad);
+    const y = cy + midR * Math.sin(rad);
+    drawCrystal(x, y, -90, 38, 'rgba(102,153,187,0.7)', 'rgb(68,119,170)');
+    const lx = cx + (midR + 22 * scale) * Math.cos(rad);
+    const ly = cy + (midR + 22 * scale) * Math.sin(rad);
+    ctx.fillStyle = 'rgba(192,200,216,0.6)';
+    ctx.fillText(String(i + 7), lx, ly);
+  }
+
+  // Inner ring: 6, radius 100, pointing inward
+  const innerR = 100 * scale;
+  for (let i = 0; i < 6; i++) {
+    const deg = -90 + i * 60;
+    const rad = deg * Math.PI / 180;
+    const x = cx + innerR * Math.cos(rad);
+    const y = cy + innerR * Math.sin(rad);
+    drawCrystal(x, y, deg + 180, 35, 'rgba(119,153,204,0.7)', 'rgb(85,136,187)');
+    const lx = cx + (innerR + 22 * scale) * Math.cos(rad);
+    const ly = cy + (innerR + 22 * scale) * Math.sin(rad);
+    ctx.fillStyle = 'rgba(192,200,216,0.6)';
+    ctx.fillText(String(i + 13), lx, ly);
+  }
+
+  // Center triangle: 3, pointing up
+  const centerR = 38 * scale;
+  ctx.beginPath();
+  for (let i = 0; i < 3; i++) {
+    const rad = (-90 + i * 120) * Math.PI / 180;
+    const x = cx + centerR * Math.cos(rad);
+    const y = cy + centerR * Math.sin(rad);
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  }
+  ctx.closePath();
+  ctx.strokeStyle = 'rgba(201,168,76,0.4)';
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+
+  for (let i = 0; i < 3; i++) {
+    const deg = -90 + i * 120;
+    const rad = deg * Math.PI / 180;
+    const x = cx + centerR * Math.cos(rad);
+    const y = cy + centerR * Math.sin(rad);
+    drawCrystal(x, y, -90, 32, 'rgba(153,187,221,0.8)', 'rgb(119,153,204)');
+    const lx = cx + (centerR + 20 * scale) * Math.cos(rad);
+    const ly = cy + (centerR + 20 * scale) * Math.sin(rad);
+    ctx.fillStyle = 'rgba(240,214,138,0.7)';
+    ctx.fillText(String(i + 19), lx, ly);
+  }
+
+  // Center glow (the vessel)
+  for (let g = 15; g > 0; g--) {
+    const r = g * 1.8 * scale;
+    const grd2 = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+    grd2.addColorStop(0, `rgba(201,168,76,${0.08 + g * 0.008})`);
+    grd2.addColorStop(1, 'transparent');
+    ctx.fillStyle = grd2;
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.beginPath();
+  ctx.arc(cx, cy, 12 * scale, 0, Math.PI * 2);
+  ctx.fillStyle = '#1a1020';
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(201,168,76,0.6)';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  ctx.fillStyle = 'rgba(240,214,138,0.8)';
+  ctx.font = `${10 * scale}px 'Noto Serif JP', serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('器', cx, cy);
+
+  // Purba markers
+  // Top (small)
+  const pTop = cy - 265 * scale;
+  ctx.beginPath();
+  ctx.moveTo(cx, pTop - 15 * scale);
+  ctx.lineTo(cx - 7 * scale, pTop + 5 * scale);
+  ctx.lineTo(cx + 7 * scale, pTop + 5 * scale);
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(170,51,68,0.7)';
+  ctx.fill();
+  ctx.fillStyle = 'rgba(204,136,153,0.7)';
+  ctx.font = `${9 * scale}px 'Noto Serif JP', serif`;
+  ctx.fillText('小プルバ ▲天', cx, pTop + 18 * scale);
+
+  // Bottom (large)
+  const pBot = cy + 265 * scale;
+  ctx.beginPath();
+  ctx.moveTo(cx, pBot + 18 * scale);
+  ctx.lineTo(cx - 9 * scale, pBot - 8 * scale);
+  ctx.lineTo(cx + 9 * scale, pBot - 8 * scale);
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(170,51,68,0.7)';
+  ctx.fill();
+  ctx.fillStyle = 'rgba(204,136,153,0.7)';
+  ctx.fillText('大プルバ ▼地', cx, pBot - 18 * scale);
+
+  // Central axis (dotted)
+  ctx.setLineDash([3, 5]);
+  ctx.strokeStyle = 'rgba(170,51,68,0.15)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(cx, pTop + 25 * scale);
+  ctx.lineTo(cx, cy - 18 * scale);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(cx, cy + 18 * scale);
+  ctx.lineTo(cx, pBot - 25 * scale);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Ring labels
+  ctx.fillStyle = 'rgba(85,102,119,0.7)';
+  ctx.font = `${10 * scale}px 'Noto Serif JP', serif`;
+  ctx.textAlign = 'left';
+  ctx.fillText('外環', cx + 245 * scale, cy - 5 * scale);
+  ctx.fillStyle = 'rgba(68,85,102,0.6)';
+  ctx.font = `${8 * scale}px 'Noto Serif JP', serif`;
+  ctx.fillText('応身の結界', cx + 245 * scale, cy + 10 * scale);
+
+  ctx.fillStyle = 'rgba(85,102,119,0.7)';
+  ctx.font = `${10 * scale}px 'Noto Serif JP', serif`;
+  ctx.fillText('中環', cx + 175 * scale, cy + 80 * scale);
+  ctx.fillStyle = 'rgba(68,85,102,0.6)';
+  ctx.font = `${8 * scale}px 'Noto Serif JP', serif`;
+  ctx.fillText('報身の柱', cx + 175 * scale, cy + 93 * scale);
+
+  ctx.fillStyle = 'rgba(85,102,119,0.7)';
+  ctx.font = `${10 * scale}px 'Noto Serif JP', serif`;
+  ctx.fillText('内環', cx + 105 * scale, cy + 50 * scale);
+  ctx.fillStyle = 'rgba(68,85,102,0.6)';
+  ctx.font = `${8 * scale}px 'Noto Serif JP', serif`;
+  ctx.fillText('法身の受容', cx + 105 * scale, cy + 63 * scale);
+
+  ctx.fillStyle = 'rgba(201,168,76,0.7)';
+  ctx.font = `${10 * scale}px 'Noto Serif JP', serif`;
+  ctx.fillText('三宝', cx + 35 * scale, cy + 40 * scale);
+}
+
 // ===== INIT =====
 window.addEventListener('DOMContentLoaded', () => {
   initSacredGeometry();
   initTempleCanvas();
+  initMandalaCanvas();
   loadState();
   initPathwayMap();
   initDreams();
@@ -2516,6 +2904,7 @@ window.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('resize', () => {
   initSacredGeometry();
   drawTreePaths();
+  initMandalaCanvas();
 });
 
 // Placeholder behavior
