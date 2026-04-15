@@ -3392,83 +3392,123 @@ document.querySelectorAll('[contenteditable][data-placeholder]').forEach(el => {
   ];
   const chakraY = [-1.0, -0.5, 0.0, 0.35, 0.75, 1.5, 2.1];
 
-  // === BODY (Lathe-based realistic silhouette) ===
+  // === BODY (ウィトルウィウス風 線画人体) ===
   const bodyGroup = new THREE.Group();
+  const lineMat = new THREE.LineBasicMaterial({ color: 0xdcc090, transparent: true, opacity: 0.9 });
+  const lineMatDim = new THREE.LineBasicMaterial({ color: 0xc9a84c, transparent: true, opacity: 0.5 });
+  const lineMatBright = new THREE.LineBasicMaterial({ color: 0xeedd99, transparent: true, opacity: 1.0 });
 
-  // Torso profile (半断面をY軸で回転)
-  // points: (radius, height) from feet to head
-  const torsoProfile = [
-    new THREE.Vector2(0.12, -3.8),  // 足先
-    new THREE.Vector2(0.14, -3.5),  // 足首
-    new THREE.Vector2(0.18, -2.8),  // ふくらはぎ
-    new THREE.Vector2(0.16, -2.2),  // 膝
-    new THREE.Vector2(0.22, -1.5),  // 太もも
-    new THREE.Vector2(0.35, -1.0),  // 腰・骨盤
-    new THREE.Vector2(0.32, -0.5),  // ウエスト
-    new THREE.Vector2(0.38, 0.0),   // 腹
-    new THREE.Vector2(0.42, 0.3),   // 胸（最大）
-    new THREE.Vector2(0.45, 0.6),   // 肩
-    new THREE.Vector2(0.25, 0.8),   // 首の付け根
-    new THREE.Vector2(0.15, 1.0),   // 首
-    new THREE.Vector2(0.14, 1.2),   // 首上部
-    new THREE.Vector2(0.30, 1.4),   // 顎
-    new THREE.Vector2(0.33, 1.6),   // 頬
-    new THREE.Vector2(0.32, 1.8),   // 目の高さ
-    new THREE.Vector2(0.28, 2.0),   // 額
-    new THREE.Vector2(0.15, 2.15),  // 頭頂部
-    new THREE.Vector2(0.0,  2.25),  // てっぺん
+  function makeLine(pts, mat) {
+    const g = new THREE.BufferGeometry().setFromPoints(pts.map(p => new THREE.Vector3(p[0], p[1], p[2]||0)));
+    return new THREE.Line(g, mat || lineMat);
+  }
+  function mirror(pts) { return pts.map(p => [-p[0], p[1], p[2]||0]); }
+
+  // 右半身の輪郭（正面から見た形）
+  const rightOutline = [
+    [0, 2.3, 0],      // 頭頂
+    [0.28, 2.1, 0],    // 額右
+    [0.33, 1.8, 0],    // こめかみ
+    [0.30, 1.5, 0],    // 顎
+    [0.15, 1.3, 0],    // 首
+    [0.20, 1.1, 0],    // 首の付け根
+    [0.50, 0.9, 0],    // 肩
+    [0.55, 0.85, 0],   // 肩先
+    // 腕（下ろした状態）
+    [0.48, 0.5, 0],    // 上腕
+    [0.42, 0.0, 0],    // 肘
+    [0.38, -0.5, 0],   // 前腕
+    [0.35, -1.0, 0],   // 手首
+    [0.33, -1.2, 0],   // 手
   ];
-  const torsoGeo = new THREE.LatheGeometry(torsoProfile, 24);
-
-  // Wireframe body (金色の輪郭)
-  const torsoWire = new THREE.Mesh(torsoGeo, bodyWireMat);
-  bodyGroup.add(torsoWire);
-
-  // Solid body (半透明で立体感)
-  const torsoSolid = new THREE.Mesh(torsoGeo, bodySolidMat);
-  bodyGroup.add(torsoSolid);
-
-  // Edge highlight (光が当たる側)
-  const torsoEdge = new THREE.Mesh(torsoGeo, bodyEdgeMat);
-  torsoEdge.scale.set(1.005, 1.0, 1.005);
-  bodyGroup.add(torsoEdge);
-
-  // Aura glow body (外側に大きめ)
-  const torsoGlow = new THREE.Mesh(torsoGeo, bodyGlowMat);
-  torsoGlow.scale.set(1.15, 1.05, 1.15);
-  bodyGroup.add(torsoGlow);
-
-  // Arms (left)
-  const armProfile = [
-    new THREE.Vector2(0.0, 0),
-    new THREE.Vector2(0.07, 0.1),
-    new THREE.Vector2(0.09, 0.5),
-    new THREE.Vector2(0.08, 1.0),
-    new THREE.Vector2(0.06, 1.5),
-    new THREE.Vector2(0.05, 1.8),
-    new THREE.Vector2(0.0, 1.9),
+  // 右胴体
+  const rightTorso = [
+    [0.50, 0.9, 0],    // 肩
+    [0.45, 0.6, 0],    // 胸上
+    [0.42, 0.3, 0],    // 胸
+    [0.38, 0.0, 0],    // 肋骨下
+    [0.32, -0.3, 0],   // ウエスト
+    [0.38, -0.6, 0],   // 腰
+    [0.40, -0.9, 0],   // 骨盤
+    [0.25, -1.2, 0],   // 股関節
   ];
-  const armGeo = new THREE.LatheGeometry(armProfile, 8);
-  const armL = new THREE.Mesh(armGeo, bodyEdgeMat);
-  armL.position.set(-0.5, 0.65, 0);
-  armL.rotation.z = 0.4;
-  armL.rotation.x = -0.1;
-  bodyGroup.add(armL);
-  const armLWire = new THREE.Mesh(armGeo, bodyWireMat);
-  armLWire.position.copy(armL.position);
-  armLWire.rotation.copy(armL.rotation);
-  bodyGroup.add(armLWire);
+  // 右脚
+  const rightLeg = [
+    [0.25, -1.2, 0],   // 股関節
+    [0.28, -1.8, 0],   // 太もも
+    [0.22, -2.4, 0],   // 膝
+    [0.20, -3.0, 0],   // ふくらはぎ
+    [0.15, -3.5, 0],   // 足首
+    [0.12, -3.7, 0],   // 足
+    [0.20, -3.8, 0],   // つま先
+  ];
+  // 内側の脚ライン
+  const rightLegInner = [
+    [0.05, -1.2, 0],   // 股下
+    [0.08, -1.8, 0],
+    [0.10, -2.4, 0],
+    [0.08, -3.0, 0],
+    [0.06, -3.5, 0],
+    [0.05, -3.7, 0],
+  ];
 
-  // Arms (right)
-  const armR = new THREE.Mesh(armGeo, bodyEdgeMat);
-  armR.position.set(0.5, 0.65, 0);
-  armR.rotation.z = -0.4;
-  armR.rotation.x = -0.1;
-  bodyGroup.add(armR);
-  const armRWire = new THREE.Mesh(armGeo, bodyWireMat);
-  armRWire.position.copy(armR.position);
-  armRWire.rotation.copy(armR.rotation);
-  bodyGroup.add(armRWire);
+  // 描画
+  bodyGroup.add(makeLine(rightOutline, lineMatBright));
+  bodyGroup.add(makeLine(mirror(rightOutline), lineMatBright));
+  bodyGroup.add(makeLine(rightTorso, lineMat));
+  bodyGroup.add(makeLine(mirror(rightTorso), lineMat));
+  bodyGroup.add(makeLine(rightLeg, lineMat));
+  bodyGroup.add(makeLine(mirror(rightLeg), lineMat));
+  bodyGroup.add(makeLine(rightLegInner, lineMatDim));
+  bodyGroup.add(makeLine(mirror(rightLegInner), lineMatDim));
+
+  // 中心線
+  bodyGroup.add(makeLine([[0,2.3,0],[0,-1.2,0]], lineMatDim));
+
+  // 横ライン（肩、胸、腰）
+  bodyGroup.add(makeLine([[-0.55,0.85,0],[0.55,0.85,0]], lineMatDim)); // 肩
+  bodyGroup.add(makeLine([[-0.42,0.3,0],[0.42,0.3,0]], lineMatDim));   // 胸
+  bodyGroup.add(makeLine([[-0.32,-0.3,0],[0.32,-0.3,0]], lineMatDim)); // ウエスト
+  bodyGroup.add(makeLine([[-0.40,-0.9,0],[0.40,-0.9,0]], lineMatDim)); // 骨盤
+
+  // 鎖骨のV
+  bodyGroup.add(makeLine([[-0.50,0.9,0],[0,0.75,0],[0.50,0.9,0]], lineMat));
+
+  // 胸の筋肉ライン
+  bodyGroup.add(makeLine([[0.15,0.8,0],[0.35,0.6,0],[0.40,0.35,0]], lineMatDim));
+  bodyGroup.add(makeLine([[-0.15,0.8,0],[-0.35,0.6,0],[-0.40,0.35,0]], lineMatDim));
+
+  // 腹筋ライン
+  bodyGroup.add(makeLine([[0.12,0.2,0],[0.12,-0.5,0]], lineMatDim));
+  bodyGroup.add(makeLine([[-0.12,0.2,0],[-0.12,-0.5,0]], lineMatDim));
+
+  // 背面の身体ライン（奥行き）
+  const backOutlineR = rightTorso.map(p => [p[0]*0.95, p[1], -0.2]);
+  const backOutlineL = mirror(rightTorso).map(p => [p[0]*0.95, p[1], -0.2]);
+  bodyGroup.add(makeLine(backOutlineR, lineMatDim));
+  bodyGroup.add(makeLine(backOutlineL, lineMatDim));
+
+  // 身体を繋ぐ横の線（3D感）
+  [[0.50,0.9],[0.42,0.3],[0.32,-0.3],[0.40,-0.9]].forEach(([x,y]) => {
+    bodyGroup.add(makeLine([[x,y,0],[x*0.95,y,-0.2]], lineMatDim));
+    bodyGroup.add(makeLine([[-x,y,0],[-x*0.95,y,-0.2]], lineMatDim));
+  });
+
+  // 頭（円）
+  const headPts = [];
+  for (let i = 0; i <= 24; i++) {
+    const a = (i/24) * Math.PI * 2;
+    headPts.push([Math.cos(a)*0.32, 1.8 + Math.sin(a)*0.35, 0]);
+  }
+  bodyGroup.add(makeLine(headPts, lineMatBright));
+
+  // ウィトルウィウスの円
+  const vitruvCircle = [];
+  for (let i = 0; i <= 48; i++) {
+    const a = (i/48) * Math.PI * 2;
+    vitruvCircle.push([Math.cos(a)*4.0, Math.sin(a)*4.0, -0.3]);
+  }
+  bodyGroup.add(makeLine(vitruvCircle, new THREE.LineBasicMaterial({ color: 0xc9a84c, transparent: true, opacity: 0.08 })));
 
   scene.add(bodyGroup);
 
