@@ -1137,7 +1137,7 @@
 
     <div class="etheric-body">
       <div class="aura"></div>
-      <svg viewBox="0 0 200 350" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg viewBox="-60 -40 320 440" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <!-- 内部循環エネルギーのグラデーション -->
           <linearGradient id="flowGrad" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -1319,6 +1319,154 @@
           <animate attributeName="opacity" values="0.05;0.12;0.05" dur="6s" repeatCount="indefinite"/>
         </circle>
         <text x="112" y="138" fill="rgba(201,168,76,0.15)" font-size="3.5" font-family="sans-serif">合流（未開通）</text>
+
+        <!-- ===== 重力のイメージ（ブロックを引き下ろす力） ===== -->
+        <!-- 重力を意識する矢印群（鎖骨→下方向） -->
+        <path d="M100 100 L100 130" stroke="rgba(160,120,255,0.3)" stroke-width="1" stroke-dasharray="2 2">
+          <animate attributeName="stroke-dashoffset" values="0;-8" dur="1.5s" repeatCount="indefinite"/>
+        </path>
+        <polygon points="96,128 100,136 104,128" fill="rgba(160,120,255,0.25)">
+          <animate attributeName="opacity" values="0.2;0.5;0.2" dur="1.5s" repeatCount="indefinite"/>
+        </polygon>
+        <!-- 重力ラベル -->
+        <text x="106" y="120" fill="rgba(160,120,255,0.35)" font-size="4" font-family="sans-serif">重力 ▼</text>
+        <!-- 重力で解放される粒子（鎖骨から下に抜ける） -->
+        <circle r="1" fill="rgba(160,120,255,0.4)">
+          <animateMotion dur="2s" repeatCount="indefinite" path="M100,100 L100,136"/>
+          <animate attributeName="opacity" values="0.5;0.1" dur="2s" repeatCount="indefinite"/>
+        </circle>
+
+        <!-- ===== 21 レムリアンシード（三界六芒の曼荼羅） ===== -->
+        <!-- 外環（6個）— 結界、頂点外向き △▽ -->
+        <polygon points="100,-30 106,-20 94,-20" fill="none" stroke="rgba(200,220,255,0.3)" stroke-width="0.6"/>
+        <polygon points="100,-30 106,-20 94,-20" fill="rgba(200,220,255,0.06)"><animate attributeName="opacity" values="0.04;0.1;0.04" dur="4s" repeatCount="indefinite"/></polygon>
+        <polygon points="190,82 196,92 184,92" fill="none" stroke="rgba(200,220,255,0.3)" stroke-width="0.6"/>
+        <polygon points="190,82 196,92 184,92" fill="rgba(200,220,255,0.06)"><animate attributeName="opacity" values="0.04;0.1;0.04" dur="4s" repeatCount="indefinite" begin="0.7s"/></polygon>
+        <polygon points="190,268 196,258 184,258" fill="none" stroke="rgba(200,220,255,0.3)" stroke-width="0.6"/>
+        <polygon points="190,268 196,258 184,258" fill="rgba(200,220,255,0.06)"><animate attributeName="opacity" values="0.04;0.1;0.04" dur="4s" repeatCount="indefinite" begin="1.4s"/></polygon>
+        <polygon points="100,380 106,370 94,370" fill="none" stroke="rgba(200,220,255,0.3)" stroke-width="0.6"/>
+        <polygon points="100,380 106,370 94,370" fill="rgba(200,220,255,0.06)"><animate attributeName="opacity" values="0.04;0.1;0.04" dur="4s" repeatCount="indefinite" begin="2.1s"/></polygon>
+        <polygon points="10,268 16,258 4,258" fill="none" stroke="rgba(200,220,255,0.3)" stroke-width="0.6"/>
+        <polygon points="10,268 16,258 4,258" fill="rgba(200,220,255,0.06)"><animate attributeName="opacity" values="0.04;0.1;0.04" dur="4s" repeatCount="indefinite" begin="2.8s"/></polygon>
+        <polygon points="10,82 16,92 4,92" fill="none" stroke="rgba(200,220,255,0.3)" stroke-width="0.6"/>
+        <polygon points="10,82 16,92 4,92" fill="rgba(200,220,255,0.06)"><animate attributeName="opacity" values="0.04;0.1;0.04" dur="4s" repeatCount="indefinite" begin="3.5s"/></polygon>
+        <!-- 外環の六芒星ライン -->
+        <polygon points="100,-25 187,87 187,263 100,375 13,263 13,87" fill="none" stroke="rgba(200,220,255,0.08)" stroke-width="0.5" stroke-dasharray="3 5">
+          <animate attributeName="stroke-dashoffset" values="0;-16" dur="8s" repeatCount="indefinite"/>
+        </polygon>
+
+        <!-- 中環（6個）— 柱、上向き -->
+        <polygon points="100,30 105,40 95,40" fill="none" stroke="rgba(180,200,255,0.35)" stroke-width="0.6"/>
+        <polygon points="100,30 105,40 95,40" fill="rgba(180,200,255,0.08)"><animate attributeName="opacity" values="0.05;0.12;0.05" dur="3.5s" repeatCount="indefinite"/></polygon>
+        <polygon points="155,115 160,125 150,125" fill="none" stroke="rgba(180,200,255,0.35)" stroke-width="0.6"/>
+        <polygon points="155,115 160,125 150,125" fill="rgba(180,200,255,0.08)"><animate attributeName="opacity" values="0.05;0.12;0.05" dur="3.5s" repeatCount="indefinite" begin="0.6s"/></polygon>
+        <polygon points="155,235 160,245 150,245" fill="none" stroke="rgba(180,200,255,0.35)" stroke-width="0.6"/>
+        <polygon points="155,235 160,245 150,245" fill="rgba(180,200,255,0.08)"><animate attributeName="opacity" values="0.05;0.12;0.05" dur="3.5s" repeatCount="indefinite" begin="1.2s"/></polygon>
+        <polygon points="100,320 105,330 95,330" fill="none" stroke="rgba(180,200,255,0.35)" stroke-width="0.6"/>
+        <polygon points="100,320 105,330 95,330" fill="rgba(180,200,255,0.08)"><animate attributeName="opacity" values="0.05;0.12;0.05" dur="3.5s" repeatCount="indefinite" begin="1.8s"/></polygon>
+        <polygon points="45,235 50,245 40,245" fill="none" stroke="rgba(180,200,255,0.35)" stroke-width="0.6"/>
+        <polygon points="45,235 50,245 40,245" fill="rgba(180,200,255,0.08)"><animate attributeName="opacity" values="0.05;0.12;0.05" dur="3.5s" repeatCount="indefinite" begin="2.4s"/></polygon>
+        <polygon points="45,115 50,125 40,125" fill="none" stroke="rgba(180,200,255,0.35)" stroke-width="0.6"/>
+        <polygon points="45,115 50,125 40,125" fill="rgba(180,200,255,0.08)"><animate attributeName="opacity" values="0.05;0.12;0.05" dur="3.5s" repeatCount="indefinite" begin="3s"/></polygon>
+        <!-- 中環ライン -->
+        <polygon points="100,32 157,120 157,240 100,325 43,240 43,120" fill="none" stroke="rgba(180,200,255,0.1)" stroke-width="0.4" stroke-dasharray="2 4">
+          <animate attributeName="stroke-dashoffset" values="0;12" dur="6s" repeatCount="indefinite"/>
+        </polygon>
+
+        <!-- 内環（6個）— 受容、内向き -->
+        <polygon points="100,60 104,68 96,68" fill="none" stroke="rgba(220,200,140,0.4)" stroke-width="0.6"/>
+        <polygon points="100,60 104,68 96,68" fill="rgba(220,200,140,0.1)"><animate attributeName="opacity" values="0.06;0.15;0.06" dur="3s" repeatCount="indefinite"/></polygon>
+        <polygon points="130,140 134,148 126,148" fill="none" stroke="rgba(220,200,140,0.4)" stroke-width="0.6"/>
+        <polygon points="130,140 134,148 126,148" fill="rgba(220,200,140,0.1)"><animate attributeName="opacity" values="0.06;0.15;0.06" dur="3s" repeatCount="indefinite" begin="0.5s"/></polygon>
+        <polygon points="130,210 134,218 126,218" fill="none" stroke="rgba(220,200,140,0.4)" stroke-width="0.6"/>
+        <polygon points="130,210 134,218 126,218" fill="rgba(220,200,140,0.1)"><animate attributeName="opacity" values="0.06;0.15;0.06" dur="3s" repeatCount="indefinite" begin="1s"/></polygon>
+        <polygon points="100,290 104,298 96,298" fill="none" stroke="rgba(220,200,140,0.4)" stroke-width="0.6"/>
+        <polygon points="100,290 104,298 96,298" fill="rgba(220,200,140,0.1)"><animate attributeName="opacity" values="0.06;0.15;0.06" dur="3s" repeatCount="indefinite" begin="1.5s"/></polygon>
+        <polygon points="70,210 74,218 66,218" fill="none" stroke="rgba(220,200,140,0.4)" stroke-width="0.6"/>
+        <polygon points="70,210 74,218 66,218" fill="rgba(220,200,140,0.1)"><animate attributeName="opacity" values="0.06;0.15;0.06" dur="3s" repeatCount="indefinite" begin="2s"/></polygon>
+        <polygon points="70,140 74,148 66,148" fill="none" stroke="rgba(220,200,140,0.4)" stroke-width="0.6"/>
+        <polygon points="70,140 74,148 66,148" fill="rgba(220,200,140,0.1)"><animate attributeName="opacity" values="0.06;0.15;0.06" dur="3s" repeatCount="indefinite" begin="2.5s"/></polygon>
+        <!-- 内環ライン -->
+        <polygon points="100,62 132,142 132,215 100,295 68,215 68,142" fill="none" stroke="rgba(220,200,140,0.1)" stroke-width="0.3" stroke-dasharray="2 3">
+          <animate attributeName="stroke-dashoffset" values="0;-10" dur="5s" repeatCount="indefinite"/>
+        </polygon>
+
+        <!-- 中心三角（3個）— 三宝、上向き -->
+        <polygon points="100,100 115,170 85,170" fill="none" stroke="rgba(201,168,76,0.35)" stroke-width="0.7">
+          <animate attributeName="opacity" values="0.3;0.5;0.3" dur="4s" repeatCount="indefinite"/>
+        </polygon>
+        <polygon points="100,100 115,170 85,170" fill="rgba(201,168,76,0.03)"/>
+        <!-- 三宝の3つのクリスタル -->
+        <polygon points="100,96 103,102 97,102" fill="rgba(201,168,76,0.3)" stroke="rgba(201,168,76,0.5)" stroke-width="0.5">
+          <animate attributeName="opacity" values="0.3;0.6;0.3" dur="2.5s" repeatCount="indefinite"/>
+        </polygon>
+        <polygon points="117,168 120,174 114,174" fill="rgba(201,168,76,0.3)" stroke="rgba(201,168,76,0.5)" stroke-width="0.5">
+          <animate attributeName="opacity" values="0.3;0.6;0.3" dur="2.5s" repeatCount="indefinite" begin="0.8s"/>
+        </polygon>
+        <polygon points="83,168 86,174 80,174" fill="rgba(201,168,76,0.3)" stroke="rgba(201,168,76,0.5)" stroke-width="0.5">
+          <animate attributeName="opacity" values="0.3;0.6;0.3" dur="2.5s" repeatCount="indefinite" begin="1.6s"/>
+        </polygon>
+
+        <!-- ===== プルバ（天地のアンカー） ===== -->
+        <!-- 上のプルバ（小・15cm） — 頭上 -->
+        <line x1="100" y1="-35" x2="100" y2="-15" stroke="rgba(200,160,220,0.5)" stroke-width="1.5"/>
+        <polygon points="97,-15 100,-8 103,-15" fill="rgba(200,160,220,0.4)" stroke="rgba(200,160,220,0.5)" stroke-width="0.5"/>
+        <circle cx="100" cy="-35" r="3" fill="rgba(200,160,220,0.15)" stroke="rgba(200,160,220,0.3)" stroke-width="0.5"/>
+        <text x="108" y="-22" fill="rgba(200,160,220,0.4)" font-size="4" font-family="sans-serif">小プルバ</text>
+        <!-- プルバから天のエネルギーを引き込む光 -->
+        <line x1="100" y1="-35" x2="100" y2="-40" stroke="rgba(224,208,255,0.2)" stroke-width="0.8" stroke-dasharray="1 2">
+          <animate attributeName="opacity" values="0.1;0.4;0.1" dur="3s" repeatCount="indefinite"/>
+        </line>
+
+        <!-- 下のプルバ（大・20cm） — 足元 -->
+        <line x1="100" y1="385" x2="100" y2="365" stroke="rgba(180,100,80,0.5)" stroke-width="2"/>
+        <polygon points="97,365 100,358 103,365" fill="rgba(180,100,80,0.4)" stroke="rgba(180,100,80,0.5)" stroke-width="0.5"/>
+        <circle cx="100" cy="385" r="4" fill="rgba(180,100,80,0.15)" stroke="rgba(180,100,80,0.3)" stroke-width="0.5"/>
+        <text x="108" y="378" fill="rgba(180,100,80,0.4)" font-size="4" font-family="sans-serif">大プルバ</text>
+        <!-- プルバから地のエネルギーをアンカーする光 -->
+        <line x1="100" y1="385" x2="100" y2="395" stroke="rgba(224,80,80,0.2)" stroke-width="0.8" stroke-dasharray="1 2">
+          <animate attributeName="opacity" values="0.1;0.4;0.1" dur="3s" repeatCount="indefinite" begin="1.5s"/>
+        </line>
+
+        <!-- ===== 浄化加速エフェクト ===== -->
+        <!-- クリスタルグリッドからの浄化の光（全21個から中心に向かう） -->
+        <!-- 外環→中心 6本 -->
+        <line x1="100" y1="-25" x2="100" y2="175" stroke="rgba(200,220,255,0.04)" stroke-width="0.3" stroke-dasharray="1 3"><animate attributeName="opacity" values="0.02;0.06;0.02" dur="5s" repeatCount="indefinite"/></line>
+        <line x1="187" y1="87" x2="100" y2="175" stroke="rgba(200,220,255,0.04)" stroke-width="0.3" stroke-dasharray="1 3"><animate attributeName="opacity" values="0.02;0.06;0.02" dur="5s" repeatCount="indefinite" begin="0.8s"/></line>
+        <line x1="187" y1="263" x2="100" y2="175" stroke="rgba(200,220,255,0.04)" stroke-width="0.3" stroke-dasharray="1 3"><animate attributeName="opacity" values="0.02;0.06;0.02" dur="5s" repeatCount="indefinite" begin="1.6s"/></line>
+        <line x1="100" y1="375" x2="100" y2="175" stroke="rgba(200,220,255,0.04)" stroke-width="0.3" stroke-dasharray="1 3"><animate attributeName="opacity" values="0.02;0.06;0.02" dur="5s" repeatCount="indefinite" begin="2.4s"/></line>
+        <line x1="13" y1="263" x2="100" y2="175" stroke="rgba(200,220,255,0.04)" stroke-width="0.3" stroke-dasharray="1 3"><animate attributeName="opacity" values="0.02;0.06;0.02" dur="5s" repeatCount="indefinite" begin="3.2s"/></line>
+        <line x1="13" y1="87" x2="100" y2="175" stroke="rgba(200,220,255,0.04)" stroke-width="0.3" stroke-dasharray="1 3"><animate attributeName="opacity" values="0.02;0.06;0.02" dur="5s" repeatCount="indefinite" begin="4s"/></line>
+        <!-- 浄化の渦（ブロック周りの螺旋） -->
+        <circle cx="100" cy="100" r="20" fill="none" stroke="rgba(160,200,255,0.08)" stroke-width="0.5" stroke-dasharray="3 5">
+          <animate attributeName="r" values="15;30;15" dur="4s" repeatCount="indefinite"/>
+          <animate attributeName="stroke-dashoffset" values="0;-16" dur="2s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.06;0.15;0.06" dur="4s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="100" cy="100" r="12" fill="none" stroke="rgba(200,180,255,0.08)" stroke-width="0.4" stroke-dasharray="2 4">
+          <animate attributeName="r" values="10;22;10" dur="3.5s" repeatCount="indefinite" begin="1s"/>
+          <animate attributeName="stroke-dashoffset" values="0;12" dur="1.8s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.04;0.12;0.04" dur="3.5s" repeatCount="indefinite" begin="1s"/>
+        </circle>
+        <!-- 浄化粒子（ブロックから外に排出される） -->
+        <circle r="1" fill="rgba(100,100,100,0.3)">
+          <animateMotion dur="3s" repeatCount="indefinite" path="M100,100 C120,90 140,85 160,80"/>
+          <animate attributeName="opacity" values="0.4;0" dur="3s" repeatCount="indefinite"/>
+        </circle>
+        <circle r="1" fill="rgba(100,100,100,0.3)">
+          <animateMotion dur="3s" repeatCount="indefinite" begin="1s" path="M100,100 C80,90 60,85 40,80"/>
+          <animate attributeName="opacity" values="0.4;0" dur="3s" repeatCount="indefinite" begin="1s"/>
+        </circle>
+        <circle r="0.8" fill="rgba(100,100,100,0.2)">
+          <animateMotion dur="2.5s" repeatCount="indefinite" begin="0.5s" path="M100,100 C110,80 115,60 120,40"/>
+          <animate attributeName="opacity" values="0.3;0" dur="2.5s" repeatCount="indefinite" begin="0.5s"/>
+        </circle>
+        <circle r="0.8" fill="rgba(100,100,100,0.2)">
+          <animateMotion dur="2.5s" repeatCount="indefinite" begin="1.5s" path="M100,100 C90,80 85,60 80,40"/>
+          <animate attributeName="opacity" values="0.3;0" dur="2.5s" repeatCount="indefinite" begin="1.5s"/>
+        </circle>
+        <!-- 浄化ラベル -->
+        <text x="135" y="78" fill="rgba(160,200,255,0.25)" font-size="3.5" font-family="sans-serif">浄化</text>
 
         <!-- ラベル -->
         <text x="5" y="218" fill="rgba(224,80,80,0.5)" font-size="5" font-family="sans-serif">封印</text>
