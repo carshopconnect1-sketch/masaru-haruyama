@@ -184,40 +184,62 @@
     50% { transform: rotateX(15deg) rotateY(-5deg) translateZ(-30px) scale(1.1); opacity: 1; }
   }
 
-  .chakra {
+  /* === 三丹田 (Three Dantian) — Golden Vacuum Spheres === */
+  .dantian {
     position: absolute;
-    width: 12px;
-    height: 12px;
     border-radius: 50%;
     cursor: pointer;
     transition: all 0.3s ease;
+    left: 50%;
+    transform: translateX(-50%);
+    /* Dark void center with golden glow */
+    background: radial-gradient(circle at center, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 30%, rgba(184,149,106,0.6) 60%, rgba(184,149,106,0) 100%);
+    box-shadow: 0 0 15px rgba(184,149,106,0.4), 0 0 30px rgba(184,149,106,0.2), inset 0 0 8px rgba(0,0,0,0.8);
   }
-
-  .chakra::before {
+  .dantian::before {
     content: '';
     position: absolute;
-    top: -4px; left: -4px;
-    width: 20px; height: 20px;
+    top: -6px; left: -6px;
+    right: -6px; bottom: -6px;
     border-radius: 50%;
-    border: 1px solid currentColor;
-    opacity: 0.4;
-    animation: chakraSpin 8s linear infinite;
+    border: 1px solid rgba(184,149,106,0.3);
+    animation: dantianPulse 4s ease-in-out infinite;
   }
-
-  @keyframes chakraSpin { to { transform: rotate(360deg); } }
-
-  .chakra:hover {
-    transform: scale(1.8);
-    box-shadow: 0 0 20px currentColor;
+  .dantian::after {
+    content: '';
+    position: absolute;
+    top: -12px; left: -12px;
+    right: -12px; bottom: -12px;
+    border-radius: 50%;
+    border: 1px solid rgba(184,149,106,0.15);
+    animation: dantianPulse 4s ease-in-out infinite reverse;
   }
-
-  .chakra-crown   { top: 5%;  left: 50%; transform: translateX(-50%); background: #e0d0ff; color: #e0d0ff; }
-  .chakra-third   { top: 14%; left: 50%; transform: translateX(-50%); background: #8080ff; color: #8080ff; }
-  .chakra-throat  { top: 23%; left: 50%; transform: translateX(-50%); background: #60c0e0; color: #60c0e0; }
-  .chakra-heart   { top: 35%; left: 50%; transform: translateX(-50%); background: #40d080; color: #40d080; }
-  .chakra-solar   { top: 45%; left: 50%; transform: translateX(-50%); background: #e0c040; color: #e0c040; }
-  .chakra-sacral  { top: 55%; left: 50%; transform: translateX(-50%); background: #e08040; color: #e08040; }
-  .chakra-root    { top: 65%; left: 50%; transform: translateX(-50%); background: #e04040; color: #e04040; }
+  @keyframes dantianPulse {
+    0%, 100% { transform: scale(1); opacity: 0.4; }
+    50% { transform: scale(1.15); opacity: 0.8; }
+  }
+  .dantian:hover {
+    transform: translateX(-50%) scale(1.3);
+    box-shadow: 0 0 25px rgba(184,149,106,0.7), 0 0 50px rgba(184,149,106,0.3), inset 0 0 8px rgba(0,0,0,0.8);
+  }
+  /* 上丹田 (Upper) — 額 — smallest */
+  .dantian-upper { top: 14%; width: 14px; height: 14px; }
+  /* 中丹田 (Middle) — 胸 — medium */
+  .dantian-middle { top: 35%; width: 18px; height: 18px; }
+  /* 下丹田 (Lower) — 臍下 — largest, brightest */
+  .dantian-lower {
+    top: 52%; width: 24px; height: 24px;
+    box-shadow: 0 0 20px rgba(184,149,106,0.6), 0 0 40px rgba(184,149,106,0.3), inset 0 0 10px rgba(0,0,0,0.8);
+  }
+  /* Connecting line */
+  .dantian-line {
+    position: absolute;
+    left: 50%; top: 16%;
+    width: 1px; height: 40%;
+    background: linear-gradient(to bottom, rgba(184,149,106,0.1), rgba(184,149,106,0.3), rgba(184,149,106,0.1));
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
 
   /* ===== PATHWAY MAP ===== */
   .pathway-section {
@@ -1549,13 +1571,10 @@
         <text x="177" y="218" fill="rgba(224,80,80,0.5)" font-size="5" font-family="sans-serif">封印</text>
       </svg>
 
-      <div class="chakra chakra-crown" title="サハスラーラ" data-chakra="crown"></div>
-      <div class="chakra chakra-third" title="アジュナ" data-chakra="third-eye"></div>
-      <div class="chakra chakra-throat" title="ヴィシュッダ" data-chakra="throat"></div>
-      <div class="chakra chakra-heart" title="アナハタ" data-chakra="heart"></div>
-      <div class="chakra chakra-solar" title="マニプラ" data-chakra="solar"></div>
-      <div class="chakra chakra-sacral" title="スヴァディスターナ" data-chakra="sacral"></div>
-      <div class="chakra chakra-root" title="ムーラダーラ" data-chakra="root"></div>
+      <div class="dantian-line"></div>
+      <div class="dantian dantian-upper" title="上丹田" data-dantian="upper"></div>
+      <div class="dantian dantian-middle" title="中丹田" data-dantian="middle"></div>
+      <div class="dantian dantian-lower" title="下丹田" data-dantian="lower"></div>
     </div>
 
     <div class="attributes">
@@ -2711,15 +2730,16 @@ function togglePathwayStatus(idx) {
   renderPathwayMap();
 }
 
-// ===== CHAKRA INTERACTION =====
-document.querySelectorAll('.chakra').forEach(ch => {
-  ch.addEventListener('click', () => {
-    const name = ch.dataset.chakra;
+// ===== 三丹田 INTERACTION =====
+document.querySelectorAll('.dantian').forEach(dt => {
+  dt.addEventListener('click', () => {
+    const name = dt.dataset.dantian;
     const names = {
-      'crown': 'サハスラーラ — 冠', 'third-eye': 'アジュナ — 第三の眼', 'throat': 'ヴィシュッダ — 喉',
-      'heart': 'アナハタ — 心臓', 'solar': 'マニプラ — 太陽神経叢', 'sacral': 'スヴァディスターナ — 仙骨', 'root': 'ムーラダーラ — 根'
+      'upper': '上丹田 — 神（シェン）の座',
+      'middle': '中丹田 — 気の座',
+      'lower': '下丹田 — 精（ジン）の座'
     };
-    openModal(names[name] || name, `<div contenteditable="true" data-chakra="${name}">${state.projection.chakras[name] || ''}</div>`, 'chakra');
+    openModal(names[name] || name, `<div contenteditable="true" data-dantian="${name}">${state.projection.chakras[name] || ''}</div>`, 'dantian');
   });
 });
 
@@ -2810,7 +2830,10 @@ function openModal(title, bodyHTML, type) {
 
 function closeModal() {
   const modal = document.getElementById('modal');
-  // Save chakra
+  // Save dantian
+  const dantianEl = modal.querySelector('[data-dantian]');
+  if (dantianEl) state.projection.chakras[dantianEl.dataset.dantian] = dantianEl.textContent.trim();
+  // Legacy chakra support
   const chakraEl = modal.querySelector('[data-chakra]');
   if (chakraEl) state.projection.chakras[chakraEl.dataset.chakra] = chakraEl.textContent.trim();
   // Save room
