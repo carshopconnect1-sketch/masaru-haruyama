@@ -3425,15 +3425,19 @@ const pathwayData = [
 ];
 
 function initPathwayMap() {
-  // Load saved pathway state
+  // Load saved pathway state — only if node count matches (prevents stale data overwrite)
   const savedPathway = state.pathway || null;
-  if (savedPathway) {
+  if (savedPathway && savedPathway.length === pathwayData.length) {
     savedPathway.forEach((saved, i) => {
       if (pathwayData[i]) {
         pathwayData[i].status = saved.status;
         pathwayData[i].note = saved.note;
       }
     });
+  } else if (savedPathway) {
+    // Node count changed — reset saved pathway
+    state.pathway = pathwayData.map(n => ({ status: n.status, note: n.note }));
+    saveState();
   }
   renderPathwayMap();
 }
