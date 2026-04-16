@@ -262,6 +262,97 @@
     pointer-events: none;
   }
 
+  /* === 丹田エネルギー吸引パーティクル === */
+  .dantian-particles {
+    position: absolute;
+    pointer-events: none;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .dantian-particles.particles-upper { top: 14%; width: 60px; height: 60px; margin-left: 0; margin-top: -23px; }
+  .dantian-particles.particles-middle { top: 35%; width: 80px; height: 80px; margin-left: 0; margin-top: -31px; }
+  .dantian-particles.particles-lower { top: 52%; width: 100px; height: 100px; margin-left: 0; margin-top: -38px; }
+
+  .energy-particle {
+    position: absolute;
+    width: 3px; height: 3px;
+    border-radius: 50%;
+    background: rgba(184,149,106,0.8);
+    box-shadow: 0 0 4px rgba(184,149,106,0.6);
+  }
+  /* 8方向からのパーティクル吸引アニメーション */
+  .energy-particle:nth-child(1) { animation: pullIn0 3s ease-in infinite; }
+  .energy-particle:nth-child(2) { animation: pullIn45 3.3s ease-in infinite 0.3s; }
+  .energy-particle:nth-child(3) { animation: pullIn90 2.8s ease-in infinite 0.6s; }
+  .energy-particle:nth-child(4) { animation: pullIn135 3.5s ease-in infinite 0.9s; }
+  .energy-particle:nth-child(5) { animation: pullIn180 3.1s ease-in infinite 1.2s; }
+  .energy-particle:nth-child(6) { animation: pullIn225 2.9s ease-in infinite 1.5s; }
+  .energy-particle:nth-child(7) { animation: pullIn270 3.4s ease-in infinite 1.8s; }
+  .energy-particle:nth-child(8) { animation: pullIn315 3.2s ease-in infinite 2.1s; }
+
+  @keyframes pullIn0 {
+    0% { top: 0%; left: 50%; opacity: 0; transform: scale(1.5); }
+    20% { opacity: 0.8; }
+    100% { top: 50%; left: 50%; opacity: 0; transform: scale(0); }
+  }
+  @keyframes pullIn45 {
+    0% { top: 10%; left: 90%; opacity: 0; transform: scale(1.5); }
+    20% { opacity: 0.7; }
+    100% { top: 50%; left: 50%; opacity: 0; transform: scale(0); }
+  }
+  @keyframes pullIn90 {
+    0% { top: 50%; left: 100%; opacity: 0; transform: scale(1.5); }
+    20% { opacity: 0.8; }
+    100% { top: 50%; left: 50%; opacity: 0; transform: scale(0); }
+  }
+  @keyframes pullIn135 {
+    0% { top: 90%; left: 90%; opacity: 0; transform: scale(1.5); }
+    20% { opacity: 0.6; }
+    100% { top: 50%; left: 50%; opacity: 0; transform: scale(0); }
+  }
+  @keyframes pullIn180 {
+    0% { top: 100%; left: 50%; opacity: 0; transform: scale(1.5); }
+    20% { opacity: 0.8; }
+    100% { top: 50%; left: 50%; opacity: 0; transform: scale(0); }
+  }
+  @keyframes pullIn225 {
+    0% { top: 90%; left: 10%; opacity: 0; transform: scale(1.5); }
+    20% { opacity: 0.7; }
+    100% { top: 50%; left: 50%; opacity: 0; transform: scale(0); }
+  }
+  @keyframes pullIn270 {
+    0% { top: 50%; left: 0%; opacity: 0; transform: scale(1.5); }
+    20% { opacity: 0.8; }
+    100% { top: 50%; left: 50%; opacity: 0; transform: scale(0); }
+  }
+  @keyframes pullIn315 {
+    0% { top: 10%; left: 10%; opacity: 0; transform: scale(1.5); }
+    20% { opacity: 0.6; }
+    100% { top: 50%; left: 50%; opacity: 0; transform: scale(0); }
+  }
+
+  /* 下丹田の吸引が最も強い — パーティクルが大きく明るい */
+  .particles-lower .energy-particle {
+    width: 4px; height: 4px;
+    background: rgba(201,168,76,0.9);
+    box-shadow: 0 0 6px rgba(201,168,76,0.7);
+  }
+
+  /* 丹田ラベル */
+  .dantian-label {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.45rem;
+    color: rgba(184,149,106,0.5);
+    letter-spacing: 0.15em;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .dantian-label-upper { top: 10%; }
+  .dantian-label-middle { top: 31%; }
+  .dantian-label-lower { top: 48%; }
+
   /* ===== PATHWAY MAP ===== */
   .pathway-section {
     width: 100%;
@@ -1594,6 +1685,33 @@
       </svg>
 
       <div class="dantian-line"></div>
+
+      <!-- 丹田ラベル -->
+      <div class="dantian-label dantian-label-upper">上丹田</div>
+      <div class="dantian-label dantian-label-middle">中丹田</div>
+      <div class="dantian-label dantian-label-lower">下丹田</div>
+
+      <!-- エネルギー吸引パーティクル -->
+      <div class="dantian-particles particles-upper">
+        <div class="energy-particle"></div><div class="energy-particle"></div>
+        <div class="energy-particle"></div><div class="energy-particle"></div>
+        <div class="energy-particle"></div><div class="energy-particle"></div>
+        <div class="energy-particle"></div><div class="energy-particle"></div>
+      </div>
+      <div class="dantian-particles particles-middle">
+        <div class="energy-particle"></div><div class="energy-particle"></div>
+        <div class="energy-particle"></div><div class="energy-particle"></div>
+        <div class="energy-particle"></div><div class="energy-particle"></div>
+        <div class="energy-particle"></div><div class="energy-particle"></div>
+      </div>
+      <div class="dantian-particles particles-lower">
+        <div class="energy-particle"></div><div class="energy-particle"></div>
+        <div class="energy-particle"></div><div class="energy-particle"></div>
+        <div class="energy-particle"></div><div class="energy-particle"></div>
+        <div class="energy-particle"></div><div class="energy-particle"></div>
+      </div>
+
+      <!-- 三丹田 -->
       <div class="dantian dantian-upper" title="上丹田" data-dantian="upper"></div>
       <div class="dantian dantian-middle" title="中丹田" data-dantian="middle"></div>
       <div class="dantian dantian-lower" title="下丹田" data-dantian="lower"></div>
@@ -2753,15 +2871,32 @@ function togglePathwayStatus(idx) {
 }
 
 // ===== 三丹田 INTERACTION =====
+const dantianInfo = {
+  'upper': {
+    title: '上丹田 — 神（シェン）の座',
+    desc: '額の中心。意識の出口。\n目を通じて丹田の虚（バキューム）を外界に投影する起点。\n「神は目に宿る」— 視線がバキュームの方向を決める。'
+  },
+  'middle': {
+    title: '中丹田 — 気の座',
+    desc: '胸の中心。呼吸と連動する虚。\n吸気で広がり、呼気で凝縮する。\n感情と気の変換が起きる場所。上と下を繋ぐ中継点。'
+  },
+  'lower': {
+    title: '下丹田 — 精（ジン）の座',
+    desc: '臍下三寸。全ての土台。バキュームの源。\n「空っぽの器」— 何も入れない、ただ虚がある。\n息を吐き切った時の下腹の空洞感、それが虚の入口。\nここが十分に深まると、虚を目を通じて外に投影できる。\nマックスはこの虚を相手の腕の近くの空間に作った。'
+  }
+};
 document.querySelectorAll('.dantian').forEach(dt => {
   dt.addEventListener('click', () => {
     const name = dt.dataset.dantian;
-    const names = {
-      'upper': '上丹田 — 神（シェン）の座',
-      'middle': '中丹田 — 気の座',
-      'lower': '下丹田 — 精（ジン）の座'
-    };
-    openModal(names[name] || name, `<div contenteditable="true" data-dantian="${name}">${state.projection.chakras[name] || ''}</div>`, 'dantian');
+    const info = dantianInfo[name];
+    const descHtml = info.desc.split('\n').map(l => `<p style="margin:0.4em 0;font-size:0.75rem;color:rgba(184,149,106,0.7);line-height:1.6">${l}</p>`).join('');
+    const content = `
+      <div style="margin-bottom:1em">${descHtml}</div>
+      <div style="border-top:1px solid rgba(184,149,106,0.15);padding-top:0.8em;margin-top:0.8em">
+        <p style="font-size:0.65rem;color:rgba(184,149,106,0.4);margin-bottom:0.4em">記録：</p>
+        <div contenteditable="true" data-dantian="${name}" style="min-height:2em;font-size:0.8rem;color:var(--cream);outline:none">${state.projection.chakras[name] || ''}</div>
+      </div>`;
+    openModal(info.title, content, 'dantian');
   });
 });
 
