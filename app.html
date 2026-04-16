@@ -1563,6 +1563,74 @@
         <!-- 地のラベル -->
         <text x="112" y="348" fill="rgba(224,80,80,0.4)" font-size="5" font-family="sans-serif">地</text>
 
+        <!-- ===== 肩のつまり（現在の浄化ポイント） ===== -->
+        <!-- 左肩のつまり（暗い赤のもや） -->
+        <ellipse cx="62" cy="90" rx="12" ry="6" fill="rgba(180,60,60,0.12)" stroke="none">
+          <animate attributeName="opacity" values="0.08;0.18;0.08" dur="3s" repeatCount="indefinite"/>
+        </ellipse>
+        <ellipse cx="62" cy="90" rx="8" ry="4" fill="rgba(140,40,40,0.2)" stroke="none">
+          <animate attributeName="opacity" values="0.12;0.25;0.12" dur="2.5s" repeatCount="indefinite" begin="0.5s"/>
+        </ellipse>
+        <!-- 右肩のつまり（暗い赤のもや） -->
+        <ellipse cx="138" cy="90" rx="12" ry="6" fill="rgba(180,60,60,0.12)" stroke="none">
+          <animate attributeName="opacity" values="0.08;0.18;0.08" dur="3s" repeatCount="indefinite" begin="1s"/>
+        </ellipse>
+        <ellipse cx="138" cy="90" rx="8" ry="4" fill="rgba(140,40,40,0.2)" stroke="none">
+          <animate attributeName="opacity" values="0.12;0.25;0.12" dur="2.5s" repeatCount="indefinite" begin="1.5s"/>
+        </ellipse>
+        <!-- 肩ラベル -->
+        <text x="38" y="85" fill="rgba(180,60,60,0.4)" font-size="3" font-family="sans-serif">詰まり</text>
+        <text x="148" y="85" fill="rgba(180,60,60,0.4)" font-size="3" font-family="sans-serif">詰まり</text>
+
+        <!-- ===== 意識の光（肩を浄化中） ===== -->
+        <!-- 左肩に集中する光の粒子（上丹田から降りてくる） -->
+        <circle cx="62" cy="90" r="2" fill="rgba(255,240,200,0.6)">
+          <animate attributeName="r" values="1;6;1" dur="3s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.5;0.1;0.5" dur="3s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="62" cy="90" r="10" fill="none" stroke="rgba(255,240,200,0.2)" stroke-width="0.5">
+          <animate attributeName="r" values="4;14;4" dur="3s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.3;0.0;0.3" dur="3s" repeatCount="indefinite"/>
+        </circle>
+        <!-- 光の粒子が上丹田から左肩へ流れる -->
+        <circle r="1" fill="rgba(255,240,200,0.7)">
+          <animateMotion path="M100,48 Q80,65 62,90" dur="2s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0.8;0" dur="2s" repeatCount="indefinite"/>
+        </circle>
+        <circle r="0.8" fill="rgba(255,240,200,0.5)">
+          <animateMotion path="M100,48 Q80,65 62,90" dur="2s" repeatCount="indefinite" begin="0.7s"/>
+          <animate attributeName="opacity" values="0;0.6;0" dur="2s" repeatCount="indefinite" begin="0.7s"/>
+        </circle>
+        <circle r="0.6" fill="rgba(255,240,200,0.4)">
+          <animateMotion path="M100,48 Q80,65 62,90" dur="2s" repeatCount="indefinite" begin="1.3s"/>
+          <animate attributeName="opacity" values="0;0.5;0" dur="2s" repeatCount="indefinite" begin="1.3s"/>
+        </circle>
+        <!-- 右肩に集中する光 -->
+        <circle cx="138" cy="90" r="2" fill="rgba(255,240,200,0.6)">
+          <animate attributeName="r" values="1;6;1" dur="3s" repeatCount="indefinite" begin="1.5s"/>
+          <animate attributeName="opacity" values="0.5;0.1;0.5" dur="3s" repeatCount="indefinite" begin="1.5s"/>
+        </circle>
+        <circle cx="138" cy="90" r="10" fill="none" stroke="rgba(255,240,200,0.2)" stroke-width="0.5">
+          <animate attributeName="r" values="4;14;4" dur="3s" repeatCount="indefinite" begin="1.5s"/>
+          <animate attributeName="opacity" values="0.3;0.0;0.3" dur="3s" repeatCount="indefinite" begin="1.5s"/>
+        </circle>
+        <!-- 光の粒子が上丹田から右肩へ流れる -->
+        <circle r="1" fill="rgba(255,240,200,0.7)">
+          <animateMotion path="M100,48 Q120,65 138,90" dur="2s" repeatCount="indefinite" begin="0.3s"/>
+          <animate attributeName="opacity" values="0;0.8;0" dur="2s" repeatCount="indefinite" begin="0.3s"/>
+        </circle>
+        <circle r="0.8" fill="rgba(255,240,200,0.5)">
+          <animateMotion path="M100,48 Q120,65 138,90" dur="2s" repeatCount="indefinite" begin="1s"/>
+          <animate attributeName="opacity" values="0;0.6;0" dur="2s" repeatCount="indefinite" begin="1s"/>
+        </circle>
+        <circle r="0.6" fill="rgba(255,240,200,0.4)">
+          <animateMotion path="M100,48 Q120,65 138,90" dur="2s" repeatCount="indefinite" begin="1.6s"/>
+          <animate attributeName="opacity" values="0;0.5;0" dur="2s" repeatCount="indefinite" begin="1.6s"/>
+        </circle>
+        <!-- 浄化ラベル -->
+        <text x="42" y="80" fill="rgba(255,240,200,0.3)" font-size="2.5" font-family="sans-serif">光 ↓</text>
+        <text x="150" y="80" fill="rgba(255,240,200,0.3)" font-size="2.5" font-family="sans-serif">光 ↓</text>
+
         <!-- ===== 鎖骨のブロック（現在の停滞点） ===== -->
         <!-- ブロックライン（鎖骨の位置 y≈100） -->
         <line x1="60" y1="100" x2="140" y2="100" stroke="rgba(224,80,80,0.35)" stroke-width="1.5" stroke-dasharray="2 2">
