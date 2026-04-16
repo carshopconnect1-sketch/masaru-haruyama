@@ -700,6 +700,17 @@
     background-size: 1.5px 4px;
   }
 
+  .pathway-line.flowing {
+    background: linear-gradient(to bottom, rgba(201,168,76,0.6), rgba(96,208,128,0.4));
+    box-shadow: 0 0 6px rgba(201,168,76,0.2);
+    animation: lineFlow 2s ease-in-out infinite;
+  }
+
+  @keyframes lineFlow {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+
   .pathway-label {
     font-size: 0.8rem;
     color: var(--text);
@@ -3403,13 +3414,14 @@ const pathwayData = [
   { id: 'crown', label: '頭頂', status: 'open', note: '' },
   { id: 'forehead', label: '額・眉間', status: 'open', note: '' },
   { id: 'jaw', label: '顎・首', status: 'open', note: '' },
-  { id: 'shoulder', label: '肩', status: 'current', note: '2026.04.14 — 詰まり解放' },
-  { id: 'clavicle', label: '鎖骨', status: 'current', note: '2026.04.14 — ここまで到達' },
-  { id: 'chest', label: '胸・心臓', status: 'blocked', note: '' },
-  { id: 'diaphragm', label: '横隔膜', status: 'blocked', note: '' },
-  { id: 'abdomen', label: '腹部', status: 'blocked', note: '' },
-  { id: 'pelvis', label: '骨盤底', status: 'blocked', note: '' },
-  { id: 'sacrum', label: '仙骨 ◎', status: 'blocked', note: '目標' },
+  { id: 'shoulder', label: '\u80A9', status: 'open', note: '2026.04.14 \u2014 \u958B\u901A' },
+  { id: 'clavicle', label: '\u9396\u9AA8', status: 'open', note: '2026.04.14 \u2014 \u958B\u901A' },
+  { id: 'spine', label: '\u80CC\u9AA8', status: 'current', note: '2026.04.16 \u2014 \u3042\u3060\u3061\u795E\u7D4C\u6574\u4F53\u9662\u3067\u958B\u901A\uFF01\u6C17\u304C\u5DE1\u3063\u3066\u6EDE\u308A\u306A\u3057' },
+  { id: 'chest', label: '\u80F8\u30FB\u5FC3\u81D3', status: 'blocked', note: '' },
+  { id: 'diaphragm', label: '\u6A2A\u9694\u819C', status: 'blocked', note: '' },
+  { id: 'abdomen', label: '\u8179\u90E8', status: 'blocked', note: '' },
+  { id: 'pelvis', label: '\u9AA8\u76E4\u5E95', status: 'blocked', note: '' },
+  { id: 'sacrum', label: '\u4ED9\u9AA8 \u25CE', status: 'blocked', note: '\u76EE\u6A19' },
 ];
 
 function initPathwayMap() {
@@ -3443,8 +3455,9 @@ function renderPathwayMap() {
       html += `<div class="pathway-note">${node.note}</div>`;
     }
     if (i < pathwayData.length - 1) {
-      const lineStatus = node.status === 'blocked' ? 'blocked' : 'open';
-      html += `<div class="pathway-line ${lineStatus}"></div>`;
+      const nextNode = pathwayData[i + 1];
+      const lineClass = node.status === 'blocked' ? 'blocked' : (node.status !== 'blocked' && nextNode.status === 'current') ? 'flowing' : 'open';
+      html += `<div class="pathway-line ${lineClass}"></div>`;
     }
   });
   container.innerHTML = html;
