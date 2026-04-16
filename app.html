@@ -109,12 +109,17 @@
     margin-bottom: 2rem;
   }
 
-  /* ===== 貴婦人と一角獣 画像 ===== */
+  /* ===== 貴婦人と一角獣 ===== */
   .lady-unicorn-wrap {
     text-align: center;
     margin: 1.5rem auto 2rem;
     max-width: 600px;
     width: 90%;
+    cursor: pointer;
+  }
+  .lady-unicorn-wrap:hover img {
+    opacity: 1;
+    box-shadow: 0 0 40px rgba(184,149,106,0.15);
   }
   .lady-unicorn-wrap img {
     width: 100%;
@@ -122,6 +127,7 @@
     opacity: 0.85;
     border: 1px solid rgba(184,149,106,0.2);
     box-shadow: 0 0 30px rgba(184,149,106,0.08);
+    transition: all 0.4s ease;
   }
   .lady-unicorn-caption {
     margin-top: 0.6rem;
@@ -129,6 +135,103 @@
     letter-spacing: 0.2em;
     color: rgba(184,149,106,0.4);
     font-style: italic;
+  }
+  .lu-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.92);
+    z-index: 9999;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .lu-modal-overlay.active { display: block; }
+  .lu-modal-inner {
+    max-width: 700px;
+    margin: 2rem auto;
+    padding: 2rem 1.5rem;
+    color: #e8e0d0;
+    font-family: 'Noto Serif JP', serif;
+  }
+  .lu-modal-inner img {
+    width: 100%;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(184,149,106,0.2);
+  }
+  .lu-modal-inner h2 {
+    font-size: 1.2rem;
+    font-weight: 300;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    margin-bottom: 0.5rem;
+  }
+  .lu-modal-inner h3 {
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    margin: 1.8rem 0 0.8rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid rgba(184,149,106,0.15);
+  }
+  .lu-modal-inner p {
+    font-size: 0.8rem;
+    line-height: 2;
+    color: rgba(232,224,208,0.8);
+    margin-bottom: 0.8rem;
+    letter-spacing: 0.05em;
+  }
+  .lu-modal-inner .lu-tapestry {
+    display: grid;
+    gap: 0.6rem;
+    margin: 1rem 0;
+  }
+  .lu-modal-inner .lu-tape-row {
+    display: grid;
+    grid-template-columns: 80px 1fr 1fr;
+    gap: 0.5rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(184,149,106,0.08);
+    font-size: 0.75rem;
+    line-height: 1.8;
+  }
+  .lu-modal-inner .lu-tape-num {
+    color: var(--gold);
+    font-weight: 500;
+  }
+  .lu-modal-inner .lu-tape-desc {
+    color: rgba(232,224,208,0.7);
+  }
+  .lu-modal-inner .lu-tape-meaning {
+    color: rgba(184,149,106,0.6);
+    font-style: italic;
+  }
+  .lu-modal-inner .lu-highlight {
+    background: rgba(184,149,106,0.08);
+    border-left: 2px solid var(--gold);
+    padding: 1rem 1.2rem;
+    margin: 1.2rem 0;
+    font-size: 0.8rem;
+    line-height: 2;
+    color: rgba(232,224,208,0.9);
+  }
+  .lu-modal-close {
+    position: fixed;
+    top: 1rem;
+    right: 1.5rem;
+    font-size: 1.5rem;
+    color: rgba(184,149,106,0.6);
+    cursor: pointer;
+    z-index: 10000;
+    background: none;
+    border: none;
+    font-family: serif;
+  }
+  .lu-modal-close:hover { color: var(--gold); }
+  @media (max-width: 600px) {
+    .lu-modal-inner { padding: 1.5rem 1rem; margin: 1rem auto; }
+    .lu-modal-inner .lu-tape-row { grid-template-columns: 1fr; }
   }
 
   /* ===== 自己投影 (ETHERIC DOUBLE) ===== */
@@ -2014,7 +2117,7 @@
     </div>
     <div style="text-align:center;margin:0.6rem 0 1.2rem;font-size:0.65rem;letter-spacing:0.3em;color:rgba(184,149,106,0.4)">&#x2014;&#x2014; 全ては明け渡し &#x2014;&#x2014;</div>
 
-    <div class="lady-unicorn-wrap">
+    <div class="lady-unicorn-wrap" onclick="document.getElementById('luModal').classList.add('active');document.body.style.overflow='hidden'">
       <img src="lady-unicorn.jpg" alt="La Dame a la licorne - A Mon Seul Desir" loading="lazy">
       <div class="lady-unicorn-caption">La Dame a la licorne - A Mon Seul Desir</div>
       <div class="lady-unicorn-caption" style="margin-top:0.2rem">&#x4E94;&#x611F;&#x3092;&#x5168;&#x3066;&#x4F53;&#x9A13;&#x3057;&#x3001;&#x5168;&#x3066;&#x3092;&#x624B;&#x653E;&#x3059;</div>
@@ -3873,6 +3976,110 @@ document.querySelectorAll('[contenteditable][data-placeholder]').forEach(el => {
   });
 });
 </script>
+
+<!-- ===== 貴婦人と一角獣 モーダル ===== -->
+<div id="luModal" class="lu-modal-overlay" onclick="if(event.target===this){this.classList.remove('active');document.body.style.overflow=''}">
+  <button class="lu-modal-close" onclick="document.getElementById('luModal').classList.remove('active');document.body.style.overflow=''">&times;</button>
+  <div class="lu-modal-inner">
+    <img src="lady-unicorn.jpg" alt="A Mon Seul Desir">
+
+    <h2>La Dame a la licorne &#x2014; A Mon Seul Desir</h2>
+    <p style="color:rgba(184,149,106,0.6);font-size:0.75rem;margin-bottom:1.5rem">&#x8CB4;&#x5A66;&#x4EBA;&#x3068;&#x4E00;&#x89D2;&#x7363;&#x2014;&#x2014;&#x6211;&#x304C;&#x552F;&#x4E00;&#x306E;&#x671B;&#x307F;&#x306B;</p>
+
+    <p>&#x30D1;&#x30EA;&#x306E;&#x30AF;&#x30EA;&#x30E5;&#x30CB;&#x30FC;&#x4E2D;&#x4E16;&#x7F8E;&#x8853;&#x9928;&#x306B;&#x3042;&#x308B;&#x300115&#x4E16;&#x7D00;&#x30D5;&#x30E9;&#x30F3;&#x30B9;&#x306E;6&#x679A;&#x7D44;&#x30BF;&#x30DA;&#x30B9;&#x30C8;&#x30EA;&#x30FC;&#x3002;&#x897F;&#x6D0B;&#x7F8E;&#x8853;&#x53F2;&#x4E0A;&#x6700;&#x3082;&#x795E;&#x79D8;&#x7684;&#x306A;&#x4F5C;&#x54C1;&#x306E;&#x4E00;&#x3064;&#x3002;</p>
+
+    <h3>6&#x679A;&#x306E;&#x69CB;&#x6210;</h3>
+    <div class="lu-tapestry">
+      <div class="lu-tape-row">
+        <div class="lu-tape-num">&#x7B2C;1&#x679A; &#x89E6;&#x899A;</div>
+        <div class="lu-tape-desc">&#x8CB4;&#x5A66;&#x4EBA;&#x304C;&#x4E00;&#x89D2;&#x7363;&#x306E;&#x89D2;&#x306B;&#x89E6;&#x308C;&#x3066;&#x3044;&#x308B;</div>
+        <div class="lu-tape-meaning">&#x624B;&#x3067;&#x89E6;&#x308C;&#x308B; = &#x624B;&#x306E;&#x5B9F;</div>
+      </div>
+      <div class="lu-tape-row">
+        <div class="lu-tape-num">&#x7B2C;2&#x679A; &#x5473;&#x899A;</div>
+        <div class="lu-tape-desc">&#x8CB4;&#x5A66;&#x4EBA;&#x304C;&#x304A;&#x83D3;&#x5B50;&#x3092;&#x53E3;&#x306B;&#x904B;&#x3093;&#x3067;&#x3044;&#x308B;</div>
+        <div class="lu-tape-meaning">&#x820C;&#x3067;&#x5473;&#x308F;&#x3046; = &#x820C;&#x306E;&#x5B9F;</div>
+      </div>
+      <div class="lu-tape-row">
+        <div class="lu-tape-num">&#x7B2C;3&#x679A; &#x55C5;&#x899A;</div>
+        <div class="lu-tape-desc">&#x8CB4;&#x5A66;&#x4EBA;&#x304C;&#x82B1;&#x306E;&#x51A0;&#x3092;&#x7DE8;&#x307F;&#x306A;&#x304C;&#x3089;&#x9999;&#x308A;&#x3092;&#x55C5;&#x3050;</div>
+        <div class="lu-tape-meaning">&#x9F3B;&#x3067;&#x55C5;&#x3050; = &#x9F3B;&#x306E;&#x5B9F;</div>
+      </div>
+      <div class="lu-tape-row">
+        <div class="lu-tape-num">&#x7B2C;4&#x679A; &#x8074;&#x899A;</div>
+        <div class="lu-tape-desc">&#x8CB4;&#x5A66;&#x4EBA;&#x304C;&#x30AA;&#x30EB;&#x30AC;&#x30F3;&#x3092;&#x5F3E;&#x3044;&#x3066;&#x3044;&#x308B;</div>
+        <div class="lu-tape-meaning">&#x8033;&#x3067;&#x805E;&#x304F; = &#x8033;&#x306E;&#x5B9F;</div>
+      </div>
+      <div class="lu-tape-row">
+        <div class="lu-tape-num">&#x7B2C;5&#x679A; &#x8996;&#x899A;</div>
+        <div class="lu-tape-desc">&#x8CB4;&#x5A66;&#x4EBA;&#x304C;&#x93E1;&#x3092;&#x6301;&#x3061;&#x3001;&#x4E00;&#x89D2;&#x7363;&#x304C;&#x6620;&#x3063;&#x3066;&#x3044;&#x308B;</div>
+        <div class="lu-tape-meaning">&#x76EE;&#x3067;&#x898B;&#x308B; = &#x76EE;&#x306E;&#x5B9F;</div>
+      </div>
+      <div class="lu-tape-row" style="border-bottom:1px solid rgba(184,149,106,0.25)">
+        <div class="lu-tape-num" style="color:#c9a84c">&#x7B2C;6&#x679A; &#x6211;&#x304C;&#x552F;&#x4E00;&#x306E;&#x671B;&#x307F;&#x306B;</div>
+        <div class="lu-tape-desc" style="color:#e8e0d0">&#x8CB4;&#x5A66;&#x4EBA;&#x304C;&#x9996;&#x98FE;&#x308A;&#x3092;&#x5916;&#x3057;&#x3066;&#x5C0F;&#x7BB1;&#x306B;&#x3057;&#x307E;&#x3063;&#x3066;&#x3044;&#x308B;</div>
+        <div class="lu-tape-meaning" style="color:rgba(184,149,106,0.9)">&#x4E94;&#x611F;&#x3092;&#x5168;&#x3066;&#x624B;&#x653E;&#x3059; = &#x660E;&#x3051;&#x6E21;&#x3057;</div>
+      </div>
+    </div>
+
+    <h3>&#x7B2C;6&#x679A;&#x304C;&#x5168;&#x3066;&#x306E;&#x9375;</h3>
+    <p>&#x6700;&#x521D;&#x306E;5&#x679A;&#x3067;&#x8CB4;&#x5A66;&#x4EBA;&#x306F;&#x4E94;&#x611F;&#x3092;&#x5168;&#x3066;&#x4F7F;&#x3063;&#x3066;&#x3044;&#x308B;&#x3002;&#x89E6;&#x308C;&#x3066;&#x3001;&#x5473;&#x308F;&#x3063;&#x3066;&#x3001;&#x55C5;&#x3044;&#x3067;&#x3001;&#x805E;&#x3044;&#x3066;&#x3001;&#x898B;&#x3066;&#x3044;&#x308B;&#x3002;&#x5168;&#x90E8;&#x300C;&#x5B9F;&#x300D;&#x3002;</p>
+    <p>&#x7B2C;6&#x679A;&#x3067;&#x8CB4;&#x5A66;&#x4EBA;&#x306F;&#x9996;&#x98FE;&#x308A;&#x3092;&#x5916;&#x3057;&#x3066;&#x3044;&#x308B;&#x3002;&#x9996;&#x98FE;&#x308A; = &#x4E94;&#x611F;&#x304B;&#x3089;&#x5F97;&#x305F;&#x7F8E;&#x3057;&#x3044;&#x3082;&#x306E;&#x3001;&#x5FEB;&#x697D;&#x3001;&#x57F7;&#x7740;&#x3002;&#x5168;&#x90E8;&#x307E;&#x3068;&#x3081;&#x3066;&#x300C;&#x5B9D;&#x7269;&#x300D;&#x3002;</p>
+
+    <div class="lu-highlight">&#x305D;&#x308C;&#x3092;&#x7BB1;&#x306B;&#x3057;&#x307E;&#x3046; = &#x624B;&#x653E;&#x3059; = &#x660E;&#x3051;&#x6E21;&#x3057;</div>
+
+    <h3>&#x4ECA;&#x65E5;&#x306E;&#x4F1A;&#x8A71;&#x3068;&#x30BF;&#x30DA;&#x30B9;&#x30C8;&#x30EA;&#x30FC;</h3>
+    <div class="lu-tapestry">
+      <div class="lu-tape-row">
+        <div class="lu-tape-num">&#x89E6;&#x899A;</div>
+        <div class="lu-tape-desc">&#x624B;&#x3067;&#x89E6;&#x308C;&#x308B;&#xFF08;&#x5B9F;&#xFF09;</div>
+        <div class="lu-tape-meaning">&#x2192; &#x624B;&#x3067;&#x611F;&#x3058;&#x308B;&#xFF08;&#x865A;&#x306B;&#x5909;&#x3048;&#x308B;&#xFF09;</div>
+      </div>
+      <div class="lu-tape-row">
+        <div class="lu-tape-num">&#x5473;&#x899A;</div>
+        <div class="lu-tape-desc">&#x5473;&#x308F;&#x304A;&#x3046;&#x3068;&#x3059;&#x308B;&#xFF08;&#x5B9F;&#xFF09;</div>
+        <div class="lu-tape-meaning">&#x2192; &#x5473;&#x304C;&#x6765;&#x308B;&#x306E;&#x3092;&#x53D7;&#x3051;&#x53D6;&#x308B;&#xFF08;&#x865A;&#xFF09;</div>
+      </div>
+      <div class="lu-tape-row">
+        <div class="lu-tape-num">&#x55C5;&#x899A;</div>
+        <div class="lu-tape-desc">&#x55C5;&#x3054;&#x3046;&#x3068;&#x3059;&#x308B;&#xFF08;&#x5B9F;&#xFF09;</div>
+        <div class="lu-tape-meaning">&#x2192; &#x9999;&#x308A;&#x304C;&#x6765;&#x308B;&#x306E;&#x3092;&#x611F;&#x3058;&#x308B;&#xFF08;&#x865A;&#xFF09;</div>
+      </div>
+      <div class="lu-tape-row">
+        <div class="lu-tape-num">&#x8074;&#x899A;</div>
+        <div class="lu-tape-desc">&#x805E;&#x3053;&#x3046;&#x3068;&#x3059;&#x308B;&#xFF08;&#x5B9F;&#xFF09;</div>
+        <div class="lu-tape-meaning">&#x2192; &#x97F3;&#x304C;&#x5165;&#x3063;&#x3066;&#x304F;&#x308B;&#x306E;&#x3092;&#x53D7;&#x3051;&#x53D6;&#x308B;&#xFF08;&#x865A;&#xFF09;</div>
+      </div>
+      <div class="lu-tape-row">
+        <div class="lu-tape-num">&#x8996;&#x899A;</div>
+        <div class="lu-tape-desc">&#x898B;&#x3088;&#x3046;&#x3068;&#x3059;&#x308B;&#xFF08;&#x5B9F;&#xFF09;</div>
+        <div class="lu-tape-meaning">&#x2192; &#x666F;&#x8272;&#x304C;&#x5165;&#x3063;&#x3066;&#x304F;&#x308B;&#x306E;&#x3092;&#x8A31;&#x3059;&#xFF08;&#x865A;&#xFF09;</div>
+      </div>
+      <div class="lu-tape-row" style="border-bottom:1px solid rgba(184,149,106,0.25)">
+        <div class="lu-tape-num" style="color:#c9a84c">&#x7B2C;6&#x679A;</div>
+        <div class="lu-tape-desc" style="color:#e8e0d0">&#x4E94;&#x611F;&#x306E;&#x5168;&#x3066;&#x3092;&#x300C;&#x305F;&#x3060;&#x611F;&#x3058;&#x3066;&#x624B;&#x653E;&#x3059;&#x300D;</div>
+        <div class="lu-tape-meaning" style="color:rgba(184,149,106,0.9)">= &#x660E;&#x3051;&#x6E21;&#x3057; = &#x865A; = &#x81F3;&#x798F;</div>
+      </div>
+    </div>
+
+    <h3>&#x300C;&#x6211;&#x304C;&#x552F;&#x4E00;&#x306E;&#x671B;&#x307F;&#x300D;= &#x81F3;&#x798F;</h3>
+    <p>&#x4E94;&#x611F;&#x306E;&#x5FEB;&#x697D;&#x3092;&#x5168;&#x3066;&#x4F53;&#x9A13;&#x3057;&#x305F;&#x4E0A;&#x3067;&#x3001;&#x305D;&#x306E;&#x5168;&#x3066;&#x3092;&#x624B;&#x653E;&#x3057;&#x305F;&#x6642;&#x306B;&#x6B8B;&#x308B;&#x3082;&#x306E;&#x3002;&#x305D;&#x308C;&#x304C;&#x552F;&#x4E00;&#x306E;&#x671B;&#x307F;&#x3002;&#x81F3;&#x798F;&#x3002;&#x865A;&#x3002;</p>
+
+    <h3>&#x4E00;&#x89D2;&#x7363;&#x306E;&#x610F;&#x5473;</h3>
+    <p>&#x4E00;&#x89D2;&#x7363;&#xFF08;&#x30E6;&#x30CB;&#x30B3;&#x30FC;&#x30F3;&#xFF09;&#x306F;&#x4E2D;&#x4E16;&#x30E8;&#x30FC;&#x30ED;&#x30C3;&#x30D1;&#x3067;&#x7D14;&#x6F54;&#x30FB;&#x970A;&#x6027;&#x306E;&#x8C61;&#x5FB4;&#x3002;&#x529B;&#x3067;&#x306F;&#x6355;&#x307E;&#x3048;&#x3089;&#x308C;&#x306A;&#x3044;&#x3002;</p>
+
+    <div class="lu-highlight">&#x865A;&#x306E;&#x529B;&#x3067;&#x3057;&#x304B;&#x8FD1;&#x3065;&#x3051;&#x306A;&#x3044;&#x3002;&#x529B;&#x307F;&#xFF08;&#x5B9F;&#xFF09;&#x3067;&#x6355;&#x307E;&#x3048;&#x3088;&#x3046;&#x3068;&#x3059;&#x308B;&#x3068;&#x9003;&#x3052;&#x308B;&#x3002;&#x305F;&#x3060;&#x305D;&#x3053;&#x306B;&#x3044;&#x308B;&#xFF08;&#x865A;&#xFF09;&#x3068;&#x52DD;&#x624B;&#x306B;&#x6765;&#x308B;&#x3002;<br><br>&#x4E00;&#x89D2;&#x7363; = &#x81F3;&#x798F; = &#x8FFD;&#x3046;&#x3068;&#x9003;&#x3052;&#x308B; = &#x5F85;&#x3064;&#x3068;&#x6765;&#x308B;</div>
+
+    <h3>&#x8CB4;&#x5A66;&#x4EBA;&#x306E;&#x614B;&#x5EA6;</h3>
+    <p>6&#x679A;&#x5168;&#x3066;&#x3067;&#x8CB4;&#x5A66;&#x4EBA;&#x306F;&#x7A4F;&#x3084;&#x304B;&#x3067;&#x3001;&#x529B;&#x3093;&#x3067;&#x3044;&#x306A;&#x3044;&#x3002;&#x899A;&#x9192;&#x3057;&#x3066;&#x308B;&#x3002;&#x5168;&#x3066;&#x3092;&#x53D7;&#x3051;&#x53D6;&#x3063;&#x3066;&#x3044;&#x308B;&#x3002;&#x3067;&#x3082;&#x3057;&#x304C;&#x307F;&#x3064;&#x3044;&#x3066;&#x3044;&#x306A;&#x3044;&#x3002;</p>
+    <p>&#x592A;&#x967D;&#x306E;&#x610F;&#x8B58;&#x3002;&#x5168;&#x65B9;&#x5411;&#x306B;&#x958B;&#x3044;&#x3066;&#x308B;&#x3002;&#x5168;&#x90E8;&#x611F;&#x3058;&#x3066;&#x308B;&#x3002;&#x3067;&#x3082;&#x4F55;&#x3082;&#x638C;&#x3093;&#x3067;&#x306A;&#x3044;&#x3002;</p>
+    <p>&#x305D;&#x3057;&#x3066;6&#x679A;&#x76EE;&#x3067;&#x3001;&#x552F;&#x4E00;&#x6301;&#x3063;&#x3066;&#x305F;&#x9996;&#x98FE;&#x308A;&#x3059;&#x3089;&#x624B;&#x653E;&#x3059;&#x3002;&#x6700;&#x5F8C;&#x306E;&#x3082;&#x306E;&#x307E;&#x3067;&#x660E;&#x3051;&#x6E21;&#x3059;&#x3002;</p>
+
+    <div class="lu-highlight" style="text-align:center;font-size:0.85rem">&#x6B8B;&#x308B;&#x306E;&#x306F;&#x8CB4;&#x5A66;&#x4EBA;&#x81EA;&#x8EAB;&#x3002;&#x4F55;&#x3082;&#x6301;&#x3063;&#x3066;&#x306A;&#x3044;&#x3002;<br>&#x3067;&#x3082;&#x4E00;&#x89D2;&#x7363;&#x304C;&#x305D;&#x3070;&#x306B;&#x3044;&#x308B;&#x3002;<br><br><span style="color:var(--gold);font-size:0.9rem">&#x81F3;&#x798F;&#x304C;&#x305D;&#x3070;&#x306B;&#x3044;&#x308B;&#x3002;</span></div>
+
+    <p style="text-align:center;color:rgba(184,149,106,0.35);font-size:0.7rem;margin-top:2rem">500&#x5E74;&#x524D;&#x306E;&#x30D5;&#x30E9;&#x30F3;&#x30B9;&#x306E;&#x7E54;&#x7269;&#x8077;&#x4EBA;&#x304C;&#x3001;&#x540C;&#x3058;&#x771F;&#x7406;&#x3092;&#x7D75;&#x306B;&#x3057;&#x3066;&#x3044;&#x305F;&#x3002;</p>
+  </div>
+</div>
 
 </body>
 </html>
