@@ -1464,6 +1464,37 @@
           <animate attributeName="r" values="2;4;2" dur="3s" repeatCount="indefinite"/>
         </circle>
 
+        <!-- 左手の虚にエネルギーが集まる（外から引き寄せ） -->
+        <circle r="1" fill="rgba(200,220,255,0.6)">
+          <animateMotion path="M-15,200 Q-5,200 15,200" dur="2s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0.8;0.3" dur="2s" repeatCount="indefinite"/>
+        </circle>
+        <circle r="0.7" fill="rgba(200,220,255,0.5)">
+          <animateMotion path="M15,225 Q15,210 15,200" dur="1.8s" repeatCount="indefinite" begin="0.5s"/>
+          <animate attributeName="opacity" values="0;0.7;0.2" dur="1.8s" repeatCount="indefinite" begin="0.5s"/>
+        </circle>
+        <circle r="0.8" fill="rgba(200,220,255,0.5)">
+          <animateMotion path="M-10,180 Q5,190 15,200" dur="2.2s" repeatCount="indefinite" begin="1s"/>
+          <animate attributeName="opacity" values="0;0.6;0.2" dur="2.2s" repeatCount="indefinite" begin="1s"/>
+        </circle>
+        <circle r="0.6" fill="rgba(240,214,138,0.5)">
+          <animateMotion path="M15,175 Q15,188 15,200" dur="1.5s" repeatCount="indefinite" begin="0.3s"/>
+          <animate attributeName="opacity" values="0;0.7;0.2" dur="1.5s" repeatCount="indefinite" begin="0.3s"/>
+        </circle>
+        <circle r="0.5" fill="rgba(200,220,255,0.4)">
+          <animateMotion path="M-5,210 Q5,205 15,200" dur="1.6s" repeatCount="indefinite" begin="1.3s"/>
+          <animate attributeName="opacity" values="0;0.5;0.1" dur="1.6s" repeatCount="indefinite" begin="1.3s"/>
+        </circle>
+        <!-- 虚の引力リング（吸い込み表現） -->
+        <circle cx="15" cy="200" r="12" fill="none" stroke="rgba(184,149,106,0.15)" stroke-width="0.3">
+          <animate attributeName="r" values="18;8;18" dur="3s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0.25;0" dur="3s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="15" cy="200" r="12" fill="none" stroke="rgba(200,220,255,0.1)" stroke-width="0.3">
+          <animate attributeName="r" values="18;8;18" dur="3s" repeatCount="indefinite" begin="1.5s"/>
+          <animate attributeName="opacity" values="0;0.2;0" dur="3s" repeatCount="indefinite" begin="1.5s"/>
+        </circle>
+
         <!-- 左手→体内への循環フロー -->
         <path d="M15 192 C15 170 25 140 42 130" fill="none" stroke="url(#flowGrad)" stroke-width="1" stroke-dasharray="3 3" opacity="0.6">
           <animate attributeName="stroke-dashoffset" values="0;-12" dur="2s" repeatCount="indefinite"/>
@@ -1485,6 +1516,37 @@
         <!-- 虚の中心（暗い＝空っぽ） -->
         <circle cx="185" cy="200" r="3" fill="rgba(0,0,0,0.6)">
           <animate attributeName="r" values="2;4;2" dur="3s" repeatCount="indefinite" begin="0.5s"/>
+        </circle>
+
+        <!-- 右手の虚にエネルギーが集まる（外から引き寄せ） -->
+        <circle r="1" fill="rgba(200,220,255,0.6)">
+          <animateMotion path="M215,200 Q200,200 185,200" dur="2s" repeatCount="indefinite" begin="0.3s"/>
+          <animate attributeName="opacity" values="0;0.8;0.3" dur="2s" repeatCount="indefinite" begin="0.3s"/>
+        </circle>
+        <circle r="0.7" fill="rgba(200,220,255,0.5)">
+          <animateMotion path="M185,225 Q185,210 185,200" dur="1.8s" repeatCount="indefinite" begin="0.8s"/>
+          <animate attributeName="opacity" values="0;0.7;0.2" dur="1.8s" repeatCount="indefinite" begin="0.8s"/>
+        </circle>
+        <circle r="0.8" fill="rgba(200,220,255,0.5)">
+          <animateMotion path="M210,180 Q195,190 185,200" dur="2.2s" repeatCount="indefinite" begin="1.3s"/>
+          <animate attributeName="opacity" values="0;0.6;0.2" dur="2.2s" repeatCount="indefinite" begin="1.3s"/>
+        </circle>
+        <circle r="0.6" fill="rgba(240,214,138,0.5)">
+          <animateMotion path="M185,175 Q185,188 185,200" dur="1.5s" repeatCount="indefinite" begin="0.6s"/>
+          <animate attributeName="opacity" values="0;0.7;0.2" dur="1.5s" repeatCount="indefinite" begin="0.6s"/>
+        </circle>
+        <circle r="0.5" fill="rgba(200,220,255,0.4)">
+          <animateMotion path="M205,210 Q195,205 185,200" dur="1.6s" repeatCount="indefinite" begin="1.6s"/>
+          <animate attributeName="opacity" values="0;0.5;0.1" dur="1.6s" repeatCount="indefinite" begin="1.6s"/>
+        </circle>
+        <!-- 虚の引力リング（吸い込み表現） -->
+        <circle cx="185" cy="200" r="12" fill="none" stroke="rgba(184,149,106,0.15)" stroke-width="0.3">
+          <animate attributeName="r" values="18;8;18" dur="3s" repeatCount="indefinite" begin="0.5s"/>
+          <animate attributeName="opacity" values="0;0.25;0" dur="3s" repeatCount="indefinite" begin="0.5s"/>
+        </circle>
+        <circle cx="185" cy="200" r="12" fill="none" stroke="rgba(200,220,255,0.1)" stroke-width="0.3">
+          <animate attributeName="r" values="18;8;18" dur="3s" repeatCount="indefinite" begin="2s"/>
+          <animate attributeName="opacity" values="0;0.2;0" dur="3s" repeatCount="indefinite" begin="2s"/>
         </circle>
 
         <!-- 右手→体内への循環フロー -->
