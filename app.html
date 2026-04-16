@@ -109,6 +109,24 @@
     margin-bottom: 2rem;
   }
 
+  /* ===== 自己投影 背景 ===== */
+  #projection {
+    background: url('lady-unicorn-bg.jpg') center center / cover no-repeat fixed;
+    position: relative;
+  }
+  #projection::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(10,10,15,0.55) 0%, rgba(10,10,15,0.85) 60%, rgba(10,10,15,0.95) 100%);
+    z-index: 0;
+    pointer-events: none;
+  }
+  #projection > * {
+    position: relative;
+    z-index: 1;
+  }
+
   /* ===== 自己投影 (ETHERIC DOUBLE) ===== */
   .etheric-container {
     display: flex;
