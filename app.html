@@ -109,22 +109,26 @@
     margin-bottom: 2rem;
   }
 
-  /* ===== 自己投影 背景 ===== */
-  #projection {
-    background: url('lady-unicorn-bg.jpg') center center / cover no-repeat fixed;
-    position: relative;
+  /* ===== 貴婦人と一角獣 画像 ===== */
+  .lady-unicorn-wrap {
+    text-align: center;
+    margin: 1.5rem auto 2rem;
+    max-width: 600px;
+    width: 90%;
   }
-  #projection::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom, rgba(10,10,15,0.15) 0%, rgba(10,10,15,0.35) 25%, rgba(10,10,15,0.6) 50%, rgba(10,10,15,0.92) 75%, rgba(10,10,15,0.98) 100%);
-    z-index: 0;
-    pointer-events: none;
+  .lady-unicorn-wrap img {
+    width: 100%;
+    border-radius: 6px;
+    opacity: 0.85;
+    border: 1px solid rgba(184,149,106,0.2);
+    box-shadow: 0 0 30px rgba(184,149,106,0.08);
   }
-  #projection > * {
-    position: relative;
-    z-index: 1;
+  .lady-unicorn-caption {
+    margin-top: 0.6rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: rgba(184,149,106,0.4);
+    font-style: italic;
   }
 
   /* ===== 自己投影 (ETHERIC DOUBLE) ===== */
@@ -2009,6 +2013,11 @@
       </div>
     </div>
     <div style="text-align:center;margin:0.6rem 0 1.2rem;font-size:0.65rem;letter-spacing:0.3em;color:rgba(184,149,106,0.4)">&#x2014;&#x2014; 全ては明け渡し &#x2014;&#x2014;</div>
+
+    <div class="lady-unicorn-wrap">
+      <img src="lady-unicorn.jpg" alt="La Dame &#xE0; la licorne &#x2014; &#xC0; Mon Seul D&#xE9;sir" loading="lazy">
+      <div class="lady-unicorn-caption">La Dame &#xE0; la licorne &#x2014; &#xC0; Mon Seul D&#xE9;sir&#xFF08;&#x6211;&#x304C;&#x552F;&#x4E00;&#x306E;&#x671B;&#x307F;&#x306B;&#xFF09;<br>&#x4E94;&#x611F;&#x3092;&#x5168;&#x3066;&#x4F53;&#x9A13;&#x3057;&#x3001;&#x5168;&#x3066;&#x3092;&#x624B;&#x653E;&#x3059;</div>
+    </div>
 
     <div class="attributes">
       <div class="attr-card" data-key="physical">
