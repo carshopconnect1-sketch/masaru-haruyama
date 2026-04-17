@@ -4637,7 +4637,9 @@ setTimeout(initWisdomDots, 100);
       const y = Math.sin(angle) * radius;
       c.style.left = (x - 7) + 'px';
       c.style.top = (y - 11) + 'px';
-      c.style.transform = 'rotate(' + (angle - Math.PI / 2) * (180 / Math.PI) + 'deg)';
+      // Point crystal tip toward center: tip is "up" in SVG (= -π/2), need it pointing at angle+π
+      var rot = (angle + Math.PI + Math.PI / 2) * (180 / Math.PI);
+      c.style.transform = 'rotate(' + rot + 'deg)';
     });
   }
 
