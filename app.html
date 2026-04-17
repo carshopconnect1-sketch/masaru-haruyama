@@ -4637,7 +4637,7 @@ setTimeout(initWisdomDots, 100);
       const y = Math.sin(angle) * radius;
       c.style.left = (x - 7) + 'px';
       c.style.top = (y - 11) + 'px';
-      c.style.transform = 'rotate(' + (angle + Math.PI / 2) * (180 / Math.PI) + 'deg)';
+      c.style.transform = 'rotate(' + (angle - Math.PI / 2) * (180 / Math.PI) + 'deg)';
     });
   }
 
