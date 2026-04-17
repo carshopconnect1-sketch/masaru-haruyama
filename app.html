@@ -1620,6 +1620,15 @@
     filter: drop-shadow(0 0 60px rgba(201, 168, 76, 0.4))
            drop-shadow(0 0 120px rgba(160,120,255,0.15));
   }
+  .screensaver-etheric-clone {
+    width: 100% !important;
+    height: 100% !important;
+    position: relative;
+  }
+  .screensaver-etheric-clone .mantra-overlay { display: none; }
+  .screensaver-etheric-clone svg {
+    filter: drop-shadow(0 0 60px rgba(201,168,76,0.4)) drop-shadow(0 0 120px rgba(160,120,255,0.15));
+  }
   .screensaver-overlay .screensaver-aura {
     position: absolute;
     top: -60px; left: -60px; right: -60px; bottom: -60px;
@@ -4573,17 +4582,17 @@ setTimeout(initWisdomDots, 100);
   });
 
   function openScreensaver() {
-    // Clone the SVG from etheric-body
-    const svg = document.querySelector('.etheric-body svg');
-    if (!svg) return;
+    // Clone the entire etheric-body (SVG + dantian labels + particles + dots)
+    const ethBody = document.querySelector('.etheric-body');
+    if (!ethBody) return;
 
-    // Remove old SVG clone if exists
-    const oldSvg = ssBody.querySelector('svg');
-    if (oldSvg) oldSvg.remove();
+    // Clear previous clone
+    ssBody.innerHTML = '<div class="screensaver-aura"></div>';
 
-    const clone = svg.cloneNode(true);
-    clone.style.filter = 'drop-shadow(0 0 60px rgba(201,168,76,0.4)) drop-shadow(0 0 120px rgba(160,120,255,0.15))';
-    clone.style.transform = 'none';
+    const clone = ethBody.cloneNode(true);
+    clone.classList.add('screensaver-etheric-clone');
+    // Disable dantian click handlers on clone
+    clone.querySelectorAll('.dantian').forEach(d => d.style.pointerEvents = 'none');
     ssBody.appendChild(clone);
 
     overlay.classList.add('active');
