@@ -1588,6 +1588,91 @@
     .sephira-name { font-size: 0.6rem; }
     .tree-pillars { grid-template-columns: 1fr; }
   }
+
+  /* ===== SCREENSAVER MODE ===== */
+  .screensaver-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: #000;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.8s ease;
+    cursor: pointer;
+    overflow: hidden;
+  }
+  .screensaver-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .screensaver-overlay .screensaver-body {
+    position: relative;
+    width: 320px;
+    height: 480px;
+    animation: screensaverFloat 8s ease-in-out infinite, screensaverBreath 5s ease-in-out infinite;
+  }
+  .screensaver-overlay .screensaver-body svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 60px rgba(201, 168, 76, 0.4))
+           drop-shadow(0 0 120px rgba(160,120,255,0.15));
+  }
+  .screensaver-overlay .screensaver-aura {
+    position: absolute;
+    top: -60px; left: -60px; right: -60px; bottom: -60px;
+    border-radius: 50% 50% 40% 40%;
+    background: radial-gradient(ellipse at 40% 35%, rgba(201,168,76,0.15) 0%, rgba(160,120,255,0.08) 35%, transparent 65%);
+    animation: screensaverAura 4s ease-in-out infinite;
+  }
+  .screensaver-mantra {
+    position: absolute;
+    bottom: 12%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(201,168,76,0.5);
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.3em;
+    white-space: nowrap;
+    animation: screensaverMantra 6s ease-in-out infinite;
+  }
+  .screensaver-close-hint {
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(201,168,76,0.15);
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    animation: screensaverFadeHint 4s ease-in-out forwards;
+  }
+  @keyframes screensaverFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+  }
+  @keyframes screensaverBreath {
+    0%, 100% { scale: 1; }
+    50% { scale: 1.03; }
+  }
+  @keyframes screensaverAura {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.15); }
+  }
+  @keyframes screensaverMantra {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.7; }
+  }
+  @keyframes screensaverFadeHint {
+    0% { opacity: 0.4; }
+    70% { opacity: 0.4; }
+    100% { opacity: 0; }
+  }
+  @media (max-width: 600px) {
+    .screensaver-overlay .screensaver-body { width: 260px; height: 390px; }
+  }
 </style>
 </head>
 <body>
@@ -4462,6 +4547,98 @@ setTimeout(initWisdomDots, 100);
     <p style="text-align:center;color:rgba(184,149,106,0.35);font-size:0.7rem;margin-top:2rem">500&#x5E74;&#x524D;&#x306E;&#x30D5;&#x30E9;&#x30F3;&#x30B9;&#x306E;&#x7E54;&#x7269;&#x8077;&#x4EBA;&#x304C;&#x3001;&#x540C;&#x3058;&#x771F;&#x7406;&#x3092;&#x7D75;&#x306B;&#x3057;&#x3066;&#x3044;&#x305F;&#x3002;</p>
   </div>
 </div>
+
+<!-- ===== SCREENSAVER OVERLAY ===== -->
+<div class="screensaver-overlay" id="screensaverOverlay">
+  <div class="screensaver-body" id="screensaverBody">
+    <div class="screensaver-aura"></div>
+    <!-- SVG will be cloned here -->
+  </div>
+  <div class="screensaver-mantra">全ては明け渡し</div>
+  <div class="screensaver-close-hint">タップで戻る</div>
+</div>
+
+<script>
+// ===== SCREENSAVER =====
+(function() {
+  const overlay = document.getElementById('screensaverOverlay');
+  const ssBody = document.getElementById('screensaverBody');
+  let wakeLock = null;
+
+  // Make etheric-body clickable
+  document.querySelector('.etheric-body').addEventListener('click', function(e) {
+    // Don't trigger if clicking on dantian dots
+    if (e.target.closest('.dantian')) return;
+    openScreensaver();
+  });
+
+  function openScreensaver() {
+    // Clone the SVG from etheric-body
+    const svg = document.querySelector('.etheric-body svg');
+    if (!svg) return;
+
+    // Remove old SVG clone if exists
+    const oldSvg = ssBody.querySelector('svg');
+    if (oldSvg) oldSvg.remove();
+
+    const clone = svg.cloneNode(true);
+    clone.style.filter = 'drop-shadow(0 0 60px rgba(201,168,76,0.4)) drop-shadow(0 0 120px rgba(160,120,255,0.15))';
+    clone.style.transform = 'none';
+    ssBody.appendChild(clone);
+
+    overlay.classList.add('active');
+
+    // Try to keep screen awake
+    requestWakeLock();
+
+    // Try fullscreen
+    try {
+      if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else if (document.documentElement.webkitRequestFullscreen) {
+        document.documentElement.webkitRequestFullscreen();
+      }
+    } catch(e) {}
+  }
+
+  function closeScreensaver() {
+    overlay.classList.remove('active');
+    releaseWakeLock();
+
+    try {
+      if (document.fullscreenElement) {
+        document.exitFullscreen().catch(() => {});
+      } else if (document.webkitFullscreenElement) {
+        document.webkitExitFullscreen();
+      }
+    } catch(e) {}
+  }
+
+  overlay.addEventListener('click', closeScreensaver);
+
+  // Wake Lock API — prevent screen from sleeping
+  async function requestWakeLock() {
+    try {
+      if ('wakeLock' in navigator) {
+        wakeLock = await navigator.wakeLock.request('screen');
+      }
+    } catch(e) {}
+  }
+  function releaseWakeLock() {
+    if (wakeLock) {
+      wakeLock.release().catch(() => {});
+      wakeLock = null;
+    }
+  }
+
+  // Re-acquire wake lock if page becomes visible again
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && overlay.classList.contains('active')) {
+      requestWakeLock();
+    }
+  });
+})();
+</script>
 
 </body>
 </html>
