@@ -3211,9 +3211,119 @@ function saveState() {
     if (text !== (el.dataset.placeholder || '')) state.higherSelf[el.dataset.hs] = text;
   });
   localStorage.setItem('korin-state', JSON.stringify(state));
+  cloudSave(state);
 }
 
 setInterval(saveState, 3000);
+
+// ===== CLOUD SYNC =====
+const SYNC_API = 'https://masaruharuyama-c8e01401-6251-vm.westcentralus.cloudapp.azure.com/korin-sync';
+let _cloudSaveTimer = null;
+let _cloudSaving = false;
+let _syncStatus = null; // for UI indicator
+
+function cloudSave(stateData) {
+  // Debounce: wait 5s after last change before pushing
+  if (_cloudSaveTimer) clearTimeout(_cloudSaveTimer);
+  _cloudSaveTimer = setTimeout(() => {
+    _doCloudSave(stateData);
+  }, 5000);
+}
+
+async function _doCloudSave(stateData) {
+  if (_cloudSaving) return;
+  _cloudSaving = true;
+  updateSyncIndicator('saving');
+  try {
+    const res = await fetch(SYNC_API + '/save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(stateData)
+    });
+    if (res.ok) {
+      updateSyncIndicator('saved');
+    } else {
+      updateSyncIndicator('error');
+    }
+  } catch (e) {
+    updateSyncIndicator('error');
+    console.warn('Cloud save failed:', e);
+  }
+  _cloudSaving = false;
+}
+
+async function cloudLoad() {
+  try {
+    const res = await fetch(SYNC_API + '/load');
+    if (res.ok) {
+      const data = await res.json();
+      if (data && Object.keys(data).length > 0) {
+        return data;
+      }
+    }
+  } catch (e) {
+    console.warn('Cloud load failed:', e);
+  }
+  return null;
+}
+
+function updateSyncIndicator(status) {
+  _syncStatus = status;
+  let el = document.getElementById('syncIndicator');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'syncIndicator';
+    el.style.cssText = 'position:fixed;bottom:12px;right:12px;font-size:0.6rem;color:rgba(201,168,76,0.4);z-index:9999;pointer-events:none;transition:opacity 0.3s';
+    document.body.appendChild(el);
+  }
+  if (status === 'saving') {
+    el.textContent = '☁ 保存中...';
+    el.style.opacity = '1';
+  } else if (status === 'saved') {
+    el.textContent = '☁ 保存済み';
+    el.style.opacity = '1';
+    setTimeout(() => { el.style.opacity = '0'; }, 2000);
+  } else if (status === 'restored') {
+    el.textContent = '☁ クラウドから復元';
+    el.style.opacity = '1';
+    setTimeout(() => { el.style.opacity = '0'; }, 3000);
+  } else if (status === 'error') {
+    el.textContent = '☁ 同期エラー';
+    el.style.opacity = '1';
+    setTimeout(() => { el.style.opacity = '0.3'; }, 3000);
+  }
+}
+
+// Enhanced loadState: try cloud if localStorage is empty
+(async function enhancedInit() {
+  const localData = localStorage.getItem('korin-state');
+  if (!localData || localData === '{}' || localData === 'null') {
+    // No local data — try cloud restore
+    const cloudData = await cloudLoad();
+    if (cloudData && Object.keys(cloudData).length > 0) {
+      // Merge cloud data into state
+      if (cloudData.projection) Object.assign(state.projection, cloudData.projection);
+      if (cloudData.higherSelf) Object.assign(state.higherSelf, cloudData.higherSelf);
+      if (cloudData.temple) Object.assign(state.temple, cloudData.temple);
+      if (cloudData.tree) Object.assign(state.tree, cloudData.tree);
+      if (cloudData.archive) state.archive = cloudData.archive;
+      if (cloudData.pathway) state.pathway = cloudData.pathway;
+      if (cloudData.dreams) state.dreams = cloudData.dreams;
+      // Save restored data to localStorage
+      localStorage.setItem('korin-state', JSON.stringify(state));
+      // Re-render
+      loadState();
+      updateSyncIndicator('restored');
+      console.log('State restored from cloud backup');
+    }
+  } else {
+    // Local data exists — push to cloud as backup (first sync)
+    try {
+      const parsed = JSON.parse(localData);
+      _doCloudSave(parsed);
+    } catch (e) {}
+  }
+})();
 
 // ===== NAVIGATION =====
 function switchSection(id, btn) {
