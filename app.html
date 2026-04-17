@@ -1648,6 +1648,30 @@
     white-space: nowrap;
     animation: screensaverMantra 6s ease-in-out infinite;
   }
+  /* === 21 Crystals === */
+  .screensaver-crystals {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 0; height: 0;
+    z-index: 1;
+  }
+  .ss-crystal {
+    position: absolute;
+    width: 14px; height: 22px;
+    transform-origin: center center;
+    animation: crystalPulse 4s ease-in-out infinite, crystalGlow 6s ease-in-out infinite;
+    filter: drop-shadow(0 0 6px rgba(200,220,255,0.5));
+  }
+  .ss-crystal svg { width: 100%; height: 100%; }
+  @keyframes crystalPulse {
+    0%, 100% { opacity: 0.5; transform: scale(1) translateY(0); }
+    50% { opacity: 1; transform: scale(1.1) translateY(-2px); }
+  }
+  @keyframes crystalGlow {
+    0%, 100% { filter: drop-shadow(0 0 6px rgba(200,220,255,0.4)); }
+    33% { filter: drop-shadow(0 0 12px rgba(201,168,76,0.6)); }
+    66% { filter: drop-shadow(0 0 10px rgba(180,140,255,0.5)); }
+  }
   .screensaver-close-hint {
     position: absolute;
     bottom: 5%;
@@ -4563,6 +4587,7 @@ setTimeout(initWisdomDots, 100);
     <div class="screensaver-aura"></div>
     <!-- SVG will be cloned here -->
   </div>
+  <div class="screensaver-crystals" id="screensaverCrystals"></div>
   <div class="screensaver-mantra">全ては明け渡し</div>
   <div class="screensaver-close-hint">タップで戻る</div>
 </div>
@@ -4581,6 +4606,41 @@ setTimeout(initWisdomDots, 100);
     openScreensaver();
   });
 
+  // Build 21 crystals in a circle
+  const crystalContainer = document.getElementById('screensaverCrystals');
+  const crystalSvg = '<svg viewBox="0 0 24 38" xmlns="http://www.w3.org/2000/svg">'
+    + '<defs><linearGradient id="cg" x1="0%" y1="0%" x2="100%" y2="100%">'
+    + '<stop offset="0%" stop-color="rgba(220,240,255,0.9)"/>'
+    + '<stop offset="40%" stop-color="rgba(180,200,255,0.7)"/>'
+    + '<stop offset="100%" stop-color="rgba(140,160,220,0.5)"/>'
+    + '</linearGradient></defs>'
+    + '<polygon points="12,0 20,12 18,28 12,38 6,28 4,12" fill="url(#cg)" opacity="0.8"/>'
+    + '<polygon points="12,0 20,12 12,10 4,12" fill="rgba(255,255,255,0.3)"/>'
+    + '<line x1="12" y1="0" x2="12" y2="38" stroke="rgba(255,255,255,0.15)" stroke-width="0.5"/>'
+    + '</svg>';
+
+  for (let i = 0; i < 21; i++) {
+    const el = document.createElement('div');
+    el.className = 'ss-crystal';
+    el.innerHTML = crystalSvg;
+    // Stagger animation
+    el.style.animationDelay = (i * 0.29) + 's, ' + (i * 0.43) + 's';
+    crystalContainer.appendChild(el);
+  }
+
+  function positionCrystals() {
+    const radius = Math.min(window.innerWidth, window.innerHeight) * 0.4;
+    const crystals = crystalContainer.querySelectorAll('.ss-crystal');
+    crystals.forEach((c, i) => {
+      const angle = (i / 21) * Math.PI * 2 - Math.PI / 2;
+      const x = Math.cos(angle) * radius;
+      const y = Math.sin(angle) * radius;
+      c.style.left = (x - 7) + 'px';
+      c.style.top = (y - 11) + 'px';
+      c.style.transform = 'rotate(' + (angle + Math.PI / 2) * (180 / Math.PI) + 'deg)';
+    });
+  }
+
   function openScreensaver() {
     // Clone the entire etheric-body (SVG + dantian labels + particles + dots)
     const ethBody = document.querySelector('.etheric-body');
@@ -4595,6 +4655,7 @@ setTimeout(initWisdomDots, 100);
     clone.querySelectorAll('.dantian').forEach(d => d.style.pointerEvents = 'none');
     ssBody.appendChild(clone);
 
+    positionCrystals();
     overlay.classList.add('active');
 
     // Try to keep screen awake
@@ -4645,6 +4706,11 @@ setTimeout(initWisdomDots, 100);
     if (document.visibilityState === 'visible' && overlay.classList.contains('active')) {
       requestWakeLock();
     }
+  });
+
+  // Reposition crystals on resize
+  window.addEventListener('resize', () => {
+    if (overlay.classList.contains('active')) positionCrystals();
   });
 })();
 </script>
