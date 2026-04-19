@@ -1762,7 +1762,7 @@
     <div class="etheric-body">
       <div class="mantra-overlay">話す時は自分に話しかけるように話す</div>
       <div class="aura"></div>
-      <svg viewBox="-70 -55 340 470" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg viewBox="-35 -55 270 475" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <!-- 内部循環エネルギーのグラデーション -->
           <linearGradient id="flowGrad" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -2144,26 +2144,68 @@
         </circle>
         <text x="108" y="-30" fill="rgba(200,160,220,0.45)" font-size="4" font-family="sans-serif">プルバ</text>
 
-        <!-- 左側7個のクリスタル（頭頂から体の左に弧を描いて配置） -->
-        <polygon points="72,-30 76,-22 68,-22" fill="rgba(200,220,255,0.08)" stroke="rgba(200,220,255,0.35)" stroke-width="0.5"><animate attributeName="opacity" values="0.05;0.15;0.05" dur="3.5s" repeatCount="indefinite"/></polygon>
-        <polygon points="50,-15 54,-7 46,-7" fill="rgba(200,220,255,0.08)" stroke="rgba(200,220,255,0.35)" stroke-width="0.5"><animate attributeName="opacity" values="0.05;0.15;0.05" dur="3.5s" repeatCount="indefinite" begin="0.5s"/></polygon>
-        <polygon points="32,5 36,13 28,13" fill="rgba(200,220,255,0.08)" stroke="rgba(200,220,255,0.35)" stroke-width="0.5"><animate attributeName="opacity" values="0.05;0.15;0.05" dur="3.5s" repeatCount="indefinite" begin="1s"/></polygon>
-        <polygon points="18,30 22,38 14,38" fill="rgba(200,220,255,0.08)" stroke="rgba(200,220,255,0.35)" stroke-width="0.5"><animate attributeName="opacity" values="0.05;0.15;0.05" dur="3.5s" repeatCount="indefinite" begin="1.5s"/></polygon>
-        <polygon points="8,58 12,66 4,66" fill="rgba(200,220,255,0.08)" stroke="rgba(200,220,255,0.35)" stroke-width="0.5"><animate attributeName="opacity" values="0.05;0.15;0.05" dur="3.5s" repeatCount="indefinite" begin="2s"/></polygon>
-        <polygon points="2,88 6,96 -2,96" fill="rgba(200,220,255,0.08)" stroke="rgba(200,220,255,0.35)" stroke-width="0.5"><animate attributeName="opacity" values="0.05;0.15;0.05" dur="3.5s" repeatCount="indefinite" begin="2.5s"/></polygon>
-        <polygon points="0,120 4,128 -4,128" fill="rgba(200,220,255,0.08)" stroke="rgba(200,220,255,0.35)" stroke-width="0.5"><animate attributeName="opacity" values="0.05;0.15;0.05" dur="3.5s" repeatCount="indefinite" begin="3s"/></polygon>
+        <!-- 左側7個のクリスタル（頭頂から体の左に弧、線＋先端で表現） -->
+        <!-- 左1（プルバ近く、ほぼ縦） -->
+        <line x1="80" y1="-15" x2="75" y2="-35" stroke="rgba(200,220,255,0.4)" stroke-width="1.3" stroke-linecap="round"/>
+        <polygon points="74,-37 75,-42 76,-37" fill="rgba(200,220,255,0.3)"/>
+        <circle cx="75" cy="-35" r="1" fill="rgba(200,220,255,0.4)"><animate attributeName="opacity" values="0.25;0.5;0.25" dur="3.5s" repeatCount="indefinite"/></circle>
+        <!-- 左2 -->
+        <line x1="60" y1="-5" x2="50" y2="-25" stroke="rgba(200,220,255,0.4)" stroke-width="1.3" stroke-linecap="round"/>
+        <polygon points="48,-26 50,-32 52,-26" fill="rgba(200,220,255,0.3)"/>
+        <circle cx="50" cy="-25" r="1" fill="rgba(200,220,255,0.4)"><animate attributeName="opacity" values="0.25;0.5;0.25" dur="3.5s" repeatCount="indefinite" begin="0.5s"/></circle>
+        <!-- 左3（やや斜め） -->
+        <line x1="40" y1="15" x2="25" y2="-5" stroke="rgba(200,220,255,0.4)" stroke-width="1.2" stroke-linecap="round"/>
+        <polygon points="23,-6 25,-12 27,-6" fill="rgba(200,220,255,0.3)"/>
+        <circle cx="25" cy="-5" r="1" fill="rgba(200,220,255,0.4)"><animate attributeName="opacity" values="0.25;0.5;0.25" dur="3.5s" repeatCount="indefinite" begin="1s"/></circle>
+        <!-- 左4 -->
+        <line x1="22" y1="40" x2="5" y2="18" stroke="rgba(200,220,255,0.38)" stroke-width="1.2" stroke-linecap="round"/>
+        <polygon points="3,17 5,11 7,17" fill="rgba(200,220,255,0.28)"/>
+        <circle cx="5" cy="18" r="1" fill="rgba(200,220,255,0.35)"><animate attributeName="opacity" values="0.2;0.45;0.2" dur="3.5s" repeatCount="indefinite" begin="1.5s"/></circle>
+        <!-- 左5 -->
+        <line x1="10" y1="68" x2="-8" y2="45" stroke="rgba(200,220,255,0.35)" stroke-width="1.1" stroke-linecap="round"/>
+        <polygon points="-10,44 -8,38 -6,44" fill="rgba(200,220,255,0.25)"/>
+        <circle cx="-8" cy="45" r="1" fill="rgba(200,220,255,0.3)"><animate attributeName="opacity" values="0.2;0.4;0.2" dur="3.5s" repeatCount="indefinite" begin="2s"/></circle>
+        <!-- 左6 -->
+        <line x1="2" y1="98" x2="-15" y2="75" stroke="rgba(200,220,255,0.33)" stroke-width="1.1" stroke-linecap="round"/>
+        <polygon points="-17,74 -15,68 -13,74" fill="rgba(200,220,255,0.23)"/>
+        <circle cx="-15" cy="75" r="1" fill="rgba(200,220,255,0.3)"><animate attributeName="opacity" values="0.2;0.4;0.2" dur="3.5s" repeatCount="indefinite" begin="2.5s"/></circle>
+        <!-- 左7（最下、ほぼ水平） -->
+        <line x1="-2" y1="130" x2="-22" y2="110" stroke="rgba(200,220,255,0.3)" stroke-width="1" stroke-linecap="round"/>
+        <polygon points="-24,109 -22,104 -20,109" fill="rgba(200,220,255,0.2)"/>
+        <circle cx="-22" cy="110" r="1" fill="rgba(200,220,255,0.25)"><animate attributeName="opacity" values="0.15;0.35;0.15" dur="3.5s" repeatCount="indefinite" begin="3s"/></circle>
 
-        <!-- 右側7個のクリスタル（頭頂から体の右に弧を描いて配置） -->
-        <polygon points="128,-30 132,-22 124,-22" fill="rgba(200,220,255,0.08)" stroke="rgba(200,220,255,0.35)" stroke-width="0.5"><animate attributeName="opacity" values="0.05;0.15;0.05" dur="3.5s" repeatCount="indefinite" begin="0.25s"/></polygon>
-        <polygon points="150,-15 154,-7 146,-7" fill="rgba(200,220,255,0.08)" stroke="rgba(200,220,255,0.35)" stroke-width="0.5"><animate attributeName="opacity" values="0.05;0.15;0.05" dur="3.5s" repeatCount="indefinite" begin="0.75s"/></polygon>
-        <polygon points="168,5 172,13 164,13" fill="rgba(200,220,255,0.08)" stroke="rgba(200,220,255,0.35)" stroke-width="0.5"><animate attributeName="opacity" values="0.05;0.15;0.05" dur="3.5s" repeatCount="indefinite" begin="1.25s"/></polygon>
-        <polygon points="182,30 186,38 178,38" fill="rgba(200,220,255,0.08)" stroke="rgba(200,220,255,0.35)" stroke-width="0.5"><animate attributeName="opacity" values="0.05;0.15;0.05" dur="3.5s" repeatCount="indefinite" begin="1.75s"/></polygon>
-        <polygon points="192,58 196,66 188,66" fill="rgba(200,220,255,0.08)" stroke="rgba(200,220,255,0.35)" stroke-width="0.5"><animate attributeName="opacity" values="0.05;0.15;0.05" dur="3.5s" repeatCount="indefinite" begin="2.25s"/></polygon>
-        <polygon points="198,88 202,96 194,96" fill="rgba(200,220,255,0.08)" stroke="rgba(200,220,255,0.35)" stroke-width="0.5"><animate attributeName="opacity" values="0.05;0.15;0.05" dur="3.5s" repeatCount="indefinite" begin="2.75s"/></polygon>
-        <polygon points="200,120 204,128 196,128" fill="rgba(200,220,255,0.08)" stroke="rgba(200,220,255,0.35)" stroke-width="0.5"><animate attributeName="opacity" values="0.05;0.15;0.05" dur="3.5s" repeatCount="indefinite" begin="3.25s"/></polygon>
+        <!-- 右側7個のクリスタル（頭頂から体の右に弧） -->
+        <!-- 右1（プルバ近く、ほぼ縦） -->
+        <line x1="120" y1="-15" x2="125" y2="-35" stroke="rgba(200,220,255,0.4)" stroke-width="1.3" stroke-linecap="round"/>
+        <polygon points="124,-37 125,-42 126,-37" fill="rgba(200,220,255,0.3)"/>
+        <circle cx="125" cy="-35" r="1" fill="rgba(200,220,255,0.4)"><animate attributeName="opacity" values="0.25;0.5;0.25" dur="3.5s" repeatCount="indefinite" begin="0.25s"/></circle>
+        <!-- 右2 -->
+        <line x1="140" y1="-5" x2="150" y2="-25" stroke="rgba(200,220,255,0.4)" stroke-width="1.3" stroke-linecap="round"/>
+        <polygon points="148,-26 150,-32 152,-26" fill="rgba(200,220,255,0.3)"/>
+        <circle cx="150" cy="-25" r="1" fill="rgba(200,220,255,0.4)"><animate attributeName="opacity" values="0.25;0.5;0.25" dur="3.5s" repeatCount="indefinite" begin="0.75s"/></circle>
+        <!-- 右3 -->
+        <line x1="160" y1="15" x2="175" y2="-5" stroke="rgba(200,220,255,0.4)" stroke-width="1.2" stroke-linecap="round"/>
+        <polygon points="173,-6 175,-12 177,-6" fill="rgba(200,220,255,0.3)"/>
+        <circle cx="175" cy="-5" r="1" fill="rgba(200,220,255,0.4)"><animate attributeName="opacity" values="0.25;0.5;0.25" dur="3.5s" repeatCount="indefinite" begin="1.25s"/></circle>
+        <!-- 右4 -->
+        <line x1="178" y1="40" x2="195" y2="18" stroke="rgba(200,220,255,0.38)" stroke-width="1.2" stroke-linecap="round"/>
+        <polygon points="193,17 195,11 197,17" fill="rgba(200,220,255,0.28)"/>
+        <circle cx="195" cy="18" r="1" fill="rgba(200,220,255,0.35)"><animate attributeName="opacity" values="0.2;0.45;0.2" dur="3.5s" repeatCount="indefinite" begin="1.75s"/></circle>
+        <!-- 右5 -->
+        <line x1="190" y1="68" x2="208" y2="45" stroke="rgba(200,220,255,0.35)" stroke-width="1.1" stroke-linecap="round"/>
+        <polygon points="206,44 208,38 210,44" fill="rgba(200,220,255,0.25)"/>
+        <circle cx="208" cy="45" r="1" fill="rgba(200,220,255,0.3)"><animate attributeName="opacity" values="0.2;0.4;0.2" dur="3.5s" repeatCount="indefinite" begin="2.25s"/></circle>
+        <!-- 右6 -->
+        <line x1="198" y1="98" x2="215" y2="75" stroke="rgba(200,220,255,0.33)" stroke-width="1.1" stroke-linecap="round"/>
+        <polygon points="213,74 215,68 217,74" fill="rgba(200,220,255,0.23)"/>
+        <circle cx="215" cy="75" r="1" fill="rgba(200,220,255,0.3)"><animate attributeName="opacity" values="0.2;0.4;0.2" dur="3.5s" repeatCount="indefinite" begin="2.75s"/></circle>
+        <!-- 右7（最下） -->
+        <line x1="202" y1="130" x2="222" y2="110" stroke="rgba(200,220,255,0.3)" stroke-width="1" stroke-linecap="round"/>
+        <polygon points="220,109 222,104 224,109" fill="rgba(200,220,255,0.2)"/>
+        <circle cx="222" cy="110" r="1" fill="rgba(200,220,255,0.25)"><animate attributeName="opacity" values="0.15;0.35;0.15" dur="3.5s" repeatCount="indefinite" begin="3.25s"/></circle>
 
         <!-- 左右を繋ぐアーチライン -->
-        <path d="M0,120 C-5,90 0,40 32,5 C50,-15 72,-30 100,-42 C128,-30 150,-15 168,5 C200,40 205,90 200,120" fill="none" stroke="rgba(200,220,255,0.08)" stroke-width="0.4" stroke-dasharray="3 4">
+        <path d="M-22,110 C-15,75 5,18 25,-5 C50,-25 75,-38 100,-45 C125,-38 150,-25 175,-5 C195,18 215,75 222,110" fill="none" stroke="rgba(200,220,255,0.08)" stroke-width="0.5" stroke-dasharray="3 4">
           <animate attributeName="stroke-dashoffset" values="0;-14" dur="8s" repeatCount="indefinite"/>
         </path>
 
