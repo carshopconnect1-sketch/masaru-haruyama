@@ -2167,39 +2167,64 @@
           <animate attributeName="stroke-dashoffset" values="0;-14" dur="8s" repeatCount="indefinite"/>
         </path>
 
-        <!-- ===== 足元: プルバ + ガネーシュクリスタル + 左右3個ずつ（計7個） ===== -->
-        <!-- 足元プルバ（中央） -->
-        <line x1="100" y1="395" x2="100" y2="370" stroke="rgba(180,100,80,0.55)" stroke-width="2"/>
-        <polygon points="97,370 100,362 103,370" fill="rgba(180,100,80,0.45)" stroke="rgba(180,100,80,0.55)" stroke-width="0.5"/>
-        <circle cx="100" cy="395" r="4" fill="rgba(180,100,80,0.15)" stroke="rgba(180,100,80,0.35)" stroke-width="0.5">
-          <animate attributeName="opacity" values="0.2;0.5;0.2" dur="4s" repeatCount="indefinite"/>
+        <!-- ===== 足元: 写真に忠実な配置 ===== -->
+        <!-- プルバ（中央、縦置き、先端＝刃が下、握り部が上） -->
+        <line x1="100" y1="355" x2="100" y2="395" stroke="rgba(60,50,50,0.7)" stroke-width="2.5"/>
+        <!-- プルバの仏面装飾（上部） -->
+        <circle cx="100" cy="355" r="3.5" fill="rgba(140,100,60,0.3)" stroke="rgba(180,140,80,0.5)" stroke-width="0.6">
+          <animate attributeName="opacity" values="0.3;0.6;0.3" dur="4s" repeatCount="indefinite"/>
         </circle>
-        <text x="108" y="385" fill="rgba(180,100,80,0.45)" font-size="4" font-family="sans-serif">プルバ</text>
+        <!-- プルバの刃先（下端） -->
+        <polygon points="98,395 100,402 102,395" fill="rgba(80,60,50,0.5)" stroke="rgba(120,90,60,0.4)" stroke-width="0.4"/>
+        <text x="106" y="378" fill="rgba(180,140,80,0.4)" font-size="3.5" font-family="sans-serif">プルバ</text>
 
-        <!-- ヒマラヤガネーシュクリスタル（プルバの後ろ＝上、大きい） -->
-        <polygon points="100,348 110,365 90,365" fill="rgba(220,230,255,0.12)" stroke="rgba(220,230,255,0.45)" stroke-width="0.8">
-          <animate attributeName="opacity" values="0.3;0.55;0.3" dur="5s" repeatCount="indefinite"/>
+        <!-- ヒマラヤガネーシュクリスタル（プルバの後ろ＝上、大きい、ほぼ垂直） -->
+        <polygon points="100,335 108,358 92,358" fill="rgba(220,230,255,0.1)" stroke="rgba(220,235,255,0.5)" stroke-width="0.9">
+          <animate attributeName="opacity" values="0.35;0.6;0.35" dur="5s" repeatCount="indefinite"/>
         </polygon>
-        <!-- ガネーシュの輝き -->
-        <circle cx="100" cy="358" r="8" fill="none" stroke="rgba(220,230,255,0.12)" stroke-width="0.5">
-          <animate attributeName="r" values="6;12;6" dur="5s" repeatCount="indefinite"/>
-          <animate attributeName="opacity" values="0.1;0.2;0.1" dur="5s" repeatCount="indefinite"/>
+        <!-- ガネーシュ内部の輝き -->
+        <line x1="100" y1="338" x2="100" y2="356" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+        <line x1="97" y1="342" x2="103" y2="352" stroke="rgba(255,255,255,0.05)" stroke-width="0.3"/>
+        <!-- ガネーシュのオーラ -->
+        <circle cx="100" cy="348" r="12" fill="none" stroke="rgba(220,230,255,0.1)" stroke-width="0.5">
+          <animate attributeName="r" values="10;16;10" dur="5s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.08;0.18;0.08" dur="5s" repeatCount="indefinite"/>
         </circle>
-        <text x="112" y="360" fill="rgba(220,230,255,0.4)" font-size="3.5" font-family="sans-serif">ガネーシュ</text>
+        <text x="112" y="350" fill="rgba(220,230,255,0.4)" font-size="3" font-family="sans-serif">ガネーシュ</text>
 
-        <!-- 左3個のレムリアン（足元、斜めに配置） -->
-        <polygon points="60,380 64,372 56,372" fill="rgba(200,220,255,0.08)" stroke="rgba(200,220,255,0.3)" stroke-width="0.5"><animate attributeName="opacity" values="0.05;0.12;0.05" dur="3.5s" repeatCount="indefinite"/></polygon>
-        <polygon points="42,370 46,362 38,362" fill="rgba(200,220,255,0.08)" stroke="rgba(200,220,255,0.3)" stroke-width="0.5"><animate attributeName="opacity" values="0.05;0.12;0.05" dur="3.5s" repeatCount="indefinite" begin="0.6s"/></polygon>
-        <polygon points="28,358 32,350 24,350" fill="rgba(200,220,255,0.08)" stroke="rgba(200,220,255,0.3)" stroke-width="0.5"><animate attributeName="opacity" values="0.05;0.12;0.05" dur="3.5s" repeatCount="indefinite" begin="1.2s"/></polygon>
+        <!-- 左3個のレムリアン（扇状：外側ほど水平、内側ほど縦） -->
+        <!-- 左1（最外、ほぼ水平） -->
+        <line x1="30" y1="378" x2="55" y2="375" stroke="rgba(200,220,255,0.35)" stroke-width="1.2" stroke-linecap="round"/>
+        <polygon points="55,373 59,375 55,377" fill="rgba(200,220,255,0.25)"/>
+        <!-- 左2（斜め） -->
+        <line x1="48" y1="370" x2="68" y2="358" stroke="rgba(190,210,245,0.35)" stroke-width="1.3" stroke-linecap="round"/>
+        <polygon points="67,355 71,358 67,361" fill="rgba(190,210,245,0.25)"/>
+        <!-- 左3（やや縦、プルバ寄り） -->
+        <line x1="72" y1="370" x2="82" y2="350" stroke="rgba(210,225,255,0.35)" stroke-width="1.1" stroke-linecap="round"/>
+        <polygon points="80,348 82,344 84,348" fill="rgba(210,225,255,0.25)"/>
+        <!-- 左のクリスタル輝き -->
+        <circle cx="42" cy="375" r="0.8" fill="rgba(200,220,255,0.3)"><animate attributeName="opacity" values="0.2;0.4;0.2" dur="3s" repeatCount="indefinite"/></circle>
+        <circle cx="58" cy="364" r="0.8" fill="rgba(200,220,255,0.3)"><animate attributeName="opacity" values="0.2;0.4;0.2" dur="3s" repeatCount="indefinite" begin="1s"/></circle>
+        <circle cx="77" cy="360" r="0.8" fill="rgba(200,220,255,0.3)"><animate attributeName="opacity" values="0.2;0.4;0.2" dur="3s" repeatCount="indefinite" begin="2s"/></circle>
 
-        <!-- 右3個のレムリアン（足元、斜めに配置） -->
-        <polygon points="140,380 144,372 136,372" fill="rgba(200,220,255,0.08)" stroke="rgba(200,220,255,0.3)" stroke-width="0.5"><animate attributeName="opacity" values="0.05;0.12;0.05" dur="3.5s" repeatCount="indefinite" begin="0.3s"/></polygon>
-        <polygon points="158,370 162,362 154,362" fill="rgba(200,220,255,0.08)" stroke="rgba(200,220,255,0.3)" stroke-width="0.5"><animate attributeName="opacity" values="0.05;0.12;0.05" dur="3.5s" repeatCount="indefinite" begin="0.9s"/></polygon>
-        <polygon points="172,358 176,350 168,350" fill="rgba(200,220,255,0.08)" stroke="rgba(200,220,255,0.3)" stroke-width="0.5"><animate attributeName="opacity" values="0.05;0.12;0.05" dur="3.5s" repeatCount="indefinite" begin="1.5s"/></polygon>
+        <!-- 右3個のレムリアン（扇状：外側ほど水平、内側ほど縦） -->
+        <!-- 右1（最外、ほぼ水平） -->
+        <line x1="170" y1="378" x2="145" y2="375" stroke="rgba(200,220,255,0.35)" stroke-width="1.2" stroke-linecap="round"/>
+        <polygon points="145,373 141,375 145,377" fill="rgba(200,220,255,0.25)"/>
+        <!-- 右2（斜め） -->
+        <line x1="152" y1="370" x2="132" y2="358" stroke="rgba(190,210,245,0.35)" stroke-width="1.3" stroke-linecap="round"/>
+        <polygon points="133,355 129,358 133,361" fill="rgba(190,210,245,0.25)"/>
+        <!-- 右3（やや縦、プルバ寄り） -->
+        <line x1="128" y1="370" x2="118" y2="350" stroke="rgba(210,225,255,0.35)" stroke-width="1.1" stroke-linecap="round"/>
+        <polygon points="116,348 118,344 120,348" fill="rgba(210,225,255,0.25)"/>
+        <!-- 右のクリスタル輝き -->
+        <circle cx="158" cy="375" r="0.8" fill="rgba(200,220,255,0.3)"><animate attributeName="opacity" values="0.2;0.4;0.2" dur="3s" repeatCount="indefinite" begin="0.5s"/></circle>
+        <circle cx="142" cy="364" r="0.8" fill="rgba(200,220,255,0.3)"><animate attributeName="opacity" values="0.2;0.4;0.2" dur="3s" repeatCount="indefinite" begin="1.5s"/></circle>
+        <circle cx="123" cy="360" r="0.8" fill="rgba(200,220,255,0.3)"><animate attributeName="opacity" values="0.2;0.4;0.2" dur="3s" repeatCount="indefinite" begin="2.5s"/></circle>
 
-        <!-- 足元のアーチライン -->
-        <path d="M28,355 C50,375 75,390 100,395 C125,390 150,375 172,355" fill="none" stroke="rgba(200,220,255,0.06)" stroke-width="0.4" stroke-dasharray="3 4">
-          <animate attributeName="stroke-dashoffset" values="0;14" dur="8s" repeatCount="indefinite"/>
+        <!-- 足元の接続ライン（扇状） -->
+        <path d="M30,378 C50,380 75,385 100,395 C125,385 150,380 170,378" fill="none" stroke="rgba(200,220,255,0.05)" stroke-width="0.3" stroke-dasharray="2 3">
+          <animate attributeName="stroke-dashoffset" values="0;10" dur="6s" repeatCount="indefinite"/>
         </path>
 
         <!-- ===== 浄化加速エフェクト ===== -->
