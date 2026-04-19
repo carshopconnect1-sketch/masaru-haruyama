@@ -2272,11 +2272,11 @@
         <!-- ===== レッドドラゴンボディ ===== -->
         <!-- 体内の水（青いフィールド） -->
         <defs>
-          <radialGradient id="waterField" cx="50%" cy="45%" r="45%">
-            <stop offset="0%" stop-color="rgba(30,80,180,0.20)"/>
-            <stop offset="40%" stop-color="rgba(25,70,160,0.12)"/>
-            <stop offset="80%" stop-color="rgba(20,60,140,0.05)"/>
-            <stop offset="100%" stop-color="rgba(20,60,140,0)"/>
+          <radialGradient id="waterField" cx="50%" cy="45%" r="50%">
+            <stop offset="0%" stop-color="rgba(25,80,200,0.30)"/>
+            <stop offset="30%" stop-color="rgba(20,70,180,0.22)"/>
+            <stop offset="60%" stop-color="rgba(20,60,160,0.12)"/>
+            <stop offset="100%" stop-color="rgba(15,50,140,0)"/>
           </radialGradient>
           <radialGradient id="dragonBall" cx="45%" cy="45%" r="50%">
             <stop offset="0%" stop-color="rgba(255,240,120,1)"/>
@@ -2289,30 +2289,44 @@
             <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
           </filter>
         </defs>
-        <!-- 青い水のフィールド（体内） -->
-        <ellipse cx="100" cy="175" rx="48" ry="130" fill="url(#waterField)">
-          <animate attributeName="opacity" values="0.7;1;0.7" dur="6s" repeatCount="indefinite"/>
+        <!-- 青い水のフィールド（体内）— しっかり青く -->
+        <ellipse cx="100" cy="175" rx="50" ry="140" fill="rgba(20,60,150,0.18)">
+          <animate attributeName="opacity" values="0.15;0.22;0.15" dur="6s" repeatCount="indefinite"/>
+        </ellipse>
+        <ellipse cx="100" cy="175" rx="35" ry="100" fill="rgba(30,80,180,0.15)">
+          <animate attributeName="opacity" values="0.12;0.2;0.12" dur="5s" repeatCount="indefinite" begin="1s"/>
         </ellipse>
         <!-- 水の波紋リング -->
-        <ellipse cx="100" cy="175" rx="30" ry="80" fill="none" stroke="rgba(40,120,200,0.08)" stroke-width="0.5">
-          <animate attributeName="rx" values="25;35;25" dur="5s" repeatCount="indefinite"/>
-          <animate attributeName="ry" values="70;90;70" dur="5s" repeatCount="indefinite"/>
-          <animate attributeName="opacity" values="0.05;0.12;0.05" dur="5s" repeatCount="indefinite"/>
+        <ellipse cx="100" cy="175" rx="30" ry="80" fill="none" stroke="rgba(50,130,220,0.15)" stroke-width="0.8">
+          <animate attributeName="rx" values="25;38;25" dur="5s" repeatCount="indefinite"/>
+          <animate attributeName="ry" values="70;95;70" dur="5s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.08;0.18;0.08" dur="5s" repeatCount="indefinite"/>
+        </ellipse>
+        <ellipse cx="100" cy="175" rx="20" ry="55" fill="none" stroke="rgba(40,110,200,0.1)" stroke-width="0.5">
+          <animate attributeName="rx" values="18;25;18" dur="4s" repeatCount="indefinite" begin="1.5s"/>
+          <animate attributeName="ry" values="50;65;50" dur="4s" repeatCount="indefinite" begin="1.5s"/>
+          <animate attributeName="opacity" values="0.06;0.14;0.06" dur="4s" repeatCount="indefinite" begin="1.5s"/>
         </ellipse>
         <!-- 水の揺らぎ粒子 -->
-        <circle cx="85" cy="150" r="1.2" fill="rgba(60,150,230,0.25)">
-          <animate attributeName="cy" values="150;143;157;150" dur="5s" repeatCount="indefinite"/>
-          <animate attributeName="opacity" values="0.15;0.3;0.15" dur="5s" repeatCount="indefinite"/>
+        <circle cx="85" cy="140" r="1.5" fill="rgba(50,140,230,0.35)">
+          <animate attributeName="cy" values="140;132;148;140" dur="5s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.2;0.4;0.2" dur="5s" repeatCount="indefinite"/>
         </circle>
-        <circle cx="115" cy="200" r="1" fill="rgba(60,140,220,0.2)">
-          <animate attributeName="cy" values="200;193;207;200" dur="4s" repeatCount="indefinite" begin="1s"/>
-          <animate attributeName="opacity" values="0.12;0.25;0.12" dur="4s" repeatCount="indefinite" begin="1s"/>
+        <circle cx="115" cy="200" r="1.2" fill="rgba(50,130,220,0.3)">
+          <animate attributeName="cy" values="200;192;208;200" dur="4s" repeatCount="indefinite" begin="1s"/>
+          <animate attributeName="opacity" values="0.15;0.35;0.15" dur="4s" repeatCount="indefinite" begin="1s"/>
         </circle>
-        <circle cx="95" cy="120" r="0.8" fill="rgba(80,160,240,0.18)">
-          <animate attributeName="cy" values="120;114;126;120" dur="4.5s" repeatCount="indefinite" begin="2s"/>
+        <circle cx="95" cy="110" r="1" fill="rgba(70,160,240,0.25)">
+          <animate attributeName="cy" values="110;103;117;110" dur="4.5s" repeatCount="indefinite" begin="2s"/>
         </circle>
-        <circle cx="105" cy="230" r="0.9" fill="rgba(50,130,210,0.15)">
-          <animate attributeName="cy" values="230;224;236;230" dur="3.8s" repeatCount="indefinite" begin="0.5s"/>
+        <circle cx="105" cy="230" r="1.1" fill="rgba(40,120,210,0.25)">
+          <animate attributeName="cy" values="230;223;237;230" dur="3.8s" repeatCount="indefinite" begin="0.5s"/>
+        </circle>
+        <circle cx="92" cy="170" r="0.9" fill="rgba(60,150,240,0.2)">
+          <animate attributeName="cy" values="170;164;176;170" dur="4.2s" repeatCount="indefinite" begin="1.8s"/>
+        </circle>
+        <circle cx="108" cy="150" r="0.8" fill="rgba(55,140,230,0.22)">
+          <animate attributeName="cy" values="150;144;156;150" dur="3.5s" repeatCount="indefinite" begin="2.5s"/>
         </circle>
 
         <!-- 下丹田のドラゴンボール（赤い火の玉） -->
@@ -2469,8 +2483,11 @@
         <ellipse cx="100" cy="150" rx="40" ry="110" fill="none" stroke="rgba(255,80,30,0.12)" stroke-width="8" filter="url(#sideGlow)"/>
 
         <!-- 体内の青い水 -->
-        <ellipse cx="100" cy="150" rx="28" ry="85" fill="rgba(25,70,160,0.08)">
-          <animate attributeName="opacity" values="0.06;0.12;0.06" dur="6s" repeatCount="indefinite"/>
+        <ellipse cx="100" cy="150" rx="30" ry="90" fill="rgba(20,65,170,0.2)">
+          <animate attributeName="opacity" values="0.15;0.25;0.15" dur="6s" repeatCount="indefinite"/>
+        </ellipse>
+        <ellipse cx="100" cy="150" rx="20" ry="65" fill="rgba(25,75,190,0.12)">
+          <animate attributeName="opacity" values="0.1;0.18;0.1" dur="5s" repeatCount="indefinite" begin="1s"/>
         </ellipse>
 
         <!-- 龍珠（下丹田位置） -->
