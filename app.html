@@ -2268,6 +2268,99 @@
         <!-- ラベル -->
         <text x="5" y="218" fill="rgba(184,149,106,0.5)" font-size="5" font-family="sans-serif">虚</text>
         <text x="181" y="218" fill="rgba(184,149,106,0.5)" font-size="5" font-family="sans-serif">虚</text>
+
+        <!-- ===== レッドドラゴンボディ ===== -->
+        <!-- 体内の水（青いフィールド） -->
+        <defs>
+          <radialGradient id="waterField" cx="50%" cy="45%" r="45%">
+            <stop offset="0%" stop-color="rgba(40,100,180,0.12)"/>
+            <stop offset="60%" stop-color="rgba(30,80,160,0.06)"/>
+            <stop offset="100%" stop-color="rgba(20,60,140,0)"/>
+          </radialGradient>
+          <radialGradient id="dragonBall" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="rgba(255,120,40,0.9)"/>
+            <stop offset="40%" stop-color="rgba(224,60,30,0.7)"/>
+            <stop offset="100%" stop-color="rgba(180,30,10,0.3)"/>
+          </radialGradient>
+          <filter id="fireGlow">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <!-- 青い水のフィールド（体内） -->
+        <ellipse cx="100" cy="180" rx="50" ry="120" fill="url(#waterField)">
+          <animate attributeName="opacity" values="0.6;1;0.6" dur="6s" repeatCount="indefinite"/>
+        </ellipse>
+        <!-- 水の揺らぎ粒子 -->
+        <circle cx="85" cy="150" r="1" fill="rgba(60,140,220,0.15)">
+          <animate attributeName="cy" values="150;145;155;150" dur="5s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.1;0.2;0.1" dur="5s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="115" cy="200" r="0.8" fill="rgba(60,140,220,0.12)">
+          <animate attributeName="cy" values="200;195;205;200" dur="4s" repeatCount="indefinite" begin="1s"/>
+          <animate attributeName="opacity" values="0.08;0.18;0.08" dur="4s" repeatCount="indefinite" begin="1s"/>
+        </circle>
+        <circle cx="95" cy="120" r="0.6" fill="rgba(80,160,240,0.1)">
+          <animate attributeName="cy" values="120;116;124;120" dur="4.5s" repeatCount="indefinite" begin="2s"/>
+        </circle>
+
+        <!-- 下丹田のドラゴンボール（赤い火の玉） -->
+        <circle cx="100" cy="190" r="8" fill="url(#dragonBall)" filter="url(#fireGlow)">
+          <animate attributeName="r" values="7;9;7" dur="3s" repeatCount="indefinite"/>
+        </circle>
+        <!-- 火の玉の内核（白熱） -->
+        <circle cx="100" cy="190" r="3" fill="rgba(255,200,100,0.8)">
+          <animate attributeName="r" values="2;4;2" dur="2s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite"/>
+        </circle>
+        <!-- 火の玉の揺らぎ -->
+        <circle cx="100" cy="190" r="12" fill="none" stroke="rgba(224,80,30,0.15)" stroke-width="0.5">
+          <animate attributeName="r" values="10;16;10" dur="3s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.15;0.05;0.15" dur="3s" repeatCount="indefinite"/>
+        </circle>
+
+        <!-- 赤いチューブ道（小周天ルート） -->
+        <!-- 前面を上がる: 腹→胸→首→頭頂 -->
+        <!-- 背面を下る: 頭頂→後頭部→背中→仙骨→尾骨→生殖器→腹 -->
+        <path id="dragonPath" d="M100,190 C97,170 95,150 95,135 C95,110 96,85 97,70 C98,50 99,30 100,10 C101,30 108,50 112,70 C116,90 118,120 118,160 C118,200 116,250 114,280 C112,300 110,315 108,325 C106,332 104,335 102,335 C100,335 99,330 98,320 C97,310 97,290 97,260 C97,230 98,210 100,190" fill="none" stroke="rgba(224,60,30,0.25)" stroke-width="1.5" stroke-dasharray="4 3">
+          <animate attributeName="stroke-dashoffset" values="0;-14" dur="2s" repeatCount="indefinite"/>
+        </path>
+        <!-- チューブのグロー -->
+        <use href="#dragonPath" stroke="rgba(224,60,30,0.08)" stroke-width="4" fill="none" filter="url(#softGlow)"/>
+
+        <!-- 循環する火の粒子（メイン） -->
+        <circle r="2.5" fill="rgba(255,100,30,0.9)" filter="url(#fireGlow)">
+          <animateMotion dur="6s" repeatCount="indefinite">
+            <mpath href="#dragonPath"/>
+          </animateMotion>
+          <animate attributeName="opacity" values="0.7;1;0.7" dur="1s" repeatCount="indefinite"/>
+        </circle>
+        <!-- 追従する火の粒子2 -->
+        <circle r="1.8" fill="rgba(255,140,60,0.7)">
+          <animateMotion dur="6s" repeatCount="indefinite" begin="1.5s">
+            <mpath href="#dragonPath"/>
+          </animateMotion>
+          <animate attributeName="opacity" values="0.5;0.9;0.5" dur="1.2s" repeatCount="indefinite"/>
+        </circle>
+        <!-- 追従する火の粒子3 -->
+        <circle r="1.2" fill="rgba(255,180,80,0.6)">
+          <animateMotion dur="6s" repeatCount="indefinite" begin="3s">
+            <mpath href="#dragonPath"/>
+          </animateMotion>
+          <animate attributeName="opacity" values="0.4;0.8;0.4" dur="1s" repeatCount="indefinite"/>
+        </circle>
+        <!-- 小さな火花（高速） -->
+        <circle r="0.8" fill="rgba(255,220,150,0.5)">
+          <animateMotion dur="6s" repeatCount="indefinite" begin="4.5s">
+            <mpath href="#dragonPath"/>
+          </animateMotion>
+        </circle>
+
+        <!-- ドラゴンボディのラベル -->
+        <text x="130" y="192" fill="rgba(224,80,30,0.4)" font-size="4" font-family="sans-serif">龍珠</text>
+        <text x="75" y="10" fill="rgba(224,80,30,0.25)" font-size="3" font-family="sans-serif">↑任脈</text>
+        <text x="120" y="10" fill="rgba(224,80,30,0.25)" font-size="3" font-family="sans-serif">督脈↓</text>
+
       </svg>
 
       <div class="dantian-line"></div>
