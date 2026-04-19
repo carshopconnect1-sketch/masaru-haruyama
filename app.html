@@ -3874,6 +3874,23 @@ function initDreams() {
   if (!state.dreams || state.dreams.length === 0) {
     state.dreams = JSON.parse(JSON.stringify(defaultDreams));
     saveState();
+  } else {
+    // Merge missing content from defaultDreams into existing dreams
+    var merged = false;
+    defaultDreams.forEach(function(dd) {
+      var existing = state.dreams.find(function(d) { return d.date === dd.date; });
+      if (existing && !existing.content) {
+        existing.content = dd.content;
+        existing.tags = existing.tags && existing.tags.length > 0 ? existing.tags : dd.tags;
+        existing.interpretation = existing.interpretation || dd.interpretation || '';
+        existing.hypnagogic = existing.hypnagogic || dd.hypnagogic || '';
+        merged = true;
+      } else if (!existing) {
+        state.dreams.push(JSON.parse(JSON.stringify(dd)));
+        merged = true;
+      }
+    });
+    if (merged) saveState();
   }
   renderDreams();
 }
