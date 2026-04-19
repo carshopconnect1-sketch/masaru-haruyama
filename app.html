@@ -2421,6 +2421,92 @@
       <div class="dantian dantian-lower" title="下丹田" data-dantian="lower"></div>
     </div>
 
+    <!-- レッドドラゴンボディ — 横から見た図 -->
+    <div style="text-align:center;margin:1.5rem auto 0.5rem;max-width:280px">
+      <p style="font-size:0.7rem;color:rgba(255,120,40,0.6);letter-spacing:0.15em;margin-bottom:0.5rem">レッドドラゴンボディ — 側面図</p>
+      <svg viewBox="0 0 200 320" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:240px">
+        <defs>
+          <radialGradient id="sideFireBall" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="rgba(255,220,100,1)"/>
+            <stop offset="30%" stop-color="rgba(255,140,40,0.9)"/>
+            <stop offset="60%" stop-color="rgba(224,50,20,0.7)"/>
+            <stop offset="100%" stop-color="rgba(180,30,10,0.3)"/>
+          </radialGradient>
+          <filter id="sideFireGlow">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <filter id="sideGlow">
+            <feGaussianBlur stdDeviation="2" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+
+        <!-- 体のシルエット（横から見た） -->
+        <!-- 頭 -->
+        <ellipse cx="100" cy="40" rx="18" ry="22" fill="rgba(201,168,76,0.03)" stroke="rgba(201,168,76,0.2)" stroke-width="0.8"/>
+        <!-- 首 -->
+        <line x1="100" y1="62" x2="100" y2="75" stroke="rgba(201,168,76,0.15)" stroke-width="0.8"/>
+        <!-- 胴体（横向き = 前が左、背中が右） -->
+        <path d="M80,75 C75,80 72,100 72,140 C72,180 75,210 80,240 L120,240 C125,210 128,180 128,140 C128,100 125,80 120,75 Z" fill="rgba(201,168,76,0.02)" stroke="rgba(201,168,76,0.15)" stroke-width="0.8"/>
+        <!-- 脚 -->
+        <line x1="85" y1="240" x2="82" y2="300" stroke="rgba(201,168,76,0.12)" stroke-width="0.8"/>
+        <line x1="115" y1="240" x2="118" y2="300" stroke="rgba(201,168,76,0.12)" stroke-width="0.8"/>
+
+        <!-- 前面/背面ラベル -->
+        <text x="55" y="140" fill="rgba(255,120,40,0.4)" font-size="7" font-family="sans-serif">前</text>
+        <text x="135" y="140" fill="rgba(255,120,40,0.4)" font-size="7" font-family="sans-serif">背</text>
+
+        <!-- 青い水フィールド（体内） -->
+        <ellipse cx="100" cy="160" rx="22" ry="70" fill="rgba(30,80,180,0.1)">
+          <animate attributeName="opacity" values="0.08;0.15;0.08" dur="6s" repeatCount="indefinite"/>
+        </ellipse>
+
+        <!-- 小周天ルート（楕円ループ） -->
+        <!-- 前面(任脈): 左側を上がる / 背面(督脈): 右側を下る -->
+        <path id="sideCircuit" d="M100,190 C90,170 75,150 72,120 C70,90 72,65 80,45 C85,32 92,22 100,18 C108,22 115,32 120,45 C128,65 130,90 128,120 C125,150 128,180 126,210 C124,235 120,255 115,268 C110,278 105,280 100,278 C95,275 90,268 88,255 C85,240 82,220 80,200 C78,185 85,190 100,190" fill="none" stroke="rgba(240,60,30,0.5)" stroke-width="2.5" stroke-dasharray="6 4">
+          <animate attributeName="stroke-dashoffset" values="0;-20" dur="2s" repeatCount="indefinite"/>
+        </path>
+        <!-- チューブのグロー -->
+        <use href="#sideCircuit" stroke="rgba(255,80,30,0.15)" stroke-width="8" fill="none" filter="url(#sideGlow)"/>
+
+        <!-- 龍珠（下丹田位置） -->
+        <circle cx="100" cy="190" r="10" fill="url(#sideFireBall)" filter="url(#sideFireGlow)">
+          <animate attributeName="r" values="9;12;9" dur="3s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="100" cy="190" r="4" fill="rgba(255,240,150,0.9)">
+          <animate attributeName="r" values="3;5;3" dur="2s" repeatCount="indefinite"/>
+        </circle>
+
+        <!-- 循環する火の粒子 -->
+        <circle r="5" fill="rgba(255,120,30,1)" filter="url(#sideFireGlow)">
+          <animateMotion dur="5s" repeatCount="indefinite">
+            <mpath href="#sideCircuit"/>
+          </animateMotion>
+        </circle>
+        <circle r="3.5" fill="rgba(255,160,60,0.85)" filter="url(#sideGlow)">
+          <animateMotion dur="5s" repeatCount="indefinite" begin="1.25s">
+            <mpath href="#sideCircuit"/>
+          </animateMotion>
+        </circle>
+        <circle r="2.5" fill="rgba(255,200,80,0.7)">
+          <animateMotion dur="5s" repeatCount="indefinite" begin="2.5s">
+            <mpath href="#sideCircuit"/>
+          </animateMotion>
+        </circle>
+
+        <!-- 任脈/督脈ラベル -->
+        <text x="48" y="80" fill="rgba(255,120,40,0.5)" font-size="7" font-family="sans-serif">任脈↑</text>
+        <text x="132" y="80" fill="rgba(255,120,40,0.5)" font-size="7" font-family="sans-serif">↓督脈</text>
+        <!-- 龍珠ラベル -->
+        <text x="115" y="195" fill="rgba(255,120,40,0.6)" font-size="7" font-family="sans-serif">龍珠</text>
+        <!-- 頭頂 -->
+        <text x="85" y="12" fill="rgba(255,120,40,0.4)" font-size="6" font-family="sans-serif">頭頂</text>
+        <!-- 会陰 -->
+        <text x="85" y="290" fill="rgba(255,120,40,0.4)" font-size="6" font-family="sans-serif">会陰</text>
+      </svg>
+    </div>
+
     <!-- 意図→具現化 プロセスフロー -->
     <div class="manifestation-flow">
       <div class="mf-step mf-step-intent">
