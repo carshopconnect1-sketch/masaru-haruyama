@@ -2279,10 +2279,10 @@
             <stop offset="100%" stop-color="rgba(20,60,140,0)"/>
           </radialGradient>
           <radialGradient id="dragonBall" cx="45%" cy="45%" r="50%">
-            <stop offset="0%" stop-color="rgba(255,200,80,1)"/>
-            <stop offset="25%" stop-color="rgba(255,120,40,0.95)"/>
-            <stop offset="55%" stop-color="rgba(224,50,20,0.8)"/>
-            <stop offset="100%" stop-color="rgba(180,30,10,0.4)"/>
+            <stop offset="0%" stop-color="rgba(255,240,120,1)"/>
+            <stop offset="20%" stop-color="rgba(255,160,40,1)"/>
+            <stop offset="50%" stop-color="rgba(240,60,20,0.9)"/>
+            <stop offset="100%" stop-color="rgba(200,30,10,0.6)"/>
           </radialGradient>
           <filter id="fireGlow">
             <feGaussianBlur stdDeviation="3" result="blur"/>
@@ -2316,67 +2316,75 @@
         </circle>
 
         <!-- 下丹田のドラゴンボール（赤い火の玉） -->
-        <!-- 外側の熱いオーラ -->
-        <circle cx="100" cy="190" r="18" fill="none" stroke="rgba(224,60,20,0.1)" stroke-width="1">
-          <animate attributeName="r" values="16;22;16" dur="4s" repeatCount="indefinite"/>
-          <animate attributeName="opacity" values="0.08;0.18;0.08" dur="4s" repeatCount="indefinite"/>
+        <!-- 外側の熱いオーラ（大） -->
+        <circle cx="100" cy="190" r="28" fill="none" stroke="rgba(255,80,20,0.12)" stroke-width="1.5">
+          <animate attributeName="r" values="24;32;24" dur="4s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.08;0.2;0.08" dur="4s" repeatCount="indefinite"/>
         </circle>
-        <!-- 火の玉本体 -->
-        <circle cx="100" cy="190" r="10" fill="url(#dragonBall)" filter="url(#fireGlow)">
-          <animate attributeName="r" values="9;12;9" dur="3s" repeatCount="indefinite"/>
+        <!-- 外側の熱いオーラ（中） -->
+        <circle cx="100" cy="190" r="20" fill="none" stroke="rgba(255,100,30,0.18)" stroke-width="1">
+          <animate attributeName="r" values="18;24;18" dur="3s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.12;0.25;0.12" dur="3s" repeatCount="indefinite"/>
+        </circle>
+        <!-- 火の玉本体（大きく） -->
+        <circle cx="100" cy="190" r="14" fill="url(#dragonBall)" filter="url(#fireGlow)">
+          <animate attributeName="r" values="12;16;12" dur="3s" repeatCount="indefinite"/>
         </circle>
         <!-- 火の玉の内核（白熱） -->
-        <circle cx="100" cy="190" r="4" fill="rgba(255,220,120,0.9)">
-          <animate attributeName="r" values="3;5;3" dur="2s" repeatCount="indefinite"/>
-          <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" repeatCount="indefinite"/>
+        <circle cx="100" cy="190" r="6" fill="rgba(255,240,150,0.95)">
+          <animate attributeName="r" values="4;7;4" dur="2s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite"/>
         </circle>
-        <!-- 火の玉の揺らぎ -->
-        <circle cx="100" cy="190" r="14" fill="none" stroke="rgba(255,100,30,0.2)" stroke-width="0.8">
-          <animate attributeName="r" values="12;18;12" dur="3s" repeatCount="indefinite"/>
-          <animate attributeName="opacity" values="0.2;0.06;0.2" dur="3s" repeatCount="indefinite"/>
+        <!-- 火の玉の揺らぎリング -->
+        <circle cx="100" cy="190" r="18" fill="none" stroke="rgba(255,120,40,0.3)" stroke-width="1">
+          <animate attributeName="r" values="16;22;16" dur="3s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.25;0.08;0.25" dur="3s" repeatCount="indefinite"/>
         </circle>
 
         <!-- 赤いチューブ道（小周天ルート） -->
         <!-- 前面を上がる: 腹→胸→首→頭頂 -->
         <!-- 背面を下る: 頭頂→後頭部→背中→仙骨→尾骨→生殖器→腹 -->
-        <path id="dragonPath" d="M100,190 C97,170 95,150 95,135 C95,110 96,85 97,70 C98,50 99,30 100,10 C101,30 108,50 112,70 C116,90 118,120 118,160 C118,200 116,250 114,280 C112,300 110,315 108,325 C106,332 104,335 102,335 C100,335 99,330 98,320 C97,310 97,290 97,260 C97,230 98,210 100,190" fill="none" stroke="rgba(224,60,30,0.4)" stroke-width="1.8" stroke-dasharray="4 3">
-          <animate attributeName="stroke-dashoffset" values="0;-14" dur="2s" repeatCount="indefinite"/>
+        <path id="dragonPath" d="M100,190 C97,170 95,150 95,135 C95,110 96,85 97,70 C98,50 99,30 100,10 C101,30 108,50 112,70 C116,90 118,120 118,160 C118,200 116,250 114,280 C112,300 110,315 108,325 C106,332 104,335 102,335 C100,335 99,330 98,320 C97,310 97,290 97,260 C97,230 98,210 100,190" fill="none" stroke="rgba(240,60,30,0.55)" stroke-width="2.5" stroke-dasharray="5 3">
+          <animate attributeName="stroke-dashoffset" values="0;-16" dur="1.8s" repeatCount="indefinite"/>
         </path>
-        <!-- チューブのグロー -->
-        <use href="#dragonPath" stroke="rgba(224,60,30,0.15)" stroke-width="5" fill="none" filter="url(#softGlow)"/>
+        <!-- チューブのグロー（外側） -->
+        <use href="#dragonPath" stroke="rgba(255,80,30,0.2)" stroke-width="7" fill="none" filter="url(#softGlow)"/>
+        <!-- チューブの芯グロー -->
+        <use href="#dragonPath" stroke="rgba(255,120,40,0.1)" stroke-width="12" fill="none" filter="url(#softGlow)"/>
 
-        <!-- 循環する火の粒子（メイン） -->
-        <circle r="3.5" fill="rgba(255,100,30,0.95)" filter="url(#fireGlow)">
-          <animateMotion dur="6s" repeatCount="indefinite">
+        <!-- 循環する火の粒子（メイン・大） -->
+        <circle r="5" fill="rgba(255,120,30,1)" filter="url(#fireGlow)">
+          <animateMotion dur="5s" repeatCount="indefinite">
             <mpath href="#dragonPath"/>
           </animateMotion>
-          <animate attributeName="opacity" values="0.8;1;0.8" dur="1s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.85;1;0.85" dur="0.8s" repeatCount="indefinite"/>
         </circle>
         <!-- 追従する火の粒子2 -->
-        <circle r="2.5" fill="rgba(255,140,60,0.85)" filter="url(#glow)">
-          <animateMotion dur="6s" repeatCount="indefinite" begin="1.5s">
+        <circle r="3.5" fill="rgba(255,160,60,0.9)" filter="url(#glow)">
+          <animateMotion dur="5s" repeatCount="indefinite" begin="1.25s">
             <mpath href="#dragonPath"/>
           </animateMotion>
-          <animate attributeName="opacity" values="0.6;1;0.6" dur="1.2s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.7;1;0.7" dur="1s" repeatCount="indefinite"/>
         </circle>
         <!-- 追従する火の粒子3 -->
-        <circle r="2" fill="rgba(255,180,80,0.75)">
-          <animateMotion dur="6s" repeatCount="indefinite" begin="3s">
+        <circle r="2.8" fill="rgba(255,190,80,0.8)" filter="url(#glow)">
+          <animateMotion dur="5s" repeatCount="indefinite" begin="2.5s">
             <mpath href="#dragonPath"/>
           </animateMotion>
-          <animate attributeName="opacity" values="0.5;0.9;0.5" dur="1s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.6;0.95;0.6" dur="0.9s" repeatCount="indefinite"/>
         </circle>
-        <!-- 小さな火花 -->
-        <circle r="1.2" fill="rgba(255,220,150,0.6)">
-          <animateMotion dur="6s" repeatCount="indefinite" begin="4.5s">
+        <!-- 火花 -->
+        <circle r="2" fill="rgba(255,230,150,0.7)">
+          <animateMotion dur="5s" repeatCount="indefinite" begin="3.75s">
             <mpath href="#dragonPath"/>
           </animateMotion>
+          <animate attributeName="opacity" values="0.5;0.9;0.5" dur="0.7s" repeatCount="indefinite"/>
         </circle>
 
         <!-- ドラゴンボディのラベル -->
-        <text x="130" y="192" fill="rgba(255,100,40,0.6)" font-size="4.5" font-family="sans-serif">龍珠</text>
-        <text x="75" y="8" fill="rgba(255,100,40,0.4)" font-size="3.5" font-family="sans-serif">↑任脈</text>
-        <text x="118" y="8" fill="rgba(255,100,40,0.4)" font-size="3.5" font-family="sans-serif">督脈↓</text>
+        <text x="135" y="194" fill="rgba(255,120,40,0.7)" font-size="6" font-family="sans-serif">龍珠</text>
+        <text x="70" y="6" fill="rgba(255,120,40,0.5)" font-size="5" font-family="sans-serif">↑任脈</text>
+        <text x="115" y="6" fill="rgba(255,120,40,0.5)" font-size="5" font-family="sans-serif">督脈↓</text>
 
       </svg>
 
