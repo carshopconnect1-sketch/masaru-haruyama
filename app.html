@@ -2370,26 +2370,29 @@
         <!-- 全ルート（粒子の移動用、非表示） -->
         <path id="dragonPath" d="M100,190 C97,170 95,150 95,135 C95,110 96,85 97,70 C98,50 99,30 100,10 C101,30 108,50 112,70 C116,90 118,120 118,160 C118,200 116,250 114,280 C112,300 110,315 108,325 C106,332 104,335 102,335 C100,335 99,330 98,320 C97,310 97,290 97,260 C97,230 98,210 100,190" fill="none" stroke="none"/>
 
-        <!-- 循環する火の粒子（ゆっくり、赤く輝く） -->
-        <circle r="4" fill="rgba(255,60,20,0.9)" filter="url(#fireGlow)">
+        <!-- 循環する龍珠（腹の球と同じ見た目） -->
+        <!-- メインの球 -->
+        <circle r="7" fill="url(#dragonBall)" filter="url(#fireGlow)">
           <animateMotion dur="8s" repeatCount="indefinite">
             <mpath href="#dragonPath"/>
           </animateMotion>
-          <animate attributeName="opacity" values="0.75;1;0.75" dur="1.5s" repeatCount="indefinite"/>
+          <animate attributeName="r" values="6;8;6" dur="3s" repeatCount="indefinite"/>
         </circle>
-        <!-- 追従粒子2 -->
-        <circle r="2.8" fill="rgba(255,100,30,0.75)" filter="url(#glow)">
-          <animateMotion dur="8s" repeatCount="indefinite" begin="2s">
+        <!-- 球の内核（白熱） -->
+        <circle r="3" fill="rgba(255,220,120,0.9)">
+          <animateMotion dur="8s" repeatCount="indefinite">
             <mpath href="#dragonPath"/>
           </animateMotion>
-          <animate attributeName="opacity" values="0.6;0.9;0.6" dur="1.2s" repeatCount="indefinite"/>
+          <animate attributeName="r" values="2;3.5;2" dur="2s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" repeatCount="indefinite"/>
         </circle>
-        <!-- 追従粒子3 -->
-        <circle r="2" fill="rgba(255,140,50,0.6)">
-          <animateMotion dur="8s" repeatCount="indefinite" begin="4s">
+        <!-- 球の外側の揺らぎ -->
+        <circle r="10" fill="none" stroke="rgba(255,100,30,0.2)" stroke-width="0.8">
+          <animateMotion dur="8s" repeatCount="indefinite">
             <mpath href="#dragonPath"/>
           </animateMotion>
-          <animate attributeName="opacity" values="0.5;0.85;0.5" dur="1s" repeatCount="indefinite"/>
+          <animate attributeName="r" values="9;13;9" dur="3s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.15;0.05;0.15" dur="3s" repeatCount="indefinite"/>
         </circle>
 
         <!-- ドラゴンボディのラベル -->
@@ -2500,26 +2503,30 @@
           <animate attributeName="opacity" values="0.15;0.05;0.15" dur="3s" repeatCount="indefinite"/>
         </circle>
 
-        <!-- 循環する火の粒子（ゆっくり、赤く輝く） -->
-        <!-- 楕円パスを使うためpath化 -->
+        <!-- 循環する龍珠（腹の球と同じ見た目） -->
         <path id="sideCircuitPath" d="M100,40 A40,110 0 1,1 99.99,40" fill="none" stroke="none"/>
-        <circle r="6" fill="rgba(255,80,20,0.95)" filter="url(#sideFireGlow)">
-          <animateMotion dur="10s" repeatCount="indefinite" rotate="auto">
+        <!-- メインの球 -->
+        <circle r="8" fill="url(#sideFireBall)" filter="url(#sideFireGlow)">
+          <animateMotion dur="10s" repeatCount="indefinite">
             <mpath href="#sideCircuitPath"/>
           </animateMotion>
-          <animate attributeName="opacity" values="0.8;1;0.8" dur="1.5s" repeatCount="indefinite"/>
+          <animate attributeName="r" values="7;9;7" dur="3s" repeatCount="indefinite"/>
         </circle>
-        <!-- 赤い輝きの尾 -->
-        <circle r="4" fill="rgba(255,120,40,0.7)" filter="url(#sideGlow)">
-          <animateMotion dur="10s" repeatCount="indefinite" begin="2.5s" rotate="auto">
+        <!-- 球の内核 -->
+        <circle r="3.5" fill="rgba(255,220,120,0.9)">
+          <animateMotion dur="10s" repeatCount="indefinite">
             <mpath href="#sideCircuitPath"/>
           </animateMotion>
-          <animate attributeName="opacity" values="0.6;0.9;0.6" dur="1.2s" repeatCount="indefinite"/>
+          <animate attributeName="r" values="2.5;4;2.5" dur="2s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" repeatCount="indefinite"/>
         </circle>
-        <circle r="2.5" fill="rgba(255,160,60,0.6)">
-          <animateMotion dur="10s" repeatCount="indefinite" begin="5s" rotate="auto">
+        <!-- 球の外側の揺らぎ -->
+        <circle r="12" fill="none" stroke="rgba(255,100,30,0.2)" stroke-width="0.8">
+          <animateMotion dur="10s" repeatCount="indefinite">
             <mpath href="#sideCircuitPath"/>
           </animateMotion>
+          <animate attributeName="r" values="10;15;10" dur="3s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.15;0.05;0.15" dur="3s" repeatCount="indefinite"/>
         </circle>
 
         <!-- 任脈/督脈ラベル -->
