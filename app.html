@@ -1735,6 +1735,91 @@
   @media (max-width: 600px) {
     .screensaver-overlay .screensaver-body { width: 260px; height: 390px; }
   }
+
+  /* ===== 古の地図 (ANCIENT MAPS) ===== */
+  .maps-nav { display:flex; flex-wrap:wrap; gap:0.4rem; justify-content:center; margin:1.5rem 0; }
+  .maps-nav button { background:rgba(255,255,255,0.04); border:1px solid rgba(201,169,97,0.15); color:var(--text-dim); padding:0.4rem 0.7rem; border-radius:6px; font-size:0.7rem; cursor:pointer; transition:all 0.3s; letter-spacing:0.05em; }
+  .maps-nav button:hover, .maps-nav button.m-active { background:rgba(201,169,97,0.12); color:var(--gold); border-color:rgba(201,169,97,0.4); }
+  .maps-panel { display:none; padding:1rem 0; }
+  .maps-panel.m-visible { display:block; }
+
+  /* Enneagram */
+  .ennea-circle { position:relative; width:300px; height:300px; margin:1rem auto; }
+  .ennea-node { position:absolute; width:56px; height:56px; border-radius:50%; border:2px solid rgba(201,169,97,0.3); display:flex; align-items:center; justify-content:center; flex-direction:column; font-size:0.6rem; color:var(--text-dim); cursor:pointer; transition:all 0.3s; background:rgba(10,10,10,0.8); }
+  .ennea-node:hover, .ennea-node.ennea-selected { border-color:var(--gold); color:var(--gold); background:rgba(201,169,97,0.1); }
+  .ennea-node .ennea-num { font-size:1rem; font-weight:700; color:var(--gold); line-height:1; }
+  .ennea-node .ennea-label { font-size:0.5rem; text-align:center; line-height:1.1; margin-top:2px; }
+
+  /* I Ching */
+  .bagua-circle { position:relative; width:280px; height:280px; margin:1rem auto; }
+  .bagua-node { position:absolute; text-align:center; cursor:pointer; transition:all 0.3s; }
+  .bagua-node:hover { transform:scale(1.15); }
+  .bagua-symbol { font-size:2rem; line-height:1; }
+  .bagua-name { font-size:0.6rem; color:var(--text-dim); margin-top:2px; }
+  .coin-area { text-align:center; margin:1.5rem 0; }
+  .coin-btn { background:rgba(201,169,97,0.15); border:1px solid rgba(201,169,97,0.3); color:var(--gold); padding:0.8rem 2rem; border-radius:8px; font-size:0.9rem; cursor:pointer; }
+  .coin-result { margin-top:1rem; font-size:1.2rem; color:var(--gold); min-height:2rem; }
+  .trigram-display { font-size:2.5rem; letter-spacing:0.3rem; }
+
+  /* Tarot */
+  .tarot-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(130px,1fr)); gap:0.6rem; margin:1rem 0; }
+  .tarot-card { background:rgba(255,255,255,0.03); border:1px solid rgba(201,169,97,0.12); border-radius:8px; padding:0.8rem; cursor:pointer; transition:all 0.3s; text-align:center; }
+  .tarot-card:hover { border-color:var(--gold); background:rgba(201,169,97,0.06); }
+  .tarot-num { font-size:0.65rem; color:var(--text-dim); }
+  .tarot-symbol { font-size:1.8rem; margin:0.3rem 0; }
+  .tarot-name { font-size:0.75rem; color:var(--gold); font-weight:600; }
+  .tarot-key { font-size:0.6rem; color:var(--text-dim); margin-top:0.3rem; line-height:1.3; }
+
+  /* Ten Ox */
+  .tenox-list { display:flex; flex-direction:column; gap:0.8rem; margin:1rem 0; }
+  .tenox-item { display:flex; align-items:flex-start; gap:1rem; padding:1rem; border:1px solid rgba(201,169,97,0.1); border-radius:8px; cursor:pointer; transition:all 0.3s; background:rgba(255,255,255,0.02); }
+  .tenox-item:hover { border-color:rgba(201,169,97,0.3); }
+  .tenox-item.tenox-current { border-color:var(--gold); background:rgba(201,169,97,0.08); }
+  .tenox-num { font-size:1.8rem; color:var(--gold); font-weight:700; min-width:2.5rem; text-align:center; line-height:1; }
+  .tenox-body h4 { color:var(--gold); font-size:0.85rem; margin-bottom:0.3rem; }
+  .tenox-body p { font-size:0.75rem; color:var(--text-dim); line-height:1.6; }
+  .tenox-tag { display:inline-block; font-size:0.6rem; padding:0.15rem 0.5rem; border-radius:10px; margin-top:0.3rem; }
+  .tenox-tag.tag-jitsu { background:rgba(200,50,50,0.15); color:#e07070; }
+  .tenox-tag.tag-kyo { background:rgba(100,180,255,0.15); color:#80c0ff; }
+  .tenox-tag.tag-unity { background:rgba(201,169,97,0.15); color:var(--gold); }
+
+  /* Five Elements */
+  .gogyou-svg { display:block; margin:1rem auto; }
+  .gogyou-cards { display:grid; grid-template-columns:1fr 1fr; gap:0.6rem; margin:1rem 0; }
+  .gogyou-card { padding:0.8rem; border:1px solid rgba(201,169,97,0.12); border-radius:8px; background:rgba(255,255,255,0.02); }
+  .gogyou-card h4 { font-size:0.85rem; margin-bottom:0.3rem; }
+  .gogyou-card p { font-size:0.7rem; color:var(--text-dim); line-height:1.6; }
+  .gogyou-row { font-size:0.65rem; color:var(--text-dim); margin-top:0.2rem; }
+
+  /* Daskalos */
+  .daskalos-visual { position:relative; width:280px; height:280px; margin:1.5rem auto; }
+  .daskalos-ring { position:absolute; border-radius:50%; border:1px solid; display:flex; align-items:center; justify-content:center; }
+  .daskalos-ring.outer { width:280px; height:280px; top:0; left:0; border-color:rgba(100,200,100,0.3); }
+  .daskalos-ring.middle { width:186px; height:186px; top:47px; left:47px; border-color:rgba(200,100,100,0.3); }
+  .daskalos-ring.inner { width:100px; height:100px; top:90px; left:90px; border-color:rgba(100,150,255,0.3); }
+  .daskalos-label { position:absolute; font-size:0.6rem; color:var(--text-dim); text-align:center; }
+  .daskalos-cards { display:flex; flex-direction:column; gap:0.6rem; margin:1rem 0; }
+  .daskalos-card { padding:0.8rem; border-left:3px solid; border-radius:0 8px 8px 0; background:rgba(255,255,255,0.02); }
+
+  /* Chakra Map */
+  .chakra-map-list { display:flex; flex-direction:column; gap:0.5rem; margin:1rem 0; }
+  .chakra-map-item { display:flex; align-items:center; gap:0.8rem; padding:0.7rem; border:1px solid rgba(255,255,255,0.06); border-radius:8px; }
+  .chakra-map-dot { width:28px; height:28px; border-radius:50%; flex-shrink:0; }
+  .chakra-map-text h4 { font-size:0.8rem; margin-bottom:0.15rem; }
+  .chakra-map-text p { font-size:0.65rem; color:var(--text-dim); line-height:1.4; }
+  .dantian-label { font-size:0.55rem; padding:0.15rem 0.5rem; border-radius:10px; background:rgba(201,169,97,0.12); color:var(--gold); margin-left:auto; white-space:nowrap; }
+
+  .maps-desc { font-size:0.8rem; color:var(--text-dim); line-height:1.8; text-align:center; margin:0.5rem 0 1.5rem; }
+  .maps-section-title { font-size:1rem; color:var(--gold); text-align:center; margin-bottom:0.3rem; }
+  .maps-section-sub { font-size:0.7rem; color:var(--text-dim); text-align:center; margin-bottom:1rem; line-height:1.5; }
+
+  @media (max-width: 600px) {
+    .maps-nav button { font-size:0.6rem; padding:0.3rem 0.5rem; }
+    .ennea-circle { width:260px; height:260px; }
+    .ennea-node { width:48px; height:48px; }
+    .gogyou-cards { grid-template-columns:1fr; }
+    .tarot-grid { grid-template-columns:repeat(auto-fill, minmax(100px,1fr)); }
+  }
 </style>
 </head>
 <body>
@@ -1748,6 +1833,7 @@
   <button onclick="switchSection('temple',this)">神殿</button>
   <button onclick="switchSection('practice',this)">修練</button>
   <button onclick="switchSection('dreams',this)">夢</button>
+  <button onclick="switchSection('maps',this)">古の地図</button>
   <button onclick="switchSection('archive',this)">記録</button>
 </nav>
 
@@ -3520,6 +3606,128 @@
   </div>
 </div>
 
+<!-- ===== 古の地図 (ANCIENT MAPS) ===== -->
+<div id="maps" class="section">
+  <div style="max-width:700px;margin:0 auto;padding:0 1rem;">
+    <h1 class="section-title">古の地図</h1>
+    <p class="section-subtitle">七つの鏡<br>異なる文明が残した、自分を映す道具</p>
+
+    <div class="maps-nav">
+      <button class="m-active" onclick="switchMapsPanel('enneagram',this)">エニアグラム</button>
+      <button onclick="switchMapsPanel('iching',this)">易経</button>
+      <button onclick="switchMapsPanel('tarot',this)">タロット</button>
+      <button onclick="switchMapsPanel('tenox',this)">十牛図</button>
+      <button onclick="switchMapsPanel('gogyou',this)">五行</button>
+      <button onclick="switchMapsPanel('daskalos',this)">ダスカロス</button>
+      <button onclick="switchMapsPanel('chakramap',this)">チャクラ</button>
+    </div>
+
+    <!-- ===== 1. エニアグラム ===== -->
+    <div id="mp-enneagram" class="maps-panel m-visible">
+      <div class="maps-section-title">エニアグラム</div>
+      <div class="maps-section-sub">9つの囚われ — そして手放し方<br>スーフィー/グルジェフの伝統</div>
+      <div class="ennea-circle" id="enneaCircle"></div>
+      <div class="maps-desc">タップして詳細を見る。長押しで「自分のタイプ」に設定</div>
+    </div>
+
+    <!-- ===== 2. 易経 ===== -->
+    <div id="mp-iching" class="maps-panel">
+      <div class="maps-section-title">易経</div>
+      <div class="maps-section-sub">陰と陽 — 虚と実の根源<br>伏羲から3000年の智慧</div>
+      <div class="bagua-circle" id="baguaCircle"></div>
+      <p class="maps-desc">陽(━)=実=する力　　陰(⚋)=虚=受ける力<br>太極=虚実が分かれる前の一なるもの</p>
+      <div class="coin-area">
+        <button class="coin-btn" id="coinBtn" onclick="throwCoin()">☯ 卦を立てる</button>
+        <div class="coin-result" id="coinResult"></div>
+        <div class="trigram-display" id="trigramDisplay"></div>
+      </div>
+    </div>
+
+    <!-- ===== 3. タロット大アルカナ ===== -->
+    <div id="mp-tarot" class="maps-panel">
+      <div class="maps-section-title">タロット大アルカナ</div>
+      <div class="maps-section-sub">22の道 — 生命の樹のパス<br>愚者から世界へ、虚の旅</div>
+      <div class="tarot-grid" id="tarotGrid"></div>
+    </div>
+
+    <!-- ===== 4. 十牛図 ===== -->
+    <div id="mp-tenox" class="maps-panel">
+      <div class="maps-section-title">十牛図</div>
+      <div class="maps-section-sub">禅の覚醒10段階<br>タップで「今ここ」をマーク</div>
+      <div class="tenox-list" id="tenoxList"></div>
+    </div>
+
+    <!-- ===== 5. 五行 ===== -->
+    <div id="mp-gogyou" class="maps-panel">
+      <div class="maps-section-title">五行</div>
+      <div class="maps-section-sub">木火土金水 — 五つの力の循環<br>感情・臓器・季節・声の虚</div>
+      <svg class="gogyou-svg" viewBox="0 0 300 280" width="300" height="280">
+        <!-- Pentagon connections - 相生 (generating) -->
+        <line x1="150" y1="30" x2="270" y2="120" stroke="rgba(201,169,97,0.2)" stroke-width="1"/>
+        <line x1="270" y1="120" x2="225" y2="250" stroke="rgba(201,169,97,0.2)" stroke-width="1"/>
+        <line x1="225" y1="250" x2="75" y2="250" stroke="rgba(201,169,97,0.2)" stroke-width="1"/>
+        <line x1="75" y1="250" x2="30" y2="120" stroke="rgba(201,169,97,0.2)" stroke-width="1"/>
+        <line x1="30" y1="120" x2="150" y2="30" stroke="rgba(201,169,97,0.2)" stroke-width="1"/>
+        <!-- Star connections - 相剋 (overcoming) -->
+        <line x1="150" y1="30" x2="225" y2="250" stroke="rgba(200,60,60,0.15)" stroke-width="1" stroke-dasharray="4,4"/>
+        <line x1="225" y1="250" x2="30" y2="120" stroke="rgba(200,60,60,0.15)" stroke-width="1" stroke-dasharray="4,4"/>
+        <line x1="30" y1="120" x2="270" y2="120" stroke="rgba(200,60,60,0.15)" stroke-width="1" stroke-dasharray="4,4"/>
+        <line x1="270" y1="120" x2="75" y2="250" stroke="rgba(200,60,60,0.15)" stroke-width="1" stroke-dasharray="4,4"/>
+        <line x1="75" y1="250" x2="150" y2="30" stroke="rgba(200,60,60,0.15)" stroke-width="1" stroke-dasharray="4,4"/>
+        <!-- Nodes -->
+        <circle cx="150" cy="30" r="22" fill="rgba(220,50,50,0.15)" stroke="#e06060" stroke-width="1.5"/>
+        <text x="150" y="27" text-anchor="middle" fill="#e06060" font-size="14">🔥</text>
+        <text x="150" y="42" text-anchor="middle" fill="#e06060" font-size="8">火</text>
+        <circle cx="270" cy="120" r="22" fill="rgba(200,180,50,0.15)" stroke="#c8b832" stroke-width="1.5"/>
+        <text x="270" y="117" text-anchor="middle" fill="#c8b832" font-size="14">🌍</text>
+        <text x="270" y="132" text-anchor="middle" fill="#c8b832" font-size="8">土</text>
+        <circle cx="225" cy="250" r="22" fill="rgba(200,200,200,0.15)" stroke="#c0c0c0" stroke-width="1.5"/>
+        <text x="225" y="247" text-anchor="middle" fill="#c0c0c0" font-size="14">🪙</text>
+        <text x="225" y="262" text-anchor="middle" fill="#c0c0c0" font-size="8">金</text>
+        <circle cx="75" cy="250" r="22" fill="rgba(60,100,200,0.15)" stroke="#5080d0" stroke-width="1.5"/>
+        <text x="75" y="247" text-anchor="middle" fill="#5080d0" font-size="14">💧</text>
+        <text x="75" y="262" text-anchor="middle" fill="#5080d0" font-size="8">水</text>
+        <circle cx="30" cy="120" r="22" fill="rgba(60,180,80,0.15)" stroke="#40b050" stroke-width="1.5"/>
+        <text x="30" y="117" text-anchor="middle" fill="#40b050" font-size="14">🌳</text>
+        <text x="30" y="132" text-anchor="middle" fill="#40b050" font-size="8">木</text>
+        <!-- Labels -->
+        <text x="150" y="7" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="7">心/喜/夏/南</text>
+        <text x="295" y="110" text-anchor="start" fill="rgba(255,255,255,0.3)" font-size="7">脾/思/土用</text>
+        <text x="245" y="270" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="7">肺/悲/秋/西</text>
+        <text x="55" y="270" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="7">腎/恐/冬/北</text>
+        <text x="5" y="110" text-anchor="start" fill="rgba(255,255,255,0.3)" font-size="7">肝/怒/春/東</text>
+      </svg>
+      <div class="gogyou-cards" id="gogyouCards"></div>
+    </div>
+
+    <!-- ===== 6. ダスカロス三体 ===== -->
+    <div id="mp-daskalos" class="maps-panel">
+      <div class="maps-section-title">ダスカロスの三体</div>
+      <div class="maps-section-sub">物質・感情・思考 — 三つの衣<br>キプロスの神秘家の教え</div>
+      <div class="daskalos-visual">
+        <div class="daskalos-ring outer" style="background:radial-gradient(circle,transparent 60%,rgba(100,200,100,0.05) 100%);">
+          <span class="daskalos-label" style="bottom:-18px;left:50%;transform:translateX(-50%);color:rgba(100,200,100,0.6);">物質体+エーテルダブル</span>
+        </div>
+        <div class="daskalos-ring middle" style="background:radial-gradient(circle,transparent 50%,rgba(200,100,100,0.05) 100%);">
+          <span class="daskalos-label" style="bottom:-16px;left:50%;transform:translateX(-50%);color:rgba(200,100,100,0.6);font-size:0.55rem;">サイキック体</span>
+        </div>
+        <div class="daskalos-ring inner" style="background:radial-gradient(circle,transparent 40%,rgba(100,150,255,0.08) 100%);">
+          <span style="font-size:0.5rem;color:rgba(100,150,255,0.7);text-align:center;">ノエ<br>ティック</span>
+        </div>
+      </div>
+      <div class="daskalos-cards" id="daskalosCards"></div>
+    </div>
+
+    <!-- ===== 7. チャクラ→三丹田 ===== -->
+    <div id="mp-chakramap" class="maps-panel">
+      <div class="maps-section-title">チャクラ → 三丹田</div>
+      <div class="maps-section-sub">7つのエネルギーセンターが3つに統合される<br>ヒンドゥー × 道教</div>
+      <div class="chakra-map-list" id="chakraMapList"></div>
+    </div>
+
+  </div>
+</div>
+
 <!-- ===== 記録 ===== -->
 <div id="archive" class="section">
   <div class="archive-container">
@@ -5149,6 +5357,280 @@ setTimeout(initWisdomDots, 100);
   window.addEventListener('resize', () => {
     if (overlay.classList.contains('active')) positionCrystals();
   });
+})();
+
+// ===== 古の地図 (ANCIENT MAPS) =====
+(function(){
+  // --- Maps Panel Switching ---
+  window.switchMapsPanel = function(id, btn) {
+    document.querySelectorAll('.maps-panel').forEach(p => p.classList.remove('m-visible'));
+    document.querySelectorAll('.maps-nav button').forEach(b => b.classList.remove('m-active'));
+    var el = document.getElementById('mp-' + id);
+    if (el) el.classList.add('m-visible');
+    if (btn) btn.classList.add('m-active');
+  };
+
+  // --- State integration ---
+  function getMapsState() {
+    try { var s = JSON.parse(localStorage.getItem('korin-state') || '{}'); return s.maps || {}; } catch(e) { return {}; }
+  }
+  function saveMapsState(maps) {
+    try {
+      var s = JSON.parse(localStorage.getItem('korin-state') || '{}');
+      s.maps = Object.assign(s.maps || {}, maps);
+      localStorage.setItem('korin-state', JSON.stringify(s));
+    } catch(e) {}
+  }
+
+  // ===== 1. ENNEAGRAM =====
+  var enneaTypes = [
+    {n:1, name:'改革する人', passion:'怒り', kyo:'不完全を許す', detail:'完璧を求め、正しくあろうとする。内なる批判者が常に語りかける。', kabbalah:'ゲブラーの過剰 — 裁きすぎ', practice:'「これでいい」を10回唱える。不完全なまま置いておく練習。'},
+    {n:2, name:'助ける人', passion:'プライド', kyo:'求められなくても存在していい', detail:'他者の必要を満たすことで自分の価値を証明する。与えることでしか愛されないと信じている。', kabbalah:'★ケセド過剰 — 与えすぎ', practice:'一日何も手伝わない時間を作る。「何もしない自分」に留まる。'},
+    {n:3, name:'達成する人', passion:'虚栄', kyo:'何も達成しなくても自分は自分', detail:'成果と肩書きで自分を定義する。止まることが恐い。', kabbalah:'ティファレトの歪み — 外面だけの輝き', practice:'結果を出さない一日を過ごす。「する」を手放して「いる」だけ。'},
+    {n:4, name:'個性的な人', passion:'嫉妬', kyo:'普通でいい', detail:'特別でありたい。自分だけが深く感じていると信じる。欠けたものを追い求める。', kabbalah:'ネツァクの歪み — 感情への溺れ', practice:'今あるものを数える。平凡な一日を味わう。'},
+    {n:5, name:'調べる人', passion:'貪欲（知識の）', kyo:'知らなくていい', detail:'知識で世界から身を守る。理解してからでないと動けない。', kabbalah:'ホドの過剰 — 頭だけで生きる', practice:'調べずに飛び込む。体で感じてから頭を使う。'},
+    {n:6, name:'忠実な人', passion:'恐れ', kyo:'不安のまま進む', detail:'安全を確認してからでないと動けない。最悪を想定し続ける。', kabbalah:'イェソドの歪み — 基盤への不安', practice:'恐れを感じたまま一歩踏み出す。恐れを追い出さず同居する。'},
+    {n:7, name:'熱中する人', passion:'暴食（体験の）', kyo:'退屈に留まる', detail:'次の楽しいことを探し続ける。痛みを避けるために動き続ける。', kabbalah:'ネツァクの過剰 — 快への執着', practice:'何もしない時間に座る。退屈を「虚」として味わう。'},
+    {n:8, name:'挑戦する人', passion:'色欲（支配の）', kyo:'弱さを見せる', detail:'力でコントロールする。弱さを見せることは死を意味する。', kabbalah:'★ゲブラーの過剰 — 力で切りすぎ', practice:'「助けて」と言う。鎧を脱ぐ。柔らかさを許す。'},
+    {n:9, name:'平和をもたらす人', passion:'怠惰', kyo:'立ち上がる', detail:'衝突を避けて自分を消す。合わせることで平和を保つ。', kabbalah:'マルクトの歪み — 自分の存在を薄める', practice:'「嫌だ」を言う。自分の意見を出す。立ち上がって声を出す。'}
+  ];
+  var enneaCircle = document.getElementById('enneaCircle');
+  if (enneaCircle) {
+    var ms = getMapsState();
+    var selType = ms.enneagram || 0;
+    var r = 122, cx = 150, cy = 150;
+    enneaTypes.forEach(function(t, i) {
+      var angle = (i * 40 - 90) * Math.PI / 180;
+      var x = cx + r * Math.cos(angle) - 28;
+      var y = cy + r * Math.sin(angle) - 28;
+      var node = document.createElement('div');
+      node.className = 'ennea-node' + (selType === t.n ? ' ennea-selected' : '');
+      node.style.left = x + 'px';
+      node.style.top = y + 'px';
+      node.innerHTML = '<span class="ennea-num">' + t.n + '</span><span class="ennea-label">' + t.name.substring(0,4) + '</span>';
+      node.onclick = function() { showEnneaModal(t); };
+      var timer;
+      node.addEventListener('touchstart', function(){ timer = setTimeout(function(){ selectEnneaType(t.n); }, 600); });
+      node.addEventListener('touchend', function(){ clearTimeout(timer); });
+      enneaCircle.appendChild(node);
+    });
+  }
+  function selectEnneaType(n) {
+    saveMapsState({enneagram: n});
+    document.querySelectorAll('.ennea-node').forEach(function(nd, i){ nd.classList.toggle('ennea-selected', enneaTypes[i].n === n); });
+  }
+  function showEnneaModal(t) {
+    var html = '<div style="text-align:center;margin-bottom:1rem;"><span style="font-size:2.5rem;color:var(--gold);">' + t.n + '</span><br><span style="font-size:1.1rem;color:var(--gold);">' + t.name + '</span></div>';
+    html += '<div class="modal-section-label">囚われ</div><p style="color:#e07070;font-size:0.85rem;">' + t.passion + '</p>';
+    html += '<div class="modal-section-label" style="margin-top:1rem;">虚の道</div><p style="color:#80c0ff;font-size:0.85rem;">' + t.kyo + '</p>';
+    html += '<div class="modal-section-label" style="margin-top:1rem;">性質</div><p style="font-size:0.8rem;color:var(--text-dim);line-height:1.7;">' + t.detail + '</p>';
+    html += '<div class="modal-section-label" style="margin-top:1rem;">カバラ対応</div><p style="font-size:0.8rem;color:var(--gold);line-height:1.7;">' + t.kabbalah + '</p>';
+    html += '<div class="modal-section-label" style="margin-top:1rem;">実践</div><p style="font-size:0.8rem;color:var(--text-dim);line-height:1.7;">' + t.practice + '</p>';
+    showMapModal(html);
+  }
+
+  // ===== 2. I CHING =====
+  var baguaData = [
+    {sym:'☰', name:'乾', meaning:'天', nature:'創造', vr:'実の極み — 強く動く力', angle:90},
+    {sym:'☱', name:'兌', meaning:'沢', nature:'悦び', vr:'実 — 喜びを外に出す', angle:45},
+    {sym:'☲', name:'離', meaning:'火', nature:'明晰', vr:'実 — 光で照らす', angle:0},
+    {sym:'☳', name:'震', meaning:'雷', nature:'動', vr:'実 — 衝撃で動かす', angle:315},
+    {sym:'☴', name:'巽', meaning:'風', nature:'柔順', vr:'虚 — 柔らかく浸透する', angle:270},
+    {sym:'☵', name:'坎', meaning:'水', nature:'陥る', vr:'虚 — 低きに流れる', angle:225},
+    {sym:'☶', name:'艮', meaning:'山', nature:'止', vr:'虚 — 動かず留まる', angle:180},
+    {sym:'☷', name:'坤', meaning:'地', nature:'受容', vr:'虚の極み — 全てを受け入れる', angle:135}
+  ];
+  var baguaCircle = document.getElementById('baguaCircle');
+  if (baguaCircle) {
+    var br = 110, bcx = 140, bcy = 140;
+    baguaData.forEach(function(b) {
+      var angle = b.angle * Math.PI / 180;
+      var x = bcx + br * Math.cos(angle) - 20;
+      var y = bcy - br * Math.sin(angle) - 20;
+      var node = document.createElement('div');
+      node.className = 'bagua-node';
+      node.style.left = x + 'px';
+      node.style.top = y + 'px';
+      node.innerHTML = '<div class="bagua-symbol">' + b.sym + '</div><div class="bagua-name">' + b.name + '(' + b.meaning + ')</div>';
+      node.onclick = function() {
+        showMapModal('<div style="text-align:center;font-size:3rem;">' + b.sym + '</div><div style="text-align:center;font-size:1.2rem;color:var(--gold);margin:0.5rem 0;">' + b.name + ' — ' + b.meaning + '</div><div class="modal-section-label">性質</div><p style="font-size:0.85rem;color:var(--text-dim);">' + b.nature + '</p><div class="modal-section-label" style="margin-top:1rem;">虚実</div><p style="font-size:0.85rem;color:var(--text-dim);">' + b.vr + '</p>');
+      };
+      baguaCircle.appendChild(node);
+    });
+    // Taijitu center
+    var tj = document.createElement('div');
+    tj.style.cssText = 'position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:3rem;opacity:0.2;';
+    tj.textContent = '☯';
+    baguaCircle.appendChild(tj);
+  }
+
+  // Coin oracle
+  var coinLines = [];
+  window.throwCoin = function() {
+    if (coinLines.length >= 3) coinLines = [];
+    var line = Math.random() < 0.5 ? 1 : 0; // 1=yang, 0=yin
+    coinLines.push(line);
+    var display = coinLines.map(function(l){ return l ? '━━━' : '━ ━'; }).join('\n');
+    document.getElementById('trigramDisplay').innerText = display;
+    if (coinLines.length === 3) {
+      var idx = coinLines[0]*4 + coinLines[1]*2 + coinLines[2];
+      var triNames = ['坤☷','艮☶','坎☵','巽☴','震☳','離☲','兌☱','乾☰'];
+      var tri = triNames[idx];
+      document.getElementById('coinResult').innerHTML = '卦: <span style="font-size:1.5rem;">' + tri + '</span>';
+      var matched = baguaData.find(function(b){ return tri.indexOf(b.name) >= 0; });
+      if (matched) {
+        document.getElementById('coinResult').innerHTML += '<br><span style="font-size:0.8rem;color:var(--text-dim);">' + matched.vr + '</span>';
+      }
+    } else {
+      document.getElementById('coinResult').textContent = (3 - coinLines.length) + '回残り';
+    }
+  };
+
+  // ===== 3. TAROT =====
+  var tarotData = [
+    {n:'0', name:'愚者', sym:'🃏', kyo:'究極の虚 — 何も持たず崖から飛ぶ', path:'ケテル↔コクマー'},
+    {n:'I', name:'魔術師', sym:'🪄', kyo:'意図の設定 — 実の始まり', path:'ケテル↔ビナー'},
+    {n:'II', name:'女教皇', sym:'🌙', kyo:'直感 — 虚の知恵', path:'ケテル↔ティファレト'},
+    {n:'III', name:'女帝', sym:'👑', kyo:'ケセド的な豊穣', path:'コクマー↔ビナー'},
+    {n:'IV', name:'皇帝', sym:'🏛️', kyo:'ゲブラー的な秩序', path:'コクマー↔ティファレト'},
+    {n:'V', name:'法王', sym:'🔑', kyo:'教え=実、学び=虚', path:'コクマー↔ケセド'},
+    {n:'VI', name:'恋人', sym:'💕', kyo:'選択 — 実の分岐点', path:'ビナー↔ティファレト'},
+    {n:'VII', name:'戦車', sym:'⚡', kyo:'意志の力 — 実', path:'ビナー↔ゲブラー'},
+    {n:'VIII', name:'力', sym:'🦁', kyo:'虚の力 — ライオンを掴まず触れるだけ', path:'ケセド↔ゲブラー'},
+    {n:'IX', name:'隠者', sym:'🏮', kyo:'内なる光 — 虚の照らし', path:'ケセド↔ティファレト'},
+    {n:'X', name:'運命の輪', sym:'☸️', kyo:'変化 — 虚実の循環', path:'ケセド↔ネツァク'},
+    {n:'XI', name:'正義', sym:'⚖️', kyo:'ゲブラーの刃', path:'ゲブラー↔ティファレト'},
+    {n:'XII', name:'吊るされた男', sym:'🔻', kyo:'明け渡し — 虚', path:'ゲブラー↔ホド'},
+    {n:'XIII', name:'死神', sym:'🦋', kyo:'手放し — 虚への門', path:'ティファレト↔ネツァク'},
+    {n:'XIV', name:'節制', sym:'🏺', kyo:'ティファレト — バランス', path:'ティファレト↔イェソド'},
+    {n:'XV', name:'悪魔', sym:'⛓️', kyo:'囚われ — 実の執着', path:'ティファレト↔ホド'},
+    {n:'XVI', name:'塔', sym:'💥', kyo:'強制的な虚 — 壊される', path:'ネツァク↔ホド'},
+    {n:'XVII', name:'星', sym:'⭐', kyo:'希望 — 虚の中の光', path:'ネツァク↔イェソド'},
+    {n:'XVIII', name:'月', sym:'🌊', kyo:'幻想 — 虚と実の境界', path:'ネツァク↔マルクト'},
+    {n:'XIX', name:'太陽', sym:'☀️', kyo:'覚醒 — 虚の完成', path:'ホド↔イェソド'},
+    {n:'XX', name:'審判', sym:'🎺', kyo:'復活 — 新たな虚', path:'ホド↔マルクト'},
+    {n:'XXI', name:'世界', sym:'🌍', kyo:'統合 — 虚実一体', path:'イェソド↔マルクト'}
+  ];
+  var tarotGrid = document.getElementById('tarotGrid');
+  if (tarotGrid) {
+    tarotData.forEach(function(t) {
+      var card = document.createElement('div');
+      card.className = 'tarot-card';
+      card.innerHTML = '<div class="tarot-num">' + t.n + '</div><div class="tarot-symbol">' + t.sym + '</div><div class="tarot-name">' + t.name + '</div><div class="tarot-key">' + t.kyo.substring(0,20) + '</div>';
+      card.onclick = function() {
+        showMapModal('<div style="text-align:center;font-size:3rem;">' + t.sym + '</div><div style="text-align:center;"><span style="font-size:0.7rem;color:var(--text-dim);">' + t.n + '</span><br><span style="font-size:1.2rem;color:var(--gold);">' + t.name + '</span></div><div class="modal-section-label" style="margin-top:1rem;">虚実の鍵</div><p style="font-size:0.85rem;color:var(--text-dim);line-height:1.7;">' + t.kyo + '</p><div class="modal-section-label" style="margin-top:1rem;">生命の樹のパス</div><p style="font-size:0.85rem;color:var(--gold);">' + t.path + '</p>');
+      };
+      tarotGrid.appendChild(card);
+    });
+  }
+
+  // ===== 4. TEN OX-HERDING =====
+  var tenoxData = [
+    {n:1, title:'尋牛', sub:'牛を探す', desc:'何かが足りないと気づく。探し始める。まだ何を探しているかもわからない。', tag:'実', tagClass:'tag-jitsu'},
+    {n:2, title:'見跡', sub:'足跡を見つける', desc:'経典や師の言葉に出会う。手がかりを見つけるが、まだ本質は見えない。', tag:'実', tagClass:'tag-jitsu'},
+    {n:3, title:'見牛', sub:'牛を見る', desc:'本質を垣間見る。一瞬の体験。「あ、これか」という気づき。', tag:'実→虚', tagClass:'tag-jitsu'},
+    {n:4, title:'得牛', sub:'牛を捕まえる', desc:'掴む。まだ暴れる。エゴとの格闘。手放したいのに掴んでしまう。', tag:'実', tagClass:'tag-jitsu'},
+    {n:5, title:'牧牛', sub:'牛を飼いならす', desc:'少しずつ力みが取れる。掴む力が緩む。実から虚への移行が始まる。', tag:'実→虚', tagClass:'tag-jitsu'},
+    {n:6, title:'騎牛帰家', sub:'牛に乗って帰る', desc:'もう手綱を引かなくていい。牛（本質）が勝手に家に帰る。虚の安定。', tag:'虚', tagClass:'tag-kyo'},
+    {n:7, title:'忘牛存人', sub:'牛を忘れる', desc:'対象がなくなる。「悟り」を求めていた自分がいなくなる。', tag:'虚', tagClass:'tag-kyo'},
+    {n:8, title:'人牛倶忘', sub:'全て空', desc:'円相○。自分も牛もない。虚の完成。ただ在る。', tag:'虚', tagClass:'tag-kyo'},
+    {n:9, title:'返本還源', sub:'源に帰る', desc:'自然のまま。花は咲き、水は流れる。虚が当たり前になる。', tag:'虚実一体', tagClass:'tag-unity'},
+    {n:10, title:'入鄽垂手', sub:'街に帰る', desc:'虚のまま人の中に入る。何も持たず、何も求めず、ただ手を差し伸べる。虚の経営。虚の子育て。', tag:'虚実一体', tagClass:'tag-unity'}
+  ];
+  var tenoxList = document.getElementById('tenoxList');
+  if (tenoxList) {
+    var ms2 = getMapsState();
+    var curTenox = ms2.tenox || 0;
+    tenoxData.forEach(function(t) {
+      var item = document.createElement('div');
+      item.className = 'tenox-item' + (curTenox === t.n ? ' tenox-current' : '');
+      item.innerHTML = '<div class="tenox-num">' + t.n + '</div><div class="tenox-body"><h4>' + t.title + ' — ' + t.sub + '</h4><p>' + t.desc + '</p><span class="tenox-tag ' + t.tagClass + '">' + t.tag + '</span></div>';
+      item.onclick = function() {
+        saveMapsState({tenox: t.n});
+        document.querySelectorAll('.tenox-item').forEach(function(el){ el.classList.remove('tenox-current'); });
+        item.classList.add('tenox-current');
+      };
+      tenoxList.appendChild(item);
+    });
+  }
+
+  // ===== 5. FIVE ELEMENTS =====
+  var gogyouData = [
+    {name:'木', organ:'肝臓', emotion:'怒り', season:'春', dir:'東', color:'#40b050', sound:'嘘(シュー)', jitsu:'怒りを爆発させる', kyo:'怒りを感じて、ただ流す'},
+    {name:'火', organ:'心臓', emotion:'喜び', season:'夏', dir:'南', color:'#e06060', sound:'呵(ハー)', jitsu:'喜びに執着する', kyo:'喜びを味わい、掴まない'},
+    {name:'土', organ:'脾臓', emotion:'思慮', season:'土用', dir:'中央', color:'#c8b832', sound:'呼(フー)', jitsu:'考えすぎる', kyo:'思考を手放す'},
+    {name:'金', organ:'肺', emotion:'悲しみ', season:'秋', dir:'西', color:'#c0c0c0', sound:'呬(スー)', jitsu:'悲しみを抑える', kyo:'悲しみを吐き切る'},
+    {name:'水', organ:'腎臓', emotion:'恐れ', season:'冬', dir:'北', color:'#5080d0', sound:'吹(チュイ)', jitsu:'恐れから逃げる', kyo:'恐れの中に留まる'}
+  ];
+  var gogyouCards = document.getElementById('gogyouCards');
+  if (gogyouCards) {
+    gogyouData.forEach(function(g) {
+      var card = document.createElement('div');
+      card.className = 'gogyou-card';
+      card.innerHTML = '<h4 style="color:' + g.color + ';">' + g.name + ' — ' + g.organ + '</h4><div class="gogyou-row">感情: ' + g.emotion + ' ｜ 季節: ' + g.season + ' ｜ 方角: ' + g.dir + '</div><div class="gogyou-row">六字訣: ' + g.sound + '</div><div class="gogyou-row" style="margin-top:0.4rem;">実: ' + g.jitsu + '</div><div class="gogyou-row" style="color:#80c0ff;">虚: ' + g.kyo + '</div>';
+      gogyouCards.appendChild(card);
+    });
+  }
+
+  // ===== 6. DASKALOS =====
+  var daskalosData = [
+    {name:'物質体 + エーテルダブル', dantian:'下丹田（精）', sephira:'マルクト', color:'rgba(100,200,100,0.6)', borderColor:'#60c860', jitsu:'行動する — 体を使って世界に働きかける', kyo:'感じる — 体が感じるのをただ受け取る', extra:'エーテルダブル = 肉体の青写真。健康のエネルギー体。重力を感じるとエーテルが整う。'},
+    {name:'サイキック体', dantian:'中丹田（気）', sephira:'ティファレト', color:'rgba(200,100,100,0.6)', borderColor:'#c06060', jitsu:'感情を出す — 怒り、悲しみ、喜びを外に放つ', kyo:'感情を受け取る — 感情が通り過ぎるのを見る', extra:'エレメンタル（思念体）はここで生まれる。実で作ったエレメンタルは消耗し、やがて自分に戻る。虚から生まれたものは宇宙と調和する。'},
+    {name:'ノエティック体', dantian:'上丹田（神/シェン）', sephira:'ケテル', color:'rgba(100,150,255,0.7)', borderColor:'#6090e0', jitsu:'考える — 分析し、判断し、結論を出す', kyo:'知る — 答えが浮かんでくるのを待つ', extra:'思考の最も精妙な体。「考えなくてもわかる」状態 = ノエティック体が虚になった時。直感の座。'}
+  ];
+  var daskalosCards = document.getElementById('daskalosCards');
+  if (daskalosCards) {
+    daskalosData.forEach(function(d) {
+      var card = document.createElement('div');
+      card.className = 'daskalos-card';
+      card.style.borderColor = d.borderColor;
+      card.innerHTML = '<h4 style="color:' + d.color + ';font-size:0.9rem;margin-bottom:0.5rem;">' + d.name + '</h4><div style="font-size:0.65rem;color:var(--text-dim);margin-bottom:0.5rem;">' + d.dantian + ' ｜ ' + d.sephira + '</div><div style="font-size:0.75rem;margin-bottom:0.3rem;"><span style="color:#e07070;">実:</span> ' + d.jitsu + '</div><div style="font-size:0.75rem;margin-bottom:0.5rem;"><span style="color:#80c0ff;">虚:</span> ' + d.kyo + '</div><div style="font-size:0.7rem;color:var(--text-dim);line-height:1.6;border-top:1px solid rgba(255,255,255,0.05);padding-top:0.5rem;">' + d.extra + '</div>';
+      daskalosCards.appendChild(card);
+    });
+  }
+
+  // ===== 7. CHAKRA MAP =====
+  var chakraMapData = [
+    {n:7, name:'サハスラーラ', loc:'頭頂', color:'#c080ff', jitsu:'悟りを求める', kyo:'明け渡し', dantian:'上丹田（神）'},
+    {n:6, name:'アージュニャー', loc:'眉間', color:'#6060d0', jitsu:'見ようとする', kyo:'見えるに任せる', dantian:'上丹田（神）'},
+    {n:5, name:'ヴィシュッダ', loc:'喉', color:'#40a0d0', jitsu:'表現する', kyo:'体内に響かせる', dantian:'上丹田（神）'},
+    {n:4, name:'アナハタ', loc:'胸', color:'#40c040', jitsu:'愛を与える/求める', kyo:'ただ開いている', dantian:'中丹田（気）'},
+    {n:3, name:'マニプーラ', loc:'臍', color:'#d0c030', jitsu:'コントロールする', kyo:'力を手放す', dantian:'下丹田（精）'},
+    {n:2, name:'スヴァディシュターナ', loc:'下腹', color:'#e08030', jitsu:'快楽を求める', kyo:'感覚を受け取る', dantian:'下丹田（精）'},
+    {n:1, name:'ムーラダーラ', loc:'会陰', color:'#d04040', jitsu:'生存の恐れ', kyo:'大地に委ねる', dantian:'下丹田（精）'}
+  ];
+  var chakraMapList = document.getElementById('chakraMapList');
+  if (chakraMapList) {
+    var prevDantian = '';
+    chakraMapData.forEach(function(c) {
+      if (c.dantian !== prevDantian) {
+        var sep = document.createElement('div');
+        sep.style.cssText = 'text-align:center;font-size:0.7rem;color:var(--gold);padding:0.5rem 0;border-bottom:1px solid rgba(201,169,97,0.15);margin-top:' + (prevDantian ? '0.8rem' : '0') + ';';
+        sep.textContent = '—— ' + c.dantian + ' ——';
+        chakraMapList.appendChild(sep);
+        prevDantian = c.dantian;
+      }
+      var item = document.createElement('div');
+      item.className = 'chakra-map-item';
+      item.innerHTML = '<div class="chakra-map-dot" style="background:' + c.color + ';opacity:0.7;"></div><div class="chakra-map-text"><h4 style="color:' + c.color + ';">' + c.n + '. ' + c.name + ' <span style="font-size:0.65rem;color:var(--text-dim);">(' + c.loc + ')</span></h4><p><span style="color:#e07070;">実:</span> ' + c.jitsu + '　<span style="color:#80c0ff;">虚:</span> ' + c.kyo + '</p></div>';
+      chakraMapList.appendChild(item);
+    });
+  }
+
+  // ===== Shared Modal =====
+  function showMapModal(html) {
+    var existing = document.getElementById('mapModal');
+    if (existing) existing.remove();
+    var overlay = document.createElement('div');
+    overlay.id = 'mapModal';
+    overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem;';
+    overlay.onclick = function(e){ if(e.target===overlay) overlay.remove(); };
+    var box = document.createElement('div');
+    box.style.cssText = 'background:#111;border:1px solid rgba(201,169,97,0.2);border-radius:12px;padding:1.5rem;max-width:400px;width:100%;max-height:80vh;overflow-y:auto;';
+    box.innerHTML = html + '<div style="text-align:center;margin-top:1.5rem;"><button onclick="this.closest(\'#mapModal\').remove()" style="background:rgba(201,169,97,0.15);border:1px solid rgba(201,169,97,0.3);color:var(--gold);padding:0.5rem 2rem;border-radius:6px;cursor:pointer;">閉じる</button></div>';
+    overlay.appendChild(box);
+    document.body.appendChild(overlay);
+  }
 })();
 </script>
 
