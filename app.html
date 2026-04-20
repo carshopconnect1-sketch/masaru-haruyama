@@ -1810,6 +1810,10 @@
   .dantian-label { font-size:0.55rem; padding:0.15rem 0.5rem; border-radius:10px; background:rgba(201,169,97,0.12); color:var(--gold); margin-left:auto; white-space:nowrap; }
 
   .maps-desc { font-size:0.8rem; color:var(--text-dim); line-height:1.8; text-align:center; margin:0.5rem 0 1.5rem; }
+  .maps-status-box { background:rgba(201,169,97,0.06); border:1px solid rgba(201,169,97,0.2); border-radius:10px; padding:0.8rem 1rem; margin:0.8rem 0 1rem; }
+  .maps-status-label { font-size:0.6rem; color:var(--gold); letter-spacing:0.2em; text-transform:uppercase; margin-bottom:0.3rem; }
+  .maps-status-text { font-size:0.78rem; color:var(--text-dim); line-height:1.8; }
+  .maps-status-text strong { color:var(--gold); font-weight:600; }
   .maps-section-title { font-size:1rem; color:var(--gold); text-align:center; margin-bottom:0.3rem; }
   .maps-section-sub { font-size:0.7rem; color:var(--text-dim); text-align:center; margin-bottom:1rem; line-height:1.5; }
 
@@ -2844,6 +2848,10 @@
     </div>
 
     <div id="tp-treeOriginal" class="maps-panel m-visible">
+      <div class="maps-status-box">
+        <div class="maps-status-label">現在地</div>
+        <div class="maps-status-text"><strong>ケセド⚠️過剰 × ゲブラー⚠️不足</strong><br>与えすぎ/切れなさすぎ。ティファレト（均衡の中心）に向かう途中。<br>コクマー✅ ビナー✅ ネツァク✅ ホド✅ マルクト✅（治療中）<br>ケテル☆ ティファレト🔄 イェソド🔄</div>
+      </div>
 
     <div class="tree-view" id="treeView">
       <canvas id="treeCanvas"></canvas>
@@ -2935,6 +2943,10 @@
     <div id="tp-enneagram" class="maps-panel">
       <div class="maps-section-title">エニアグラム</div>
       <div class="maps-section-sub">9つの囚われ — そして手放し方<br>スーフィー/グルジェフの伝統</div>
+      <div class="maps-status-box">
+        <div class="maps-status-label">現在地</div>
+        <div class="maps-status-text"><strong>タイプ2 — 助ける人</strong><br>ケセド過剰。与えすぎ、背負いすぎ。<br>虚の道：求められなくても存在していい。</div>
+      </div>
       <div class="ennea-circle" id="enneaCircle"></div>
       <div class="maps-desc">タップして詳細を見る。長押しで「自分のタイプ」に設定</div>
     </div>
@@ -2943,6 +2955,10 @@
     <div id="tp-iching" class="maps-panel">
       <div class="maps-section-title">易経</div>
       <div class="maps-section-sub">陰と陽 — 虚と実の根源<br>伏羲から3000年の智慧</div>
+      <div class="maps-status-box">
+        <div class="maps-status-label">現在地</div>
+        <div class="maps-status-text"><strong>乾☰（天）寄り — 実の過剰</strong><br>創造力と行動力が強い。与える・動く・導くが自然。<br>課題：坤☷（地・受容）の力を育てる。動かないでいる修練。</div>
+      </div>
       <div class="bagua-circle" id="baguaCircle"></div>
       <p class="maps-desc">陽(━)=実=する力　　陰(⚋)=虚=受ける力<br>太極=虚実が分かれる前の一なるもの</p>
       <div class="coin-area">
@@ -2956,6 +2972,10 @@
     <div id="tp-tarot" class="maps-panel">
       <div class="maps-section-title">タロット大アルカナ</div>
       <div class="maps-section-sub">22の道 — 生命の樹のパス<br>愚者から世界へ、虚の旅</div>
+      <div class="maps-status-box">
+        <div class="maps-status-label">現在地</div>
+        <div class="maps-status-text"><strong>VIII 力</strong> — ライオンを掴まず触れるだけ<br>ケセド↔ゲブラーのパス。力とは支配ではなく「虚の力」。<br>掴まずに触れる修行の真っ只中。</div>
+      </div>
       <div class="tarot-grid" id="tarotGrid"></div>
     </div>
 
@@ -2963,6 +2983,10 @@
     <div id="tp-tenox" class="maps-panel">
       <div class="maps-section-title">十牛図</div>
       <div class="maps-section-sub">禅の覚醒10段階<br>タップで「今ここ」をマーク</div>
+      <div class="maps-status-box">
+        <div class="maps-status-label">現在地</div>
+        <div class="maps-status-text"><strong>第四図 — 得牛</strong><br>本質を掴んだ。でもまだ暴れる。手放したいのに掴んでしまう。<br>ケセドの過剰 = 牛を力で抑えてる状態。力みを抜く段階へ。</div>
+      </div>
       <div class="tenox-list" id="tenoxList"></div>
     </div>
 
@@ -3002,6 +3026,10 @@
         <text x="55" y="270" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="7">腎/恐/冬/北</text>
         <text x="5" y="110" text-anchor="start" fill="rgba(255,255,255,0.3)" font-size="7">肝/怒/春/東</text>
       </svg>
+      <div class="maps-status-box">
+        <div class="maps-status-label">現在地</div>
+        <div class="maps-status-text"><strong>木（肝・怒り）と土（脾・思慮）が過剰</strong><br>木：正義感が強い→他人のためにキレる→消耗。六字訣「嘘(シュー)」で肝を緩める。<br>土：考えすぎ→頭が止まらない→体が疲れる。六字訣「呼(フー)」で脾を休める。<br>水（腎・恐れ）は安定。火（心・喜び）を育てる段階。</div>
+      </div>
       <div class="gogyou-cards" id="gogyouCards"></div>
     </div>
 
@@ -3020,6 +3048,10 @@
           <span style="font-size:0.5rem;color:rgba(100,150,255,0.7);text-align:center;">ノエ<br>ティック</span>
         </div>
       </div>
+      <div class="maps-status-box">
+        <div class="maps-status-label">現在地</div>
+        <div class="maps-status-text"><strong>サイキック体（感情体）が主戦場</strong><br>物質体+エーテルダブル：あだち先生の治療で整備中。鎖骨開通済み。<br>サイキック体：ケセドの過剰 = 感情で他者を背負う。ここが虚になれば大転換。<br>ノエティック体：直感(コクマー)と分析(ビナー)は活性。考えすぎ(ホド過剰)に注意。</div>
+      </div>
       <div class="daskalos-cards" id="daskalosCards"></div>
     </div>
 
@@ -3027,6 +3059,10 @@
     <div id="tp-chakramap" class="maps-panel">
       <div class="maps-section-title">チャクラ → 三丹田</div>
       <div class="maps-section-sub">7つのエネルギーセンターが3つに統合される<br>ヒンドゥー × 道教</div>
+      <div class="maps-status-box">
+        <div class="maps-status-label">現在地</div>
+        <div class="maps-status-text"><strong>アナハタ（胸）で詰まり → 下丹田の虚がこれから</strong><br>上丹田（神）：コクマー+ビナー活性。方向は見えてる。<br>中丹田（気）：ティファレト進行中。鎖骨ブロック開通済み、胸〜横隔膜が次の関門。<br>下丹田（精）：イェソドの虚の訓練これから。ウォーターパームで基盤を作る段階。</div>
+      </div>
       <div class="chakra-map-list" id="chakraMapList"></div>
     </div>
 
@@ -5395,7 +5431,7 @@ setTimeout(initWisdomDots, 100);
   var enneaCircle = document.getElementById('enneaCircle');
   if (enneaCircle) {
     var ms = getMapsState();
-    var selType = ms.enneagram || 0;
+    var selType = ms.enneagram || 2; // デフォルト: タイプ2（助ける人）= ケセド過剰
     var r = 122, cx = 150, cy = 150;
     enneaTypes.forEach(function(t, i) {
       var angle = (i * 40 - 90) * Math.PI / 180;
@@ -5538,7 +5574,7 @@ setTimeout(initWisdomDots, 100);
   var tenoxList = document.getElementById('tenoxList');
   if (tenoxList) {
     var ms2 = getMapsState();
-    var curTenox = ms2.tenox || 0;
+    var curTenox = ms2.tenox || 4; // デフォルト: 得牛（掴む、まだ暴れる）
     tenoxData.forEach(function(t) {
       var item = document.createElement('div');
       item.className = 'tenox-item' + (curTenox === t.n ? ' tenox-current' : '');
