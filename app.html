@@ -1833,7 +1833,6 @@
   <button onclick="switchSection('temple',this)">神殿</button>
   <button onclick="switchSection('practice',this)">修練</button>
   <button onclick="switchSection('dreams',this)">夢</button>
-  <button onclick="switchSection('maps',this)">古の地図</button>
   <button onclick="switchSection('archive',this)">記録</button>
 </nav>
 
@@ -2829,9 +2828,22 @@
 <div id="tree" class="section">
   <div class="tree-container">
     <div>
-      <h1 class="section-title">生命の樹</h1>
-      <p class="section-subtitle">エツ・ハ・チャイム<br>万物の構造を映す鏡</p>
+      <h1 class="section-title">内なる地図</h1>
+      <p class="section-subtitle">八つの鏡<br>異なる文明が残した、自分を映す道具</p>
     </div>
+
+    <div class="maps-nav">
+      <button class="m-active" onclick="switchTreePanel('treeOriginal',this)">生命の樹</button>
+      <button onclick="switchTreePanel('enneagram',this)">エニアグラム</button>
+      <button onclick="switchTreePanel('iching',this)">易経</button>
+      <button onclick="switchTreePanel('tarot',this)">タロット</button>
+      <button onclick="switchTreePanel('tenox',this)">十牛図</button>
+      <button onclick="switchTreePanel('gogyou',this)">五行</button>
+      <button onclick="switchTreePanel('daskalos',this)">ダスカロス</button>
+      <button onclick="switchTreePanel('chakramap',this)">チャクラ</button>
+    </div>
+
+    <div id="tp-treeOriginal" class="maps-panel m-visible">
 
     <div class="tree-view" id="treeView">
       <canvas id="treeCanvas"></canvas>
@@ -2917,6 +2929,107 @@
         <span class="world-desc">活動界 — 物質・行動の世界（マルクト）</span>
       </div>
     </div>
+    </div><!-- /tp-treeOriginal -->
+
+    <!-- ===== エニアグラム ===== -->
+    <div id="tp-enneagram" class="maps-panel">
+      <div class="maps-section-title">エニアグラム</div>
+      <div class="maps-section-sub">9つの囚われ — そして手放し方<br>スーフィー/グルジェフの伝統</div>
+      <div class="ennea-circle" id="enneaCircle"></div>
+      <div class="maps-desc">タップして詳細を見る。長押しで「自分のタイプ」に設定</div>
+    </div>
+
+    <!-- ===== 易経 ===== -->
+    <div id="tp-iching" class="maps-panel">
+      <div class="maps-section-title">易経</div>
+      <div class="maps-section-sub">陰と陽 — 虚と実の根源<br>伏羲から3000年の智慧</div>
+      <div class="bagua-circle" id="baguaCircle"></div>
+      <p class="maps-desc">陽(━)=実=する力　　陰(⚋)=虚=受ける力<br>太極=虚実が分かれる前の一なるもの</p>
+      <div class="coin-area">
+        <button class="coin-btn" id="coinBtn" onclick="throwCoin()">☯ 卦を立てる</button>
+        <div class="coin-result" id="coinResult"></div>
+        <div class="trigram-display" id="trigramDisplay"></div>
+      </div>
+    </div>
+
+    <!-- ===== タロット大アルカナ ===== -->
+    <div id="tp-tarot" class="maps-panel">
+      <div class="maps-section-title">タロット大アルカナ</div>
+      <div class="maps-section-sub">22の道 — 生命の樹のパス<br>愚者から世界へ、虚の旅</div>
+      <div class="tarot-grid" id="tarotGrid"></div>
+    </div>
+
+    <!-- ===== 十牛図 ===== -->
+    <div id="tp-tenox" class="maps-panel">
+      <div class="maps-section-title">十牛図</div>
+      <div class="maps-section-sub">禅の覚醒10段階<br>タップで「今ここ」をマーク</div>
+      <div class="tenox-list" id="tenoxList"></div>
+    </div>
+
+    <!-- ===== 五行 ===== -->
+    <div id="tp-gogyou" class="maps-panel">
+      <div class="maps-section-title">五行</div>
+      <div class="maps-section-sub">木火土金水 — 五つの力の循環<br>感情・臓器・季節・声の虚</div>
+      <svg class="gogyou-svg" viewBox="0 0 300 280" width="300" height="280">
+        <line x1="150" y1="30" x2="270" y2="120" stroke="rgba(201,169,97,0.2)" stroke-width="1"/>
+        <line x1="270" y1="120" x2="225" y2="250" stroke="rgba(201,169,97,0.2)" stroke-width="1"/>
+        <line x1="225" y1="250" x2="75" y2="250" stroke="rgba(201,169,97,0.2)" stroke-width="1"/>
+        <line x1="75" y1="250" x2="30" y2="120" stroke="rgba(201,169,97,0.2)" stroke-width="1"/>
+        <line x1="30" y1="120" x2="150" y2="30" stroke="rgba(201,169,97,0.2)" stroke-width="1"/>
+        <line x1="150" y1="30" x2="225" y2="250" stroke="rgba(200,60,60,0.15)" stroke-width="1" stroke-dasharray="4,4"/>
+        <line x1="225" y1="250" x2="30" y2="120" stroke="rgba(200,60,60,0.15)" stroke-width="1" stroke-dasharray="4,4"/>
+        <line x1="30" y1="120" x2="270" y2="120" stroke="rgba(200,60,60,0.15)" stroke-width="1" stroke-dasharray="4,4"/>
+        <line x1="270" y1="120" x2="75" y2="250" stroke="rgba(200,60,60,0.15)" stroke-width="1" stroke-dasharray="4,4"/>
+        <line x1="75" y1="250" x2="150" y2="30" stroke="rgba(200,60,60,0.15)" stroke-width="1" stroke-dasharray="4,4"/>
+        <circle cx="150" cy="30" r="22" fill="rgba(220,50,50,0.15)" stroke="#e06060" stroke-width="1.5"/>
+        <text x="150" y="27" text-anchor="middle" fill="#e06060" font-size="14">🔥</text>
+        <text x="150" y="42" text-anchor="middle" fill="#e06060" font-size="8">火</text>
+        <circle cx="270" cy="120" r="22" fill="rgba(200,180,50,0.15)" stroke="#c8b832" stroke-width="1.5"/>
+        <text x="270" y="117" text-anchor="middle" fill="#c8b832" font-size="14">🌍</text>
+        <text x="270" y="132" text-anchor="middle" fill="#c8b832" font-size="8">土</text>
+        <circle cx="225" cy="250" r="22" fill="rgba(200,200,200,0.15)" stroke="#c0c0c0" stroke-width="1.5"/>
+        <text x="225" y="247" text-anchor="middle" fill="#c0c0c0" font-size="14">🪙</text>
+        <text x="225" y="262" text-anchor="middle" fill="#c0c0c0" font-size="8">金</text>
+        <circle cx="75" cy="250" r="22" fill="rgba(60,100,200,0.15)" stroke="#5080d0" stroke-width="1.5"/>
+        <text x="75" y="247" text-anchor="middle" fill="#5080d0" font-size="14">💧</text>
+        <text x="75" y="262" text-anchor="middle" fill="#5080d0" font-size="8">水</text>
+        <circle cx="30" cy="120" r="22" fill="rgba(60,180,80,0.15)" stroke="#40b050" stroke-width="1.5"/>
+        <text x="30" y="117" text-anchor="middle" fill="#40b050" font-size="14">🌳</text>
+        <text x="30" y="132" text-anchor="middle" fill="#40b050" font-size="8">木</text>
+        <text x="150" y="7" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="7">心/喜/夏/南</text>
+        <text x="295" y="110" text-anchor="start" fill="rgba(255,255,255,0.3)" font-size="7">脾/思/土用</text>
+        <text x="245" y="270" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="7">肺/悲/秋/西</text>
+        <text x="55" y="270" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="7">腎/恐/冬/北</text>
+        <text x="5" y="110" text-anchor="start" fill="rgba(255,255,255,0.3)" font-size="7">肝/怒/春/東</text>
+      </svg>
+      <div class="gogyou-cards" id="gogyouCards"></div>
+    </div>
+
+    <!-- ===== ダスカロス三体 ===== -->
+    <div id="tp-daskalos" class="maps-panel">
+      <div class="maps-section-title">ダスカロスの三体</div>
+      <div class="maps-section-sub">物質・感情・思考 — 三つの衣<br>キプロスの神秘家の教え</div>
+      <div class="daskalos-visual">
+        <div class="daskalos-ring outer" style="background:radial-gradient(circle,transparent 60%,rgba(100,200,100,0.05) 100%);">
+          <span class="daskalos-label" style="bottom:-18px;left:50%;transform:translateX(-50%);color:rgba(100,200,100,0.6);">物質体+エーテルダブル</span>
+        </div>
+        <div class="daskalos-ring middle" style="background:radial-gradient(circle,transparent 50%,rgba(200,100,100,0.05) 100%);">
+          <span class="daskalos-label" style="bottom:-16px;left:50%;transform:translateX(-50%);color:rgba(200,100,100,0.6);font-size:0.55rem;">サイキック体</span>
+        </div>
+        <div class="daskalos-ring inner" style="background:radial-gradient(circle,transparent 40%,rgba(100,150,255,0.08) 100%);">
+          <span style="font-size:0.5rem;color:rgba(100,150,255,0.7);text-align:center;">ノエ<br>ティック</span>
+        </div>
+      </div>
+      <div class="daskalos-cards" id="daskalosCards"></div>
+    </div>
+
+    <!-- ===== チャクラ→三丹田 ===== -->
+    <div id="tp-chakramap" class="maps-panel">
+      <div class="maps-section-title">チャクラ → 三丹田</div>
+      <div class="maps-section-sub">7つのエネルギーセンターが3つに統合される<br>ヒンドゥー × 道教</div>
+      <div class="chakra-map-list" id="chakraMapList"></div>
+    </div>
+
   </div>
 </div>
 
@@ -3603,128 +3716,6 @@
     </div>
 
     <div id="dreamList"></div>
-  </div>
-</div>
-
-<!-- ===== 古の地図 (ANCIENT MAPS) ===== -->
-<div id="maps" class="section">
-  <div style="max-width:700px;margin:0 auto;padding:0 1rem;">
-    <h1 class="section-title">古の地図</h1>
-    <p class="section-subtitle">七つの鏡<br>異なる文明が残した、自分を映す道具</p>
-
-    <div class="maps-nav">
-      <button class="m-active" onclick="switchMapsPanel('enneagram',this)">エニアグラム</button>
-      <button onclick="switchMapsPanel('iching',this)">易経</button>
-      <button onclick="switchMapsPanel('tarot',this)">タロット</button>
-      <button onclick="switchMapsPanel('tenox',this)">十牛図</button>
-      <button onclick="switchMapsPanel('gogyou',this)">五行</button>
-      <button onclick="switchMapsPanel('daskalos',this)">ダスカロス</button>
-      <button onclick="switchMapsPanel('chakramap',this)">チャクラ</button>
-    </div>
-
-    <!-- ===== 1. エニアグラム ===== -->
-    <div id="mp-enneagram" class="maps-panel m-visible">
-      <div class="maps-section-title">エニアグラム</div>
-      <div class="maps-section-sub">9つの囚われ — そして手放し方<br>スーフィー/グルジェフの伝統</div>
-      <div class="ennea-circle" id="enneaCircle"></div>
-      <div class="maps-desc">タップして詳細を見る。長押しで「自分のタイプ」に設定</div>
-    </div>
-
-    <!-- ===== 2. 易経 ===== -->
-    <div id="mp-iching" class="maps-panel">
-      <div class="maps-section-title">易経</div>
-      <div class="maps-section-sub">陰と陽 — 虚と実の根源<br>伏羲から3000年の智慧</div>
-      <div class="bagua-circle" id="baguaCircle"></div>
-      <p class="maps-desc">陽(━)=実=する力　　陰(⚋)=虚=受ける力<br>太極=虚実が分かれる前の一なるもの</p>
-      <div class="coin-area">
-        <button class="coin-btn" id="coinBtn" onclick="throwCoin()">☯ 卦を立てる</button>
-        <div class="coin-result" id="coinResult"></div>
-        <div class="trigram-display" id="trigramDisplay"></div>
-      </div>
-    </div>
-
-    <!-- ===== 3. タロット大アルカナ ===== -->
-    <div id="mp-tarot" class="maps-panel">
-      <div class="maps-section-title">タロット大アルカナ</div>
-      <div class="maps-section-sub">22の道 — 生命の樹のパス<br>愚者から世界へ、虚の旅</div>
-      <div class="tarot-grid" id="tarotGrid"></div>
-    </div>
-
-    <!-- ===== 4. 十牛図 ===== -->
-    <div id="mp-tenox" class="maps-panel">
-      <div class="maps-section-title">十牛図</div>
-      <div class="maps-section-sub">禅の覚醒10段階<br>タップで「今ここ」をマーク</div>
-      <div class="tenox-list" id="tenoxList"></div>
-    </div>
-
-    <!-- ===== 5. 五行 ===== -->
-    <div id="mp-gogyou" class="maps-panel">
-      <div class="maps-section-title">五行</div>
-      <div class="maps-section-sub">木火土金水 — 五つの力の循環<br>感情・臓器・季節・声の虚</div>
-      <svg class="gogyou-svg" viewBox="0 0 300 280" width="300" height="280">
-        <!-- Pentagon connections - 相生 (generating) -->
-        <line x1="150" y1="30" x2="270" y2="120" stroke="rgba(201,169,97,0.2)" stroke-width="1"/>
-        <line x1="270" y1="120" x2="225" y2="250" stroke="rgba(201,169,97,0.2)" stroke-width="1"/>
-        <line x1="225" y1="250" x2="75" y2="250" stroke="rgba(201,169,97,0.2)" stroke-width="1"/>
-        <line x1="75" y1="250" x2="30" y2="120" stroke="rgba(201,169,97,0.2)" stroke-width="1"/>
-        <line x1="30" y1="120" x2="150" y2="30" stroke="rgba(201,169,97,0.2)" stroke-width="1"/>
-        <!-- Star connections - 相剋 (overcoming) -->
-        <line x1="150" y1="30" x2="225" y2="250" stroke="rgba(200,60,60,0.15)" stroke-width="1" stroke-dasharray="4,4"/>
-        <line x1="225" y1="250" x2="30" y2="120" stroke="rgba(200,60,60,0.15)" stroke-width="1" stroke-dasharray="4,4"/>
-        <line x1="30" y1="120" x2="270" y2="120" stroke="rgba(200,60,60,0.15)" stroke-width="1" stroke-dasharray="4,4"/>
-        <line x1="270" y1="120" x2="75" y2="250" stroke="rgba(200,60,60,0.15)" stroke-width="1" stroke-dasharray="4,4"/>
-        <line x1="75" y1="250" x2="150" y2="30" stroke="rgba(200,60,60,0.15)" stroke-width="1" stroke-dasharray="4,4"/>
-        <!-- Nodes -->
-        <circle cx="150" cy="30" r="22" fill="rgba(220,50,50,0.15)" stroke="#e06060" stroke-width="1.5"/>
-        <text x="150" y="27" text-anchor="middle" fill="#e06060" font-size="14">🔥</text>
-        <text x="150" y="42" text-anchor="middle" fill="#e06060" font-size="8">火</text>
-        <circle cx="270" cy="120" r="22" fill="rgba(200,180,50,0.15)" stroke="#c8b832" stroke-width="1.5"/>
-        <text x="270" y="117" text-anchor="middle" fill="#c8b832" font-size="14">🌍</text>
-        <text x="270" y="132" text-anchor="middle" fill="#c8b832" font-size="8">土</text>
-        <circle cx="225" cy="250" r="22" fill="rgba(200,200,200,0.15)" stroke="#c0c0c0" stroke-width="1.5"/>
-        <text x="225" y="247" text-anchor="middle" fill="#c0c0c0" font-size="14">🪙</text>
-        <text x="225" y="262" text-anchor="middle" fill="#c0c0c0" font-size="8">金</text>
-        <circle cx="75" cy="250" r="22" fill="rgba(60,100,200,0.15)" stroke="#5080d0" stroke-width="1.5"/>
-        <text x="75" y="247" text-anchor="middle" fill="#5080d0" font-size="14">💧</text>
-        <text x="75" y="262" text-anchor="middle" fill="#5080d0" font-size="8">水</text>
-        <circle cx="30" cy="120" r="22" fill="rgba(60,180,80,0.15)" stroke="#40b050" stroke-width="1.5"/>
-        <text x="30" y="117" text-anchor="middle" fill="#40b050" font-size="14">🌳</text>
-        <text x="30" y="132" text-anchor="middle" fill="#40b050" font-size="8">木</text>
-        <!-- Labels -->
-        <text x="150" y="7" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="7">心/喜/夏/南</text>
-        <text x="295" y="110" text-anchor="start" fill="rgba(255,255,255,0.3)" font-size="7">脾/思/土用</text>
-        <text x="245" y="270" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="7">肺/悲/秋/西</text>
-        <text x="55" y="270" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="7">腎/恐/冬/北</text>
-        <text x="5" y="110" text-anchor="start" fill="rgba(255,255,255,0.3)" font-size="7">肝/怒/春/東</text>
-      </svg>
-      <div class="gogyou-cards" id="gogyouCards"></div>
-    </div>
-
-    <!-- ===== 6. ダスカロス三体 ===== -->
-    <div id="mp-daskalos" class="maps-panel">
-      <div class="maps-section-title">ダスカロスの三体</div>
-      <div class="maps-section-sub">物質・感情・思考 — 三つの衣<br>キプロスの神秘家の教え</div>
-      <div class="daskalos-visual">
-        <div class="daskalos-ring outer" style="background:radial-gradient(circle,transparent 60%,rgba(100,200,100,0.05) 100%);">
-          <span class="daskalos-label" style="bottom:-18px;left:50%;transform:translateX(-50%);color:rgba(100,200,100,0.6);">物質体+エーテルダブル</span>
-        </div>
-        <div class="daskalos-ring middle" style="background:radial-gradient(circle,transparent 50%,rgba(200,100,100,0.05) 100%);">
-          <span class="daskalos-label" style="bottom:-16px;left:50%;transform:translateX(-50%);color:rgba(200,100,100,0.6);font-size:0.55rem;">サイキック体</span>
-        </div>
-        <div class="daskalos-ring inner" style="background:radial-gradient(circle,transparent 40%,rgba(100,150,255,0.08) 100%);">
-          <span style="font-size:0.5rem;color:rgba(100,150,255,0.7);text-align:center;">ノエ<br>ティック</span>
-        </div>
-      </div>
-      <div class="daskalos-cards" id="daskalosCards"></div>
-    </div>
-
-    <!-- ===== 7. チャクラ→三丹田 ===== -->
-    <div id="mp-chakramap" class="maps-panel">
-      <div class="maps-section-title">チャクラ → 三丹田</div>
-      <div class="maps-section-sub">7つのエネルギーセンターが3つに統合される<br>ヒンドゥー × 道教</div>
-      <div class="chakra-map-list" id="chakraMapList"></div>
-    </div>
-
   </div>
 </div>
 
@@ -5366,6 +5357,13 @@ setTimeout(initWisdomDots, 100);
     document.querySelectorAll('.maps-panel').forEach(p => p.classList.remove('m-visible'));
     document.querySelectorAll('.maps-nav button').forEach(b => b.classList.remove('m-active'));
     var el = document.getElementById('mp-' + id);
+    if (el) el.classList.add('m-visible');
+    if (btn) btn.classList.add('m-active');
+  };
+  window.switchTreePanel = function(id, btn) {
+    document.querySelectorAll('#tree .maps-panel').forEach(p => p.classList.remove('m-visible'));
+    document.querySelectorAll('#tree .maps-nav button').forEach(b => b.classList.remove('m-active'));
+    var el = document.getElementById('tp-' + id);
     if (el) el.classList.add('m-visible');
     if (btn) btn.classList.add('m-active');
   };
