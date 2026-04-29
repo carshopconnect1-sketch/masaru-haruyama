@@ -2603,8 +2603,8 @@
           <animate attributeName="opacity" values="0.2;0.08;0.2" dur="3s" repeatCount="indefinite"/>
         </circle>
 
-        <!-- カルシファー本体グループ（パスに沿って自動回転） -->
-        <g>
+        <!-- カルシファー本体グループ（パスに沿って自動回転） — JS駆動可 -->
+        <g class="calcifer-orbiter" data-orbit="small-orbit-dragon" data-period="5" data-offset="0">
           <animateMotion dur="5s" repeatCount="indefinite" rotate="auto">
             <mpath href="#dragonPath"/>
           </animateMotion>
@@ -2657,8 +2657,8 @@
         <!-- 円軌道パス（下丹田を中心に、半径38で大カルシファーから離す） -->
         <path id="orbitPath" d="M 100,152 A 38,38 0 1 1 100,228 A 38,38 0 1 1 100,152" fill="none" stroke="rgba(255,120,40,0.12)" stroke-width="0.5" stroke-dasharray="2 3"/>
 
-        <!-- 軌道カルシファー1（時計回り） -->
-        <g>
+        <!-- 軌道カルシファー1（時計回り） — JS駆動 -->
+        <g class="calcifer-orbiter" data-orbit="cw" data-period="4" data-offset="0">
           <animateMotion dur="4s" repeatCount="indefinite" rotate="auto">
             <mpath href="#orbitPath"/>
           </animateMotion>
@@ -2687,7 +2687,7 @@
         <!-- 軌道カルシファー2（反時計回り、半周ずれ） -->
         <!-- 反対回り用パス：方向を逆にしたもの -->
         <path id="orbitPathReverse" d="M 100,152 A 38,38 0 1 0 100,228 A 38,38 0 1 0 100,152" fill="none" stroke="none"/>
-        <g>
+        <g class="calcifer-orbiter" data-orbit="ccw" data-period="4.5" data-offset="0.5">
           <animateMotion dur="4.5s" repeatCount="indefinite" rotate="auto" begin="-2.25s">
             <mpath href="#orbitPathReverse"/>
           </animateMotion>
@@ -5128,6 +5128,71 @@ function initMandalaCanvas() {
   ctx.fillText('三宝', cx + 35 * scale, cy + 40 * scale);
 }
 
+// ===== カルシファー軌道アニメーション（SMIL fallback for LINE/iOS WebView） =====
+function initCalciferOrbits() {
+  // 円軌道（下丹田中心 100,190、半径38）
+  const cx = 100, cy = 190, r = 38;
+  // 小周天パス（任脈→督脈）
+  const dragonPathEl = document.getElementById('dragonPath');
+  let dragonLen = 0;
+  if (dragonPathEl) {
+    try { dragonLen = dragonPathEl.getTotalLength(); } catch(e) {}
+  }
+  const orbiters = document.querySelectorAll('.calcifer-orbiter');
+  if (!orbiters.length) return;
+
+  // SMILが効いているか検出（5フレーム後に位置が変化したかで判定）
+  let smilWorks = false;
+  const initialBoxes = [];
+  orbiters.forEach(g => {
+    const m = g.getCTM ? g.getCTM() : null;
+    initialBoxes.push(m ? `${m.e.toFixed(2)},${m.f.toFixed(2)}` : null);
+  });
+  setTimeout(() => {
+    let anyMoved = false;
+    orbiters.forEach((g, i) => {
+      const m = g.getCTM ? g.getCTM() : null;
+      const cur = m ? `${m.e.toFixed(2)},${m.f.toFixed(2)}` : null;
+      if (cur && cur !== initialBoxes[i]) anyMoved = true;
+    });
+    smilWorks = anyMoved;
+    if (!smilWorks) {
+      console.log('[calcifer] SMIL not running — using JS fallback');
+      // JSで駆動
+      const start = performance.now();
+      function tick(now) {
+        const elapsed = (now - start) / 1000;
+        orbiters.forEach(g => {
+          const dir = g.dataset.orbit;
+          const period = parseFloat(g.dataset.period || '4');
+          const offset = parseFloat(g.dataset.offset || '0');
+          if (dir === 'small-orbit-dragon') {
+            // 小周天パス
+            if (!dragonPathEl || !dragonLen) return;
+            const t = ((elapsed / period) + offset) % 1;
+            const p = dragonPathEl.getPointAtLength(t * dragonLen);
+            const p2 = dragonPathEl.getPointAtLength(((t + 0.001) % 1) * dragonLen);
+            const angle = Math.atan2(p2.y - p.y, p2.x - p.x) * 180 / Math.PI;
+            g.setAttribute('transform', `translate(${p.x},${p.y}) rotate(${angle})`);
+          } else {
+            // 円軌道
+            const sign = dir === 'ccw' ? -1 : 1;
+            const phase = ((elapsed / period) + offset) * 2 * Math.PI * sign;
+            const px = cx + r * Math.cos(phase - Math.PI/2); // 上から開始
+            const py = cy + r * Math.sin(phase - Math.PI/2);
+            const angle = (phase - Math.PI/2 + sign * Math.PI/2) * 180 / Math.PI;
+            g.setAttribute('transform', `translate(${px},${py}) rotate(${angle})`);
+          }
+        });
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    } else {
+      console.log('[calcifer] SMIL working');
+    }
+  }, 600);
+}
+
 // ===== INIT =====
 window.addEventListener('DOMContentLoaded', () => {
   initSacredGeometry();
@@ -5136,6 +5201,7 @@ window.addEventListener('DOMContentLoaded', () => {
   loadState();
   initPathwayMap();
   initDreams();
+  initCalciferOrbits();
   // Tree paths drawn when section becomes visible
 });
 
