@@ -1654,6 +1654,11 @@
     top: 50%; left: 50%;
     width: 0; height: 0;
     z-index: 1;
+    animation: crystalsOrbit 120s linear infinite;
+  }
+  @keyframes crystalsOrbit {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }
   .ss-crystal {
     position: absolute;
