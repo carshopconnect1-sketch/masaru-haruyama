@@ -2418,6 +2418,19 @@
             <stop offset="50%" stop-color="rgba(240,60,20,0.9)"/>
             <stop offset="100%" stop-color="rgba(200,30,10,0.6)"/>
           </radialGradient>
+          <!-- カルシファーの炎ボディ（暖かい黄→オレンジ→赤） -->
+          <radialGradient id="calciferBody" cx="50%" cy="55%" r="55%">
+            <stop offset="0%" stop-color="rgba(255,250,180,1)"/>
+            <stop offset="35%" stop-color="rgba(255,200,80,1)"/>
+            <stop offset="65%" stop-color="rgba(255,130,30,0.95)"/>
+            <stop offset="100%" stop-color="rgba(220,50,10,0.7)"/>
+          </radialGradient>
+          <!-- 上に伸びる揺らめく炎 -->
+          <linearGradient id="calciferFlame" x1="50%" y1="100%" x2="50%" y2="0%">
+            <stop offset="0%" stop-color="rgba(255,200,80,0.95)"/>
+            <stop offset="50%" stop-color="rgba(255,120,30,0.8)"/>
+            <stop offset="100%" stop-color="rgba(220,30,10,0)"/>
+          </linearGradient>
           <filter id="fireGlow">
             <feGaussianBlur stdDeviation="3" result="blur"/>
             <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
@@ -2473,16 +2486,92 @@
           <animate attributeName="r" values="18;24;18" dur="3s" repeatCount="indefinite"/>
           <animate attributeName="opacity" values="0.12;0.25;0.12" dur="3s" repeatCount="indefinite"/>
         </circle>
-        <!-- 火の玉本体（大きく） -->
-        <circle cx="100" cy="190" r="14" fill="url(#dragonBall)" filter="url(#fireGlow)">
-          <animate attributeName="r" values="12;16;12" dur="3s" repeatCount="indefinite"/>
-        </circle>
-        <!-- 火の玉の内核（白熱） -->
-        <circle cx="100" cy="190" r="6" fill="rgba(255,240,150,0.95)">
-          <animate attributeName="r" values="4;7;4" dur="2s" repeatCount="indefinite"/>
-          <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite"/>
-        </circle>
-        <!-- 火の玉の揺らぎリング -->
+        <!-- ===== カルシファー（下丹田の火の精霊） ===== -->
+        <g id="calcifer">
+          <!-- 上に伸びる揺らめく炎（ティアドロップ型 × 3層） -->
+          <path d="M100,178 C92,168 90,158 95,148 C97,143 96,138 100,132 C104,138 103,143 105,148 C110,158 108,168 100,178 Z"
+                fill="url(#calciferFlame)" filter="url(#fireGlow)" opacity="0.85">
+            <animate attributeName="d"
+              values="M100,178 C92,168 90,158 95,148 C97,143 96,138 100,132 C104,138 103,143 105,148 C110,158 108,168 100,178 Z;
+                      M100,178 C90,168 92,156 96,146 C98,141 95,135 100,128 C105,135 102,141 104,146 C108,156 110,168 100,178 Z;
+                      M100,178 C92,168 90,158 95,148 C97,143 96,138 100,132 C104,138 103,143 105,148 C110,158 108,168 100,178 Z"
+              dur="2.2s" repeatCount="indefinite"/>
+          </path>
+          <!-- 左の小さな揺れ炎 -->
+          <path d="M88,180 C84,174 84,168 87,162 C89,158 88,155 90,150 C92,155 91,158 93,162 C96,168 94,174 88,180 Z"
+                fill="url(#calciferFlame)" filter="url(#fireGlow)" opacity="0.6">
+            <animate attributeName="d"
+              values="M88,180 C84,174 84,168 87,162 C89,158 88,155 90,150 C92,155 91,158 93,162 C96,168 94,174 88,180 Z;
+                      M88,180 C82,174 84,166 88,160 C90,156 87,153 90,148 C93,153 92,156 94,160 C97,166 92,174 88,180 Z;
+                      M88,180 C84,174 84,168 87,162 C89,158 88,155 90,150 C92,155 91,158 93,162 C96,168 94,174 88,180 Z"
+              dur="1.8s" repeatCount="indefinite" begin="0.3s"/>
+          </path>
+          <!-- 右の小さな揺れ炎 -->
+          <path d="M112,180 C108,174 108,168 111,162 C113,158 112,155 114,150 C116,155 115,158 117,162 C120,168 116,174 112,180 Z"
+                fill="url(#calciferFlame)" filter="url(#fireGlow)" opacity="0.6">
+            <animate attributeName="d"
+              values="M112,180 C108,174 108,168 111,162 C113,158 112,155 114,150 C116,155 115,158 117,162 C120,168 116,174 112,180 Z;
+                      M112,180 C107,174 109,166 113,160 C115,156 113,152 116,147 C118,152 117,156 119,160 C122,166 117,174 112,180 Z;
+                      M112,180 C108,174 108,168 111,162 C113,158 112,155 114,150 C116,155 115,158 117,162 C120,168 116,174 112,180 Z"
+              dur="2s" repeatCount="indefinite" begin="0.7s"/>
+          </path>
+
+          <!-- 火の玉本体（カルシファーのまるい顔） -->
+          <ellipse cx="100" cy="190" rx="15" ry="14" fill="url(#calciferBody)" filter="url(#fireGlow)">
+            <animate attributeName="rx" values="14;16;14" dur="3s" repeatCount="indefinite"/>
+            <animate attributeName="ry" values="13;15;13" dur="3.3s" repeatCount="indefinite"/>
+          </ellipse>
+          <!-- 内側の白熱コア -->
+          <ellipse cx="100" cy="192" rx="8" ry="7" fill="rgba(255,245,170,0.65)">
+            <animate attributeName="opacity" values="0.5;0.8;0.5" dur="2s" repeatCount="indefinite"/>
+          </ellipse>
+
+          <!-- 左目（白） -->
+          <circle cx="95" cy="188" r="2.4" fill="rgba(255,255,250,0.98)"/>
+          <!-- 右目（白） -->
+          <circle cx="105" cy="188" r="2.4" fill="rgba(255,255,250,0.98)"/>
+          <!-- 左瞳（黒） — 瞬き＆動き -->
+          <circle cx="95" cy="188" r="1.1" fill="#1a1208">
+            <animate attributeName="ry" values="1.1;1.1;0.15;1.1;1.1" keyTimes="0;0.45;0.5;0.55;1" dur="5s" repeatCount="indefinite"/>
+            <animate attributeName="cx" values="95;94.4;95;95.6;95" dur="7s" repeatCount="indefinite"/>
+          </circle>
+          <!-- 右瞳（黒） -->
+          <circle cx="105" cy="188" r="1.1" fill="#1a1208">
+            <animate attributeName="ry" values="1.1;1.1;0.15;1.1;1.1" keyTimes="0;0.45;0.5;0.55;1" dur="5s" repeatCount="indefinite"/>
+            <animate attributeName="cx" values="105;104.4;105;105.6;105" dur="7s" repeatCount="indefinite"/>
+          </circle>
+          <!-- 瞳のハイライト -->
+          <circle cx="95.4" cy="187.5" r="0.35" fill="rgba(255,255,255,0.9)"/>
+          <circle cx="105.4" cy="187.5" r="0.35" fill="rgba(255,255,255,0.9)"/>
+
+          <!-- 鼻（小さな三角のくちばし風） -->
+          <path d="M100,191 L98.2,193.4 L101.8,193.4 Z" fill="rgba(255,180,60,0.85)"/>
+
+          <!-- 口（への字、ぱくぱく動く） -->
+          <path d="M96,196 Q100,194.5 104,196" fill="none" stroke="#2a1808" stroke-width="0.9" stroke-linecap="round">
+            <animate attributeName="d"
+              values="M96,196 Q100,194.5 104,196;
+                      M96,196 Q100,197.8 104,196;
+                      M96,196 Q100,194.5 104,196"
+              dur="4s" repeatCount="indefinite"/>
+          </path>
+
+          <!-- ふわっと舞い上がる火の粉 -->
+          <circle r="0.8" fill="rgba(255,200,80,0.9)">
+            <animateMotion path="M100,178 C99,160 101,145 100,130" dur="3s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0;0.9;0" dur="3s" repeatCount="indefinite"/>
+          </circle>
+          <circle r="0.6" fill="rgba(255,180,60,0.85)">
+            <animateMotion path="M93,176 C90,162 95,148 92,134" dur="3.5s" repeatCount="indefinite" begin="1s"/>
+            <animate attributeName="opacity" values="0;0.85;0" dur="3.5s" repeatCount="indefinite" begin="1s"/>
+          </circle>
+          <circle r="0.7" fill="rgba(255,220,120,0.9)">
+            <animateMotion path="M107,176 C110,162 105,148 108,134" dur="3.2s" repeatCount="indefinite" begin="0.5s"/>
+            <animate attributeName="opacity" values="0;0.9;0" dur="3.2s" repeatCount="indefinite" begin="0.5s"/>
+          </circle>
+        </g>
+
+        <!-- 火の玉の揺らぎリング（外周のオーラ） -->
         <circle cx="100" cy="190" r="18" fill="none" stroke="rgba(255,120,40,0.3)" stroke-width="1">
           <animate attributeName="r" values="16;22;16" dur="3s" repeatCount="indefinite"/>
           <animate attributeName="opacity" values="0.25;0.08;0.25" dur="3s" repeatCount="indefinite"/>
