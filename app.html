@@ -3094,7 +3094,208 @@
       <div class="pathway-title">経路マップ — 仙骨への道</div>
       <div class="pathway-map" id="pathwayMap"></div>
     </div>
+  </div><!-- /etheric-body -->
+
+  <!-- ===== リアル背骨（解剖学的） ===== -->
+  <div class="realistic-spine">
+    <svg viewBox="0 0 100 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="realSpineGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="rgba(255,235,180,0.95)"/>
+          <stop offset="50%" stop-color="rgba(255,210,120,1)"/>
+          <stop offset="100%" stop-color="rgba(201,168,76,0.85)"/>
+        </linearGradient>
+        <radialGradient id="vertebraGrad">
+          <stop offset="0%" stop-color="rgba(255,240,200,1)"/>
+          <stop offset="60%" stop-color="rgba(255,210,130,0.95)"/>
+          <stop offset="100%" stop-color="rgba(180,140,60,0.7)"/>
+        </radialGradient>
+        <filter id="realSpineGlow">
+          <feGaussianBlur stdDeviation="1.2" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      <!-- 全体オーラ -->
+      <ellipse cx="50" cy="180" rx="35" ry="170" fill="url(#realSpineGrad)" opacity="0.06" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.04;0.10;0.04" dur="5s" repeatCount="indefinite"/>
+      </ellipse>
+
+      <!-- 後方湾曲を持つ背骨（cervical-thoracic-lumbar-sacral） -->
+      <!-- 頸椎カーブ（前方凸、頸部ロードシス） y=10〜70 -->
+      <path d="M 50 10 Q 56 30 50 70" stroke="url(#realSpineGrad)" stroke-width="0.5" fill="none" opacity="0.3"/>
+      <!-- 胸椎カーブ（後方凸、胸部キフォーシス） y=70〜180 -->
+      <path d="M 50 70 Q 44 125 50 180" stroke="url(#realSpineGrad)" stroke-width="0.5" fill="none" opacity="0.3"/>
+      <!-- 腰椎カーブ（前方凸、腰部ロードシス） y=180〜250 -->
+      <path d="M 50 180 Q 56 215 50 250" stroke="url(#realSpineGrad)" stroke-width="0.5" fill="none" opacity="0.3"/>
+      <!-- 仙骨カーブ y=250〜330 -->
+      <path d="M 50 250 Q 46 290 50 330" stroke="url(#realSpineGrad)" stroke-width="0.5" fill="none" opacity="0.3"/>
+
+      <!-- 椎骨群 -->
+      <!-- 頸椎 C1〜C7 (y=12〜68) -->
+      <ellipse cx="50.5" cy="12" rx="4.5" ry="3.2" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="0.0s" repeatCount="indefinite"/>
+      </ellipse>
+      <!-- 棘突起 -->
+      <line x1="46.5" y1="12" x2="44.0" y2="12" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
+      
+      <ellipse cx="52.5" cy="20" rx="4.8" ry="3.2" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="0.15s" repeatCount="indefinite"/>
+      </ellipse>
+      <!-- 棘突起 -->
+      <line x1="48.2" y1="20" x2="45.7" y2="20" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
+      
+      <ellipse cx="54.0" cy="28" rx="5.1" ry="3.2" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="0.3s" repeatCount="indefinite"/>
+      </ellipse>
+      <!-- 棘突起 -->
+      <line x1="49.4" y1="28" x2="46.9" y2="28" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
+      
+      <ellipse cx="54.9" cy="36" rx="5.4" ry="3.2" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="0.44999999999999996s" repeatCount="indefinite"/>
+      </ellipse>
+      <!-- 棘突起 -->
+      <line x1="50.0" y1="36" x2="47.5" y2="36" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
+      
+      <ellipse cx="54.9" cy="44" rx="5.7" ry="3.2" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="0.6s" repeatCount="indefinite"/>
+      </ellipse>
+      <!-- 棘突起 -->
+      <line x1="49.7" y1="44" x2="47.2" y2="44" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
+      
+      <ellipse cx="53.7" cy="54" rx="6.0" ry="3.2" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="0.75s" repeatCount="indefinite"/>
+      </ellipse>
+      <!-- 棘突起 -->
+      <line x1="48.2" y1="54" x2="45.7" y2="54" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
+      
+      <ellipse cx="51.3" cy="65" rx="6.3" ry="3.2" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="0.8999999999999999s" repeatCount="indefinite"/>
+      </ellipse>
+      <!-- 棘突起 -->
+      <line x1="45.5" y1="65" x2="43.0" y2="65" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
+      
+      <ellipse cx="49.7" cy="72" rx="5.5" ry="3.5" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="1.05s" repeatCount="indefinite"/>
+      </ellipse>
+      <line x1="44.7" y1="72" x2="41.2" y2="73" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
+      
+      <ellipse cx="48.3" cy="80" rx="5.7" ry="3.5" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="1.2s" repeatCount="indefinite"/>
+      </ellipse>
+      <line x1="43.2" y1="80" x2="39.7" y2="81" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
+      
+      <ellipse cx="47.0" cy="88" rx="5.8" ry="3.5" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="1.3499999999999999s" repeatCount="indefinite"/>
+      </ellipse>
+      <line x1="41.7" y1="88" x2="38.2" y2="89" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
+      
+      <ellipse cx="45.9" cy="96" rx="6.0" ry="3.5" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="1.5s" repeatCount="indefinite"/>
+      </ellipse>
+      <line x1="40.5" y1="96" x2="37.0" y2="97" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
+      
+      <ellipse cx="45.0" cy="105" rx="6.1" ry="3.5" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="1.65s" repeatCount="indefinite"/>
+      </ellipse>
+      <line x1="39.4" y1="105" x2="35.9" y2="106" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
+      
+      <ellipse cx="44.3" cy="114" rx="6.2" ry="3.5" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="1.7999999999999998s" repeatCount="indefinite"/>
+      </ellipse>
+      <line x1="38.5" y1="114" x2="35.0" y2="115" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
+      
+      <ellipse cx="44.0" cy="123" rx="6.4" ry="3.5" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="1.95s" repeatCount="indefinite"/>
+      </ellipse>
+      <line x1="38.1" y1="123" x2="34.6" y2="124" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
+      
+      <ellipse cx="44.1" cy="132" rx="6.5" ry="3.5" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="2.1s" repeatCount="indefinite"/>
+      </ellipse>
+      <line x1="38.1" y1="132" x2="34.6" y2="133" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
+      
+      <ellipse cx="44.6" cy="141" rx="6.7" ry="3.5" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="2.25s" repeatCount="indefinite"/>
+      </ellipse>
+      <line x1="38.4" y1="141" x2="34.9" y2="142" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
+      
+      <ellipse cx="45.5" cy="150" rx="6.8" ry="3.5" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="2.4s" repeatCount="indefinite"/>
+      </ellipse>
+      <line x1="39.1" y1="150" x2="35.6" y2="151" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
+      
+      <ellipse cx="46.8" cy="160" rx="7.0" ry="3.5" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="2.55s" repeatCount="indefinite"/>
+      </ellipse>
+      <line x1="40.3" y1="160" x2="36.8" y2="161" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
+      
+      <ellipse cx="48.6" cy="172" rx="7.2" ry="3.5" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="2.6999999999999997s" repeatCount="indefinite"/>
+      </ellipse>
+      <line x1="42.0" y1="172" x2="38.5" y2="173" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
+      
+      <ellipse cx="51.1" cy="184" rx="7.5" ry="4.2" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.65)" stroke-width="0.5" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="2.85s" repeatCount="indefinite"/>
+      </ellipse>
+      <line x1="44.1" y1="184" x2="40.6" y2="184" stroke="rgba(180,140,60,0.55)" stroke-width="0.5"/>
+      
+      <ellipse cx="53.9" cy="196" rx="7.7" ry="4.2" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.65)" stroke-width="0.5" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="3.0s" repeatCount="indefinite"/>
+      </ellipse>
+      <line x1="46.7" y1="196" x2="43.2" y2="196" stroke="rgba(180,140,60,0.55)" stroke-width="0.5"/>
+      
+      <ellipse cx="55.8" cy="210" rx="7.9" ry="4.2" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.65)" stroke-width="0.5" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="3.15s" repeatCount="indefinite"/>
+      </ellipse>
+      <line x1="48.4" y1="210" x2="44.9" y2="210" stroke="rgba(180,140,60,0.55)" stroke-width="0.5"/>
+      
+      <ellipse cx="55.5" cy="224" rx="8.1" ry="4.2" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.65)" stroke-width="0.5" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="3.3s" repeatCount="indefinite"/>
+      </ellipse>
+      <line x1="47.9" y1="224" x2="44.4" y2="224" stroke="rgba(180,140,60,0.55)" stroke-width="0.5"/>
+      
+      <ellipse cx="53.1" cy="238" rx="8.3" ry="4.2" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.65)" stroke-width="0.5" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="3.4499999999999997s" repeatCount="indefinite"/>
+      </ellipse>
+      <line x1="45.3" y1="238" x2="41.8" y2="238" stroke="rgba(180,140,60,0.55)" stroke-width="0.5"/>
+      <!-- 仙骨 (y=255〜290) -->
+      <path d="M 50 252 L 56 252 L 60 295 L 50 320 L 40 295 L 44 252 Z" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.7)" stroke-width="0.5" filter="url(#realSpineGlow)" opacity="0.85">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="3s" repeatCount="indefinite"/>
+      </path>
+      <!-- 仙骨内の小さな穴（仙骨孔） -->
+      <circle cx="48" cy="265" r="0.6" fill="rgba(80,60,30,0.5)"/>
+      <circle cx="52" cy="265" r="0.6" fill="rgba(80,60,30,0.5)"/>
+      <circle cx="48" cy="275" r="0.6" fill="rgba(80,60,30,0.5)"/>
+      <circle cx="52" cy="275" r="0.6" fill="rgba(80,60,30,0.5)"/>
+      <circle cx="48" cy="285" r="0.6" fill="rgba(80,60,30,0.5)"/>
+      <circle cx="52" cy="285" r="0.6" fill="rgba(80,60,30,0.5)"/>
+
+      <!-- 尾骨 (y=325〜340) -->
+      <path d="M 50 320 Q 48 332 50 342" stroke="url(#realSpineGrad)" stroke-width="2" stroke-linecap="round" filter="url(#realSpineGlow)" fill="none">
+        <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite"/>
+      </path>
+
+      <!-- エネルギー粒子（背骨を上下に流れる） -->
+      <circle r="1.5" fill="rgba(255,235,180,0.9)" filter="url(#realSpineGlow)">
+        <animateMotion dur="6s" repeatCount="indefinite" path="M 50,12 Q 56,30 50,70 Q 44,125 50,180 Q 56,215 50,250 Q 46,290 50,330"/>
+        <animate attributeName="opacity" values="0;1;1;0" dur="6s" repeatCount="indefinite"/>
+      </circle>
+      <circle r="1.2" fill="rgba(255,220,140,0.7)" filter="url(#realSpineGlow)">
+        <animateMotion dur="7s" begin="2.5s" repeatCount="indefinite" path="M 50,330 Q 46,290 50,250 Q 56,215 50,180 Q 44,125 50,70 Q 56,30 50,12"/>
+        <animate attributeName="opacity" values="0;1;1;0" dur="7s" begin="2.5s" repeatCount="indefinite"/>
+      </circle>
+
+      <!-- 区分ラベル -->
+      <text x="80" y="40" fill="rgba(201,168,76,0.55)" font-size="6" font-family="sans-serif">頸椎</text>
+      <text x="80" y="120" fill="rgba(201,168,76,0.55)" font-size="6" font-family="sans-serif">胸椎</text>
+      <text x="80" y="215" fill="rgba(201,168,76,0.55)" font-size="6" font-family="sans-serif">腰椎</text>
+      <text x="80" y="282" fill="rgba(201,168,76,0.55)" font-size="6" font-family="sans-serif">仙骨</text>
+    </svg>
+    <div class="realistic-spine-label">背骨 ／ Spine</div>
   </div>
+
+  </div><!-- /body-spine-pair -->
 </div>
 
 <!-- ===== 高次の自己 (HIGHER SELF) ===== -->
