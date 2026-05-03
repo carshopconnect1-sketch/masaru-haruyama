@@ -1922,8 +1922,135 @@
         <!-- 腕 -->
         <path d="M42 120 C20 130 10 170 15 200" fill="none" stroke="rgba(201,168,76,0.2)" stroke-width="0.8"/>
         <path d="M158 120 C180 130 190 170 185 200" fill="none" stroke="rgba(201,168,76,0.2)" stroke-width="0.8"/>
-        <!-- 中心軸 -->
-        <line x1="100" y1="15" x2="100" y2="250" stroke="rgba(201,168,76,0.08)" stroke-width="0.5" stroke-dasharray="2 4"/>
+        <!-- 中心軸（消音化） -->
+        <line x1="100" y1="15" x2="100" y2="250" stroke="rgba(201,168,76,0.04)" stroke-width="0.3" stroke-dasharray="2 4"/>
+
+        <!-- ===== 黄金の背骨 / Golden Spine ===== -->
+        <!-- グラデーション定義 -->
+        <defs>
+          <linearGradient id="spineGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="rgba(255,235,180,0.95)"/>
+            <stop offset="50%" stop-color="rgba(255,215,120,1)"/>
+            <stop offset="100%" stop-color="rgba(201,168,76,0.85)"/>
+          </linearGradient>
+          <radialGradient id="spineGlow">
+            <stop offset="0%" stop-color="rgba(255,230,150,0.9)"/>
+            <stop offset="50%" stop-color="rgba(255,200,100,0.4)"/>
+            <stop offset="100%" stop-color="rgba(201,168,76,0)"/>
+          </radialGradient>
+          <filter id="spineBloom">
+            <feGaussianBlur stdDeviation="2.5" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+
+        <!-- 背骨の光のオーラ（外側、ぼんやり） -->
+        <line x1="100" y1="40" x2="100" y2="240" stroke="url(#spineGrad)" stroke-width="6" stroke-linecap="round" opacity="0.25" filter="url(#spineBloom)">
+          <animate attributeName="opacity" values="0.2;0.4;0.2" dur="4s" repeatCount="indefinite"/>
+        </line>
+
+        <!-- 背骨の本体（中央の輝き） -->
+        <line x1="100" y1="40" x2="100" y2="240" stroke="url(#spineGrad)" stroke-width="2.2" stroke-linecap="round" filter="url(#spineBloom)">
+          <animate attributeName="stroke-width" values="2;2.5;2" dur="3s" repeatCount="indefinite"/>
+        </line>
+
+        <!-- 椎骨の節（24椎を表現、上から） -->
+        <!-- 頸椎 7個（首の部分、y=40〜80） -->
+        <circle cx="100" cy="44" r="2.2" fill="url(#spineGrad)" filter="url(#spineBloom)">
+          <animate attributeName="r" values="2;2.6;2" dur="3s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="100" cy="50" r="2.2" fill="url(#spineGrad)" filter="url(#spineBloom)">
+          <animate attributeName="r" values="2;2.6;2" dur="3s" begin="0.2s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="100" cy="56" r="2.2" fill="url(#spineGrad)" filter="url(#spineBloom)">
+          <animate attributeName="r" values="2;2.6;2" dur="3s" begin="0.4s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="100" cy="62" r="2.2" fill="url(#spineGrad)" filter="url(#spineBloom)">
+          <animate attributeName="r" values="2;2.6;2" dur="3s" begin="0.6s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="100" cy="68" r="2.2" fill="url(#spineGrad)" filter="url(#spineBloom)">
+          <animate attributeName="r" values="2;2.6;2" dur="3s" begin="0.8s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="100" cy="74" r="2.2" fill="url(#spineGrad)" filter="url(#spineBloom)">
+          <animate attributeName="r" values="2;2.6;2" dur="3s" begin="1s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="100" cy="80" r="2.4" fill="url(#spineGrad)" filter="url(#spineBloom)">
+          <animate attributeName="r" values="2.2;2.8;2.2" dur="3s" begin="1.2s" repeatCount="indefinite"/>
+        </circle>
+
+        <!-- 胸椎 12個（背中の部分、y=86〜152） -->
+        <circle cx="100" cy="88" r="2.4" fill="url(#spineGrad)" filter="url(#spineBloom)">
+          <animate attributeName="r" values="2.2;2.8;2.2" dur="3s" begin="1.4s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="100" cy="94" r="2.5" fill="url(#spineGrad)" filter="url(#spineBloom)">
+          <animate attributeName="r" values="2.3;2.9;2.3" dur="3s" begin="1.6s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="100" cy="100" r="2.6" fill="url(#spineGrad)" filter="url(#spineBloom)">
+          <animate attributeName="r" values="2.4;3;2.4" dur="3s" begin="1.8s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="100" cy="107" r="2.6" fill="url(#spineGrad)" filter="url(#spineBloom)">
+          <animate attributeName="r" values="2.4;3;2.4" dur="3s" begin="2s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="100" cy="114" r="2.6" fill="url(#spineGrad)" filter="url(#spineBloom)">
+          <animate attributeName="r" values="2.4;3;2.4" dur="3s" begin="2.2s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="100" cy="121" r="2.6" fill="url(#spineGrad)" filter="url(#spineBloom)">
+          <animate attributeName="r" values="2.4;3;2.4" dur="3s" begin="2.4s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="100" cy="128" r="2.7" fill="url(#spineGrad)" filter="url(#spineBloom)">
+          <animate attributeName="r" values="2.5;3.1;2.5" dur="3s" begin="2.6s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="100" cy="135" r="2.7" fill="url(#spineGrad)" filter="url(#spineBloom)">
+          <animate attributeName="r" values="2.5;3.1;2.5" dur="3s" begin="2.8s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="100" cy="142" r="2.7" fill="url(#spineGrad)" filter="url(#spineBloom)">
+          <animate attributeName="r" values="2.5;3.1;2.5" dur="3s" begin="3s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="100" cy="149" r="2.7" fill="url(#spineGrad)" filter="url(#spineBloom)">
+          <animate attributeName="r" values="2.5;3.1;2.5" dur="3s" begin="3.2s" repeatCount="indefinite"/>
+        </circle>
+
+        <!-- 腰椎 5個（腰の部分、y=156〜180） -->
+        <circle cx="100" cy="158" r="2.8" fill="url(#spineGrad)" filter="url(#spineBloom)">
+          <animate attributeName="r" values="2.6;3.2;2.6" dur="3s" begin="3.4s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="100" cy="166" r="2.9" fill="url(#spineGrad)" filter="url(#spineBloom)">
+          <animate attributeName="r" values="2.7;3.3;2.7" dur="3s" begin="3.6s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="100" cy="174" r="2.9" fill="url(#spineGrad)" filter="url(#spineBloom)">
+          <animate attributeName="r" values="2.7;3.3;2.7" dur="3s" begin="3.8s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="100" cy="182" r="3" fill="url(#spineGrad)" filter="url(#spineBloom)">
+          <animate attributeName="r" values="2.8;3.4;2.8" dur="3s" begin="4s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="100" cy="190" r="3" fill="url(#spineGrad)" filter="url(#spineBloom)">
+          <animate attributeName="r" values="2.8;3.4;2.8" dur="3s" begin="4.2s" repeatCount="indefinite"/>
+        </circle>
+
+        <!-- 仙骨 + 尾骨（y=200〜240） -->
+        <ellipse cx="100" cy="208" rx="3.5" ry="6" fill="url(#spineGrad)" filter="url(#spineBloom)" opacity="0.85">
+          <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" repeatCount="indefinite"/>
+        </ellipse>
+        <circle cx="100" cy="222" r="2.5" fill="url(#spineGrad)" filter="url(#spineBloom)">
+          <animate attributeName="r" values="2.3;2.9;2.3" dur="3s" begin="0.5s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="100" cy="232" r="2" fill="url(#spineGrad)" filter="url(#spineBloom)">
+          <animate attributeName="r" values="1.8;2.4;1.8" dur="3s" begin="0.7s" repeatCount="indefinite"/>
+        </circle>
+
+        <!-- 上から下へ流れるエネルギー粒子（黄金の流れ） -->
+        <circle r="1.8" fill="rgba(255,235,180,0.9)" filter="url(#spineBloom)">
+          <animateMotion dur="6s" repeatCount="indefinite" path="M 0,40 L 0,240"/>
+          <animate attributeName="opacity" values="0;1;1;0" dur="6s" repeatCount="indefinite"/>
+        </circle>
+        <circle r="1.5" fill="rgba(255,220,140,0.8)" filter="url(#spineBloom)">
+          <animateMotion dur="7s" begin="2s" repeatCount="indefinite" path="M 0,40 L 0,240"/>
+          <animate attributeName="opacity" values="0;1;1;0" dur="7s" begin="2s" repeatCount="indefinite"/>
+        </circle>
+        <circle r="1.2" fill="rgba(255,210,120,0.7)" filter="url(#spineBloom)">
+          <animateMotion dur="8s" begin="4s" repeatCount="indefinite" path="M 0,40 L 0,240"/>
+          <animate attributeName="opacity" values="0;1;1;0" dur="8s" begin="4s" repeatCount="indefinite"/>
+        </circle>
 
         <!-- ===== 左手の虚 ===== -->
         <!-- 虚のバキューム球体 -->
