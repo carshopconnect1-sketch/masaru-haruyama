@@ -41,6 +41,72 @@
     opacity: 0.08;
   }
 
+  
+  /* ===== Body & Spine 横並びレイアウト ===== */
+  .body-spine-pair {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+  .realistic-spine {
+    position: relative;
+    width: 140px;
+    height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .realistic-spine svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 50px rgba(255, 220, 130, 0.55))
+           drop-shadow(0 0 80px rgba(201, 168, 76, 0.35))
+           drop-shadow(0 10px 25px rgba(0,0,0,0.5));
+    animation: spineVibrate 0.18s ease-in-out infinite alternate, spineGlowPulse 2.5s ease-in-out infinite;
+  }
+  @keyframes spineVibrate {
+    0%   { transform: translateX(0) translateY(0); }
+    25%  { transform: translateX(0.4px) translateY(-0.3px); }
+    50%  { transform: translateX(-0.3px) translateY(0.4px); }
+    75%  { transform: translateX(0.3px) translateY(0.3px); }
+    100% { transform: translateX(-0.4px) translateY(-0.3px); }
+  }
+  @keyframes spineGlowPulse {
+    0%, 100% { 
+      filter: drop-shadow(0 0 40px rgba(255, 220, 130, 0.45))
+              drop-shadow(0 0 70px rgba(201, 168, 76, 0.30))
+              drop-shadow(0 10px 25px rgba(0,0,0,0.5));
+    }
+    50% { 
+      filter: drop-shadow(0 0 80px rgba(255, 235, 160, 0.85))
+              drop-shadow(0 0 120px rgba(255, 200, 100, 0.55))
+              drop-shadow(0 10px 25px rgba(0,0,0,0.5));
+    }
+  }
+  .realistic-spine-label {
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(201,168,76,0.75);
+    font-family: 'Noto Serif JP', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    white-space: nowrap;
+  }
+  @media (max-width: 768px) {
+    .body-spine-pair { gap: 0.5rem; }
+    .realistic-spine { width: 100px; height: 330px; }
+  }
+  @media (max-width: 480px) {
+    .body-spine-pair { gap: 0.3rem; }
+    .realistic-spine { width: 80px; height: 280px; }
+  }
+
   /* ===== NAVIGATION ===== */
   nav {
     position: fixed;
