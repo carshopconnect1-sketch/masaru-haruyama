@@ -3101,25 +3101,48 @@
     <svg viewBox="0 0 100 360" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="realSpineGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stop-color="rgba(255,235,180,0.95)"/>
-          <stop offset="50%" stop-color="rgba(255,210,120,1)"/>
-          <stop offset="100%" stop-color="rgba(201,168,76,0.85)"/>
+          <stop offset="0%" stop-color="rgba(255,250,220,1)"/>
+          <stop offset="50%" stop-color="rgba(255,225,140,1)"/>
+          <stop offset="100%" stop-color="rgba(220,180,80,1)"/>
         </linearGradient>
         <radialGradient id="vertebraGrad">
-          <stop offset="0%" stop-color="rgba(255,240,200,1)"/>
-          <stop offset="60%" stop-color="rgba(255,210,130,0.95)"/>
-          <stop offset="100%" stop-color="rgba(180,140,60,0.7)"/>
+          <stop offset="0%" stop-color="rgba(255,255,240,1)"/>
+          <stop offset="40%" stop-color="rgba(255,235,160,1)"/>
+          <stop offset="80%" stop-color="rgba(220,180,80,0.95)"/>
+          <stop offset="100%" stop-color="rgba(180,140,60,0.8)"/>
         </radialGradient>
-        <filter id="realSpineGlow">
-          <feGaussianBlur stdDeviation="1.2" result="blur"/>
-          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        <filter id="realSpineGlow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="2.5" result="blur"/>
+          <feMerge>
+            <feMergeNode in="blur"/>
+            <feMergeNode in="blur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+        <filter id="vertebraVibrate" x="-20%" y="-20%" width="140%" height="140%">
+          <feTurbulence type="fractalNoise" baseFrequency="3" numOctaves="2" seed="1">
+            <animate attributeName="seed" values="1;5;3;7;2;1" dur="0.3s" repeatCount="indefinite"/>
+          </feTurbulence>
+          <feDisplacementMap in="SourceGraphic" scale="0.6"/>
         </filter>
       </defs>
 
-      <!-- 全体オーラ -->
-      <ellipse cx="50" cy="180" rx="35" ry="170" fill="url(#realSpineGrad)" opacity="0.06" filter="url(#realSpineGlow)">
-        <animate attributeName="opacity" values="0.04;0.10;0.04" dur="5s" repeatCount="indefinite"/>
+      <!-- 全体オーラ（多層） -->
+      <ellipse cx="50" cy="180" rx="48" ry="180" fill="url(#realSpineGrad)" opacity="0.08" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.05;0.18;0.05" dur="2.5s" repeatCount="indefinite"/>
+        <animate attributeName="rx" values="44;52;44" dur="2.5s" repeatCount="indefinite"/>
       </ellipse>
+      <ellipse cx="50" cy="180" rx="35" ry="170" fill="url(#realSpineGrad)" opacity="0.12" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.08;0.22;0.08" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="rx" values="32;40;32" dur="2s" repeatCount="indefinite"/>
+      </ellipse>
+      <ellipse cx="50" cy="180" rx="20" ry="165" fill="url(#realSpineGrad)" opacity="0.18" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.12;0.30;0.12" dur="1.5s" repeatCount="indefinite"/>
+      </ellipse>
+      <!-- 振動するエネルギー線 -->
+      <line x1="50" y1="10" x2="50" y2="340" stroke="rgba(255,235,170,0.4)" stroke-width="0.8" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.3;0.7;0.3" dur="0.8s" repeatCount="indefinite"/>
+      </line>
 
       <!-- 後方湾曲を持つ背骨（cervical-thoracic-lumbar-sacral） -->
       <!-- 頸椎カーブ（前方凸、頸部ロードシス） y=10〜70 -->
@@ -3133,130 +3156,154 @@
 
       <!-- 椎骨群 -->
       <!-- 頸椎 C1〜C7 (y=12〜68) -->
-      <ellipse cx="50.5" cy="12" rx="4.5" ry="3.2" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
-        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="0.0s" repeatCount="indefinite"/>
+      <ellipse cx="50.5" cy="12" rx="4.5" ry="3.2" fill="url(#vertebraGrad)" stroke="rgba(220,180,80,0.7)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" begin="0.00s" repeatCount="indefinite"/>
+        <animate attributeName="rx" values="4.30;4.80;4.30" dur="0.35s" repeatCount="indefinite"/>
       </ellipse>
       <!-- 棘突起 -->
       <line x1="46.5" y1="12" x2="44.0" y2="12" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
       
-      <ellipse cx="52.5" cy="20" rx="4.8" ry="3.2" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
-        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="0.15s" repeatCount="indefinite"/>
+      <ellipse cx="52.5" cy="20" rx="4.8" ry="3.2" fill="url(#vertebraGrad)" stroke="rgba(220,180,80,0.7)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" begin="0.07s" repeatCount="indefinite"/>
+        <animate attributeName="rx" values="4.60;5.10;4.60" dur="0.35s" repeatCount="indefinite"/>
       </ellipse>
       <!-- 棘突起 -->
       <line x1="48.2" y1="20" x2="45.7" y2="20" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
       
-      <ellipse cx="54.0" cy="28" rx="5.1" ry="3.2" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
-        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="0.3s" repeatCount="indefinite"/>
+      <ellipse cx="54.0" cy="28" rx="5.1" ry="3.2" fill="url(#vertebraGrad)" stroke="rgba(220,180,80,0.7)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" begin="0.13s" repeatCount="indefinite"/>
+        <animate attributeName="rx" values="4.90;5.40;4.90" dur="0.35s" repeatCount="indefinite"/>
       </ellipse>
       <!-- 棘突起 -->
       <line x1="49.4" y1="28" x2="46.9" y2="28" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
       
-      <ellipse cx="54.9" cy="36" rx="5.4" ry="3.2" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
-        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="0.44999999999999996s" repeatCount="indefinite"/>
+      <ellipse cx="54.9" cy="36" rx="5.4" ry="3.2" fill="url(#vertebraGrad)" stroke="rgba(220,180,80,0.7)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" begin="0.20s" repeatCount="indefinite"/>
+        <animate attributeName="rx" values="5.20;5.70;5.20" dur="0.35s" repeatCount="indefinite"/>
       </ellipse>
       <!-- 棘突起 -->
       <line x1="50.0" y1="36" x2="47.5" y2="36" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
       
-      <ellipse cx="54.9" cy="44" rx="5.7" ry="3.2" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
-        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="0.6s" repeatCount="indefinite"/>
+      <ellipse cx="54.9" cy="44" rx="5.7" ry="3.2" fill="url(#vertebraGrad)" stroke="rgba(220,180,80,0.7)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" begin="0.27s" repeatCount="indefinite"/>
+        <animate attributeName="rx" values="5.50;6.00;5.50" dur="0.35s" repeatCount="indefinite"/>
       </ellipse>
       <!-- 棘突起 -->
       <line x1="49.7" y1="44" x2="47.2" y2="44" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
       
-      <ellipse cx="53.7" cy="54" rx="6.0" ry="3.2" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
-        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="0.75s" repeatCount="indefinite"/>
+      <ellipse cx="53.7" cy="54" rx="6.0" ry="3.2" fill="url(#vertebraGrad)" stroke="rgba(220,180,80,0.7)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" begin="0.35s" repeatCount="indefinite"/>
+        <animate attributeName="rx" values="5.80;6.30;5.80" dur="0.35s" repeatCount="indefinite"/>
       </ellipse>
       <!-- 棘突起 -->
       <line x1="48.2" y1="54" x2="45.7" y2="54" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
       
-      <ellipse cx="51.3" cy="65" rx="6.3" ry="3.2" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
-        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="0.8999999999999999s" repeatCount="indefinite"/>
+      <ellipse cx="51.3" cy="65" rx="6.3" ry="3.2" fill="url(#vertebraGrad)" stroke="rgba(220,180,80,0.7)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" begin="0.44s" repeatCount="indefinite"/>
+        <animate attributeName="rx" values="6.10;6.60;6.10" dur="0.35s" repeatCount="indefinite"/>
       </ellipse>
       <!-- 棘突起 -->
       <line x1="45.5" y1="65" x2="43.0" y2="65" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
       
-      <ellipse cx="49.7" cy="72" rx="5.5" ry="3.5" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
-        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="1.05s" repeatCount="indefinite"/>
+      <ellipse cx="49.7" cy="72" rx="5.5" ry="3.5" fill="url(#vertebraGrad)" stroke="rgba(220,180,80,0.7)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" begin="0.50s" repeatCount="indefinite"/>
+        <animate attributeName="rx" values="5.30;5.80;5.30" dur="0.35s" repeatCount="indefinite"/>
       </ellipse>
       <line x1="44.7" y1="72" x2="41.2" y2="73" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
       
-      <ellipse cx="48.3" cy="80" rx="5.7" ry="3.5" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
-        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="1.2s" repeatCount="indefinite"/>
+      <ellipse cx="48.3" cy="80" rx="5.7" ry="3.5" fill="url(#vertebraGrad)" stroke="rgba(220,180,80,0.7)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" begin="0.57s" repeatCount="indefinite"/>
+        <animate attributeName="rx" values="5.50;6.00;5.50" dur="0.35s" repeatCount="indefinite"/>
       </ellipse>
       <line x1="43.2" y1="80" x2="39.7" y2="81" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
       
-      <ellipse cx="47.0" cy="88" rx="5.8" ry="3.5" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
-        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="1.3499999999999999s" repeatCount="indefinite"/>
+      <ellipse cx="47.0" cy="88" rx="5.8" ry="3.5" fill="url(#vertebraGrad)" stroke="rgba(220,180,80,0.7)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" begin="0.63s" repeatCount="indefinite"/>
+        <animate attributeName="rx" values="5.60;6.10;5.60" dur="0.35s" repeatCount="indefinite"/>
       </ellipse>
       <line x1="41.7" y1="88" x2="38.2" y2="89" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
       
-      <ellipse cx="45.9" cy="96" rx="6.0" ry="3.5" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
-        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="1.5s" repeatCount="indefinite"/>
+      <ellipse cx="45.9" cy="96" rx="6.0" ry="3.5" fill="url(#vertebraGrad)" stroke="rgba(220,180,80,0.7)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" begin="0.70s" repeatCount="indefinite"/>
+        <animate attributeName="rx" values="5.80;6.30;5.80" dur="0.35s" repeatCount="indefinite"/>
       </ellipse>
       <line x1="40.5" y1="96" x2="37.0" y2="97" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
       
-      <ellipse cx="45.0" cy="105" rx="6.1" ry="3.5" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
-        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="1.65s" repeatCount="indefinite"/>
+      <ellipse cx="45.0" cy="105" rx="6.1" ry="3.5" fill="url(#vertebraGrad)" stroke="rgba(220,180,80,0.7)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" begin="0.78s" repeatCount="indefinite"/>
+        <animate attributeName="rx" values="5.90;6.40;5.90" dur="0.35s" repeatCount="indefinite"/>
       </ellipse>
       <line x1="39.4" y1="105" x2="35.9" y2="106" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
       
-      <ellipse cx="44.3" cy="114" rx="6.2" ry="3.5" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
-        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="1.7999999999999998s" repeatCount="indefinite"/>
+      <ellipse cx="44.3" cy="114" rx="6.2" ry="3.5" fill="url(#vertebraGrad)" stroke="rgba(220,180,80,0.7)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" begin="0.85s" repeatCount="indefinite"/>
+        <animate attributeName="rx" values="6.00;6.50;6.00" dur="0.35s" repeatCount="indefinite"/>
       </ellipse>
       <line x1="38.5" y1="114" x2="35.0" y2="115" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
       
-      <ellipse cx="44.0" cy="123" rx="6.4" ry="3.5" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
-        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="1.95s" repeatCount="indefinite"/>
+      <ellipse cx="44.0" cy="123" rx="6.4" ry="3.5" fill="url(#vertebraGrad)" stroke="rgba(220,180,80,0.7)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" begin="0.93s" repeatCount="indefinite"/>
+        <animate attributeName="rx" values="6.20;6.70;6.20" dur="0.35s" repeatCount="indefinite"/>
       </ellipse>
       <line x1="38.1" y1="123" x2="34.6" y2="124" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
       
-      <ellipse cx="44.1" cy="132" rx="6.5" ry="3.5" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
-        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="2.1s" repeatCount="indefinite"/>
+      <ellipse cx="44.1" cy="132" rx="6.5" ry="3.5" fill="url(#vertebraGrad)" stroke="rgba(220,180,80,0.7)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" begin="1.00s" repeatCount="indefinite"/>
+        <animate attributeName="rx" values="6.30;6.80;6.30" dur="0.35s" repeatCount="indefinite"/>
       </ellipse>
       <line x1="38.1" y1="132" x2="34.6" y2="133" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
       
-      <ellipse cx="44.6" cy="141" rx="6.7" ry="3.5" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
-        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="2.25s" repeatCount="indefinite"/>
+      <ellipse cx="44.6" cy="141" rx="6.7" ry="3.5" fill="url(#vertebraGrad)" stroke="rgba(220,180,80,0.7)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" begin="1.07s" repeatCount="indefinite"/>
+        <animate attributeName="rx" values="6.50;7.00;6.50" dur="0.35s" repeatCount="indefinite"/>
       </ellipse>
       <line x1="38.4" y1="141" x2="34.9" y2="142" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
       
-      <ellipse cx="45.5" cy="150" rx="6.8" ry="3.5" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
-        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="2.4s" repeatCount="indefinite"/>
+      <ellipse cx="45.5" cy="150" rx="6.8" ry="3.5" fill="url(#vertebraGrad)" stroke="rgba(220,180,80,0.7)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" begin="1.15s" repeatCount="indefinite"/>
+        <animate attributeName="rx" values="6.60;7.10;6.60" dur="0.35s" repeatCount="indefinite"/>
       </ellipse>
       <line x1="39.1" y1="150" x2="35.6" y2="151" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
       
-      <ellipse cx="46.8" cy="160" rx="7.0" ry="3.5" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
-        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="2.55s" repeatCount="indefinite"/>
+      <ellipse cx="46.8" cy="160" rx="7.0" ry="3.5" fill="url(#vertebraGrad)" stroke="rgba(220,180,80,0.7)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" begin="1.23s" repeatCount="indefinite"/>
+        <animate attributeName="rx" values="6.80;7.30;6.80" dur="0.35s" repeatCount="indefinite"/>
       </ellipse>
       <line x1="40.3" y1="160" x2="36.8" y2="161" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
       
-      <ellipse cx="48.6" cy="172" rx="7.2" ry="3.5" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.6)" stroke-width="0.4" filter="url(#realSpineGlow)">
-        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="2.6999999999999997s" repeatCount="indefinite"/>
+      <ellipse cx="48.6" cy="172" rx="7.2" ry="3.5" fill="url(#vertebraGrad)" stroke="rgba(220,180,80,0.7)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" begin="1.33s" repeatCount="indefinite"/>
+        <animate attributeName="rx" values="7.00;7.50;7.00" dur="0.35s" repeatCount="indefinite"/>
       </ellipse>
       <line x1="42.0" y1="172" x2="38.5" y2="173" stroke="rgba(180,140,60,0.5)" stroke-width="0.4"/>
       
-      <ellipse cx="51.1" cy="184" rx="7.5" ry="4.2" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.65)" stroke-width="0.5" filter="url(#realSpineGlow)">
-        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="2.85s" repeatCount="indefinite"/>
+      <ellipse cx="51.1" cy="184" rx="7.5" ry="4.2" fill="url(#vertebraGrad)" stroke="rgba(220,180,80,0.7)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" begin="1.43s" repeatCount="indefinite"/>
+        <animate attributeName="rx" values="7.30;7.80;7.30" dur="0.35s" repeatCount="indefinite"/>
       </ellipse>
       <line x1="44.1" y1="184" x2="40.6" y2="184" stroke="rgba(180,140,60,0.55)" stroke-width="0.5"/>
       
-      <ellipse cx="53.9" cy="196" rx="7.7" ry="4.2" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.65)" stroke-width="0.5" filter="url(#realSpineGlow)">
-        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="3.0s" repeatCount="indefinite"/>
+      <ellipse cx="53.9" cy="196" rx="7.7" ry="4.2" fill="url(#vertebraGrad)" stroke="rgba(220,180,80,0.7)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" begin="1.53s" repeatCount="indefinite"/>
+        <animate attributeName="rx" values="7.50;8.00;7.50" dur="0.35s" repeatCount="indefinite"/>
       </ellipse>
       <line x1="46.7" y1="196" x2="43.2" y2="196" stroke="rgba(180,140,60,0.55)" stroke-width="0.5"/>
       
-      <ellipse cx="55.8" cy="210" rx="7.9" ry="4.2" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.65)" stroke-width="0.5" filter="url(#realSpineGlow)">
-        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="3.15s" repeatCount="indefinite"/>
+      <ellipse cx="55.8" cy="210" rx="7.9" ry="4.2" fill="url(#vertebraGrad)" stroke="rgba(220,180,80,0.7)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" begin="1.65s" repeatCount="indefinite"/>
+        <animate attributeName="rx" values="7.70;8.20;7.70" dur="0.35s" repeatCount="indefinite"/>
       </ellipse>
       <line x1="48.4" y1="210" x2="44.9" y2="210" stroke="rgba(180,140,60,0.55)" stroke-width="0.5"/>
       
-      <ellipse cx="55.5" cy="224" rx="8.1" ry="4.2" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.65)" stroke-width="0.5" filter="url(#realSpineGlow)">
-        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="3.3s" repeatCount="indefinite"/>
+      <ellipse cx="55.5" cy="224" rx="8.1" ry="4.2" fill="url(#vertebraGrad)" stroke="rgba(220,180,80,0.7)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" begin="1.77s" repeatCount="indefinite"/>
+        <animate attributeName="rx" values="7.90;8.40;7.90" dur="0.35s" repeatCount="indefinite"/>
       </ellipse>
       <line x1="47.9" y1="224" x2="44.4" y2="224" stroke="rgba(180,140,60,0.55)" stroke-width="0.5"/>
       
-      <ellipse cx="53.1" cy="238" rx="8.3" ry="4.2" fill="url(#vertebraGrad)" stroke="rgba(180,140,60,0.65)" stroke-width="0.5" filter="url(#realSpineGlow)">
-        <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" begin="3.4499999999999997s" repeatCount="indefinite"/>
+      <ellipse cx="53.1" cy="238" rx="8.3" ry="4.2" fill="url(#vertebraGrad)" stroke="rgba(220,180,80,0.7)" stroke-width="0.4" filter="url(#realSpineGlow)">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" begin="1.88s" repeatCount="indefinite"/>
+        <animate attributeName="rx" values="8.10;8.60;8.10" dur="0.35s" repeatCount="indefinite"/>
       </ellipse>
       <line x1="45.3" y1="238" x2="41.8" y2="238" stroke="rgba(180,140,60,0.55)" stroke-width="0.5"/>
       <!-- 仙骨 (y=255〜290) -->
